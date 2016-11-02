@@ -1,0 +1,176 @@
+\documentclass{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{graphicx, epsfig, amsmath, amssymb}
+\usepackage{wrapfig}
+%\usepackage{sidecap}
+%\usetheme{Copenhagen}
+\usetheme{Boadilla}
+%\usetheme{Warsaw}
+%\usepackage[table]{xcolor}
+%\definecolor{lightgray}{gray}{0.9}
+
+
+\setbeamertemplate{footline}
+{
+\leavevmode
+\hbox{\begin{beamercolorbox}[wd=0.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fill,rightskip=.3cm]{author in head/foot}
+\usebeamerfont{author in head/foot}\insertshortauthor
+\end{beamercolorbox}%
+\begin{beamercolorbox}[wd=0.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+\usebeamerfont{title in head/foot}\insertshorttitle\hspace*{3em}
+\insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+\end{beamercolorbox}}%
+\vskip0pt%
+}
+
+\makeatletter
+\setbeamertemplate{navigation symbols}{}
+
+\title[CC Title]{CC Title}
+\author{Nehemias Ulloa}
+\institute{\Large{Department of Statistics\\ Iowa State University}}
+\date{\today}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Title Page %%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Outline %%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Outline}
+\begin{itemize}
+\item Intro and Motivation
+\item Model
+\item Recreate Dr. Phillips' Application
+\item Our Application
+\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Intro/Motivation %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Introduction}
+Hypotheses:
+\begin{itemize}
+  \item Family researchers comparing the attitudes, behaviors, and opinions of pairs
+  \item Collect Dyadic data
+    \begin{itemize}
+      \item Inter-individual reporting
+      \item Intra-individual reporting
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Motivation}
+\begin{itemize}
+  \item Difference scores used to analyze dyadic data
+  \item Difference scores allow to see how well they ``fit'' together
+  \item Common types: algebraic, absolute, and squared difference
+\end{itemize}
+
+\begin{align}
+Z &= \beta_0 + \beta_1 (X - Y) + \epsilon \label{eq:diffscore} \\
+Z &= \beta_0 + \beta_1 |X - Y| + \epsilon \label{eq:absdiffscore} \\
+Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
+\end{align}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Motivation}
+\begin{itemize}
+  \item Many methodological issues with Difference Scores
+  \begin{enumerate}
+    \item Difficult to identify the underlying mechanism
+    \item Problems with underlying assumptions
+  \end{enumerate}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Motivation}
+\begin{itemize}
+  \item Any alternatives?
+  \item Polynomial Regression \\ e.g.
+  \begin{align}
+    Z &= \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY \epsilon
+  \end{align}
+\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Model %%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{The Data}
+\begin{itemize}
+  \item 
+\end{itemize}
+\end{frame}
+
+
+\end{document}
