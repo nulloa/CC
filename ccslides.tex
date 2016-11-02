@@ -32,6 +32,9 @@
 
 \begin{document}
 
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Title Page %%%%%
+%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 \titlepage
 \end{frame}
@@ -49,84 +52,47 @@ Why?
 \end{itemize}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Intro/Motivation %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
-\frametitle{Introduction and Motivation}
+\frametitle{Introduction}
 Hypotheses:
 \begin{itemize}
-\item Relationship between time of day and Temperature, Humidity
-\item Temperatures moderated by proximity to the ocean
-\item Correlations between Locations across Time
+  \item Family researchers comparing the attitudes, behaviors, and opinions of pairs
+  \item Collect Dyadic data
+    \begin{itemize}
+      \item Inter-individual reporting
+      \item Intra-individual reporting
+    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{The Data}
-!www.wunderground.com\\
-\includegraphics[width=\textwidth,height=7cm]{U:/Documents/stat579/slides/wunder.png}
-\end{frame}
-
-\begin{frame}
-\frametitle{The Data}
-\end{frame}
-\begin{frame}
-\frametitle{The Data}
-\end{frame}
-\begin{frame}
-\frametitle{The Data}
-\end{frame}
-\begin{frame}
-\frametitle{The Data}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{The Data}
-Weather Data is Space-Time Data
+\frametitle{Motivation}
 \begin{itemize}
-\item Space (Latitude, Longitude,Elevation)
-\item "Small Time" (0:00-23:59)
-\item "Big Time" (weeks, months)
+  \item Difference scores used to analyze dyadic data
+  \item Difference scores allow to see how well they ``fit'' together
+  \item Common types: algebraic, absolute, and squared difference
 \end{itemize}
-	
+
+\begin{align}
+Z &= \beta_0 + \beta_1 (X - Y) + \epsilon \label{eq:diffscore} \\
+Z &= \beta_0 + \beta_1 |X - Y| + \epsilon \label{eq:absdiffscore} \\
+Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
+\end{align}
 \end{frame}
+
+
+
 
 \begin{frame}
 \frametitle{The Data}
-Our variables:
 \begin{itemize}
-\item Temperature
-\item Relative Humidity
-\item Dewpoint (Depends on the other two.)
+  \item 
 \end{itemize}
-\textit{We didn't look at Wind Dir., Wind Speed, Precipitation,...}
 \end{frame}
-
-
-
-
-\begin{frame}
-\frametitle{The Data}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Is hotter near to the coast or far from the coast?}
-\end{frame}
-
-
-
-
-\begin{frame}
-\frametitle{Conclusions and Further Study}
-\end{frame}
-
-
-
-
-
-
-
 
 
 
