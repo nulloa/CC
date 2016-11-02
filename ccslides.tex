@@ -1,0 +1,135 @@
+\documentclass{beamer}
+\usepackage{graphicx,epsfig}
+\usepackage{wrapfig}
+%\usepackage{sidecap}
+%\usetheme{Copenhagen}
+\usetheme{Boadilla}
+%\usetheme{Warsaw}
+%\usepackage[table]{xcolor}
+%\definecolor{lightgray}{gray}{0.9}
+
+
+\setbeamertemplate{footline}
+{
+\leavevmode
+\hbox{\begin{beamercolorbox}[wd=0.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fill,rightskip=.3cm]{author in head/foot}
+\usebeamerfont{author in head/foot}\insertshortauthor
+\end{beamercolorbox}%
+\begin{beamercolorbox}[wd=0.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+\usebeamerfont{title in head/foot}\insertshorttitle\hspace*{3em}
+\insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+\end{beamercolorbox}}%
+\vskip0pt%
+}
+
+\makeatletter
+\setbeamertemplate{navigation symbols}{}
+
+\title[CC Title]{CC Title}
+\author{Nehemias Ulloa}
+\institute{\Large{Department of Statistics\\ Iowa State University}}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Overview}
+Californian weather in Summer 2013\\
+Why?
+\begin{itemize}
+\item<1-> Big Space-Time Data
+\item<2-> Many relationships to visualize (ggplot2)
+\item<3->We can make reasonable hypotheses (Have a starting point)
+\item<4-> Why not California in the summertime?
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Introduction and Motivation}
+Hypotheses:
+\begin{itemize}
+\item Relationship between time of day and Temperature, Humidity
+\item Temperatures moderated by proximity to the ocean
+\item Correlations between Locations across Time
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Data}
+!www.wunderground.com\\
+\includegraphics[width=\textwidth,height=7cm]{U:/Documents/stat579/slides/wunder.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Data}
+\end{frame}
+\begin{frame}
+\frametitle{The Data}
+\end{frame}
+\begin{frame}
+\frametitle{The Data}
+\end{frame}
+\begin{frame}
+\frametitle{The Data}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{The Data}
+Weather Data is Space-Time Data
+\begin{itemize}
+\item Space (Latitude, Longitude,Elevation)
+\item "Small Time" (0:00-23:59)
+\item "Big Time" (weeks, months)
+\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+\frametitle{The Data}
+Our variables:
+\begin{itemize}
+\item Temperature
+\item Relative Humidity
+\item Dewpoint (Depends on the other two.)
+\end{itemize}
+\textit{We didn't look at Wind Dir., Wind Speed, Precipitation,...}
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{The Data}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Is hotter near to the coast or far from the coast?}
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Conclusions and Further Study}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
