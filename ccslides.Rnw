@@ -116,7 +116,7 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
-\frametitle{The Data}
+\frametitle{The Model}
 \begin{itemize}
   \item 
 \end{itemize}
