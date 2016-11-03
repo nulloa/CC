@@ -105,8 +105,13 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
   \item Any alternatives?
   \item Polynomial Regression \\ e.g.
   \begin{align}
-    Z &= \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY \epsilon
+    Z &= \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon
   \end{align}
+  \item Take the Squared Difference and expand it
+    \begin{align}
+    (X-Y)^2 &= X^2 + Y^2 -2XY
+  \end{align}
+  \item Expand on the ideas from Simple Linear Regression
 \end{itemize}
 \end{frame}
 
@@ -118,9 +123,119 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 \begin{frame}
 \frametitle{The Model}
 \begin{itemize}
-  \item 
+  \item Theoretical model:
+    \begin{align}
+    Z &= \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon
+  \end{align}
+  \item Fitted model:
+    \begin{align}
+    \hat{z} &= b_{0} + b_{1}x + b_{2}y + b_3 x^2 + b_4 xy + b_5 y^2 \label{fittedmod} 
+    \end{align}
+  \item Fitted model in matrix notation:
+\begin{align}
+\hat{z} &= b_0 + {\bf d}^{'} {\bf b} + {\bf d}^{'} {\bf B}{\bf d}
+\end{align}
+where
+\[ {\bf d} = \left[ \begin{array}{cc}
+x  \\
+y 
+\end{array} \right]  \quad
+%
+{\bf b} = \left[ \begin{array}{cc}
+b_1  \\
+b_2 
+\end{array} \right]  \quad
+%
+{\bf B} = \left[ \begin{array}{cc}
+b_3 & b_4 /2 \\
+b_4 /2 & b_5
+\end{array} \right]
+\]
 \end{itemize}
 \end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Model}
+We can fit a model like this in $\verb|R|$ using the $\verb|lm()|$ function:
+<<lm_ex, echo=TRUE, eval=FALSE>>=
+# Z - the response variable
+# X - the first explanatory variable
+# Y - the second explanatory variable
+QuadFit <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2), data=d)
+@
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Stationarity Points %%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Stationarity Points: How \& Why?}
+\begin{itemize}
+  \item What are they?
+  \begin{itemize}
+    \item Points where the slope is zero no matter which direction you take the derivative
+  \end{itemize}
+  \item Values of our explanatory variables provide the ``best'' fit for the response \\
+  \item How do you derive the stationary points?
+  \begin{enumerate}
+    \item Take the derivatives of Equation \ref{fittedmod} with respect to $x$ and $y$
+    \item Set the derivatives equal to zero
+    \item Solve for $x$ and $y$ in terms of {\bf b} and {\bf B} to find the stationarity points
+    \item Refer to these points as $x_0$ and $y_0$
+  \end{enumerate}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Stationarity Points: How?}
+\begin{itemize}
+\item Take the partial derivatives with respect to $x$ and $y$
+\begin{align*}
+\left[ \begin{array}{cc}
+\frac{dz}{dx} = b_1 + 2b_{3}x + b_{4}y \\
+\frac{dz}{dy} = b_2 + b_{4}x + 2b_{5}y
+\end{array} \right]
+& = {\bf b} + 2 {\bf B d} \\
+\end{align*}
+
+\item Set the derivatives to zero and solve for ${\bf d_0}$
+\begin{align*}
+{\bf d_0} = \left[ \begin{array}{cc}
+x_0  \\
+y_0 
+\end{array} \right]
+%
+& = -\frac{{\bf B}^{-1} {\bf b}}{2} \\
+& = -\frac{1}{2} \frac{1}{b_5 b_3 - \frac{b_4^2}{2}}
+\left[ \begin{array}{cc}
+b_5 & -b_4 /2 \\
+-b_4 /2 & b_3
+\end{array} \right] 
+\left[ \begin{array}{cc}
+b_1  \\
+b_2 
+\end{array} \right] \\
+& = -\frac{2}{4 b_5 b_3 - b_4^2}
+\left[ \begin{array}{cc}
+b_5 b_1 - b_2 b_4 /2 \\
+-b_1 b_4 /2 + b_2 b_3
+\end{array} \right] \\
+& = 
+\left[ \begin{array}{cc}
+\frac{b_2 b_4 - 2 b_5 b_1}{4 b_5 b_3 - b_4^2} \\
+\frac{b_1 b_4 + 2 b_2 b_3}{4 b_5 b_3 - b_4^2}
+\end{array} \right] \\
+\end{align*}
+
+\end{itemize}
+\end{frame}
+
+
 
 
 \end{document}

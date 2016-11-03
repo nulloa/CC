@@ -1,0 +1,12 @@
+\frametitle{Model}
+We can fit a model like this in $\verb|R|$ using the $\verb|lm()|$ function:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Z - the response variable}
+\hlcom{# X - the first explanatory variable}
+\hlcom{# Y - the second explanatory variable}
+\hlstd{QuadFit} \hlkwb{<-} \hlkwd{lm}\hlstd{(z} \hlopt{~} \hlstd{x} \hlopt{+} \hlstd{y} \hlopt{+} \hlkwd{I}\hlstd{(x}\hlopt{^}\hlnum{2}\hlstd{)} \hlopt{+} \hlkwd{I}\hlstd{(x}\hlopt{*}\hlstd{y)} \hlopt{+} \hlkwd{I}\hlstd{(y}\hlopt{^}\hlnum{2}\hlstd{),} \hlkwc{data}\hlstd{=d)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
