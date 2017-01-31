@@ -1,0 +1,4 @@
+An Alternative Approach in Congruence Studies using Response Surface Methodolgy
+
+
+Dyadic data are often used by family researchers who are interested in comparing the attitudes, behaviors, and opinions of husbands and wives, parents and children, and romantic partners towards each other. The dyadic structure can come from inter-individual reporting (e.g. comparison of husband's report of their support toward his wife to the wife's report of their support towards the husband), or it can come from intra-individual reporting (e.g. comparison of an observer's report of husband's hostility to an observer's report of the wife's hostility). Difference scores are often used to analyze dyadic data. Unfortunately, there are many methodological issues with difference scores. In this poster, we apply Dr. Edwards' suggestion of using polynomial regression equations. We find that there are many benefits of looking at our data through this appraoch.
