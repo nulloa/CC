@@ -61,9 +61,9 @@ p <- plotly(username="nulloa1", key="xfcqdg418r")
 %           First Section            %
 %------------------------------------%
 \section{Intro}
-Dyadic data are often used by family researchers who are interested in comparing the attitudes, behaviors, and opinions of husbands and wives, parents and children, and romantic partners towards each other. The dyadic structure can come from inter-individual reporting (e.g. comparison of husband's report of their support toward his wife to the wife's report of their support towards the husband), or it can come from intra-individual reporting (e.g. comparison of an observer's report of husband's hostility to an observer's report of the wife's hostility). \\
+Dyadic data are often used by family researchers who are interested in comparing the attitudes, behaviors, and opinions of husbands and wives, parents and children, and romantic partners towards each other. The dyadic structure can come from inter-individual reporting (e.g. comparison of husband's report of his support toward his wife to the wife's report of her support towards the husband), or it can come from intra-individual reporting (e.g. comparison of an observer's report of husband's hostility to an observer's report of the wife's hostility). \\
 
-One of the most common methods in analyzing dyadic data is difference scores. Difference scores are used to see how well two variables/components 'fit' together. Some of the most common difference scores use the algebraic, absolute, and squared difference between the two variables as shown by Equations \ref{eq:diffscore}, \ref{eq:absdiffscore}, and \ref{eq:squarediffscore} respectively. These difference scores are often modeled as a predicts for an outcome variable labeled $Z$ in the equations below,
+One of the most common methods in analyzing dyadic data is difference scores. Difference scores are used to see how well two variables/components 'fit' together. Some of the most common difference scores use the algebraic, absolute, and squared difference between the two variables as shown by Equations \ref{eq:diffscore}, \ref{eq:absdiffscore}, and \ref{eq:squarediffscore} respectively. These difference scores are often modeled to predict for an outcome variable labeled $Z$ in the equations below,
 
 \begin{align}
 Z &= \beta_0 + \beta_1 (X - Y) + \epsilon \label{eq:diffscore} \\
@@ -71,9 +71,9 @@ Z &= \beta_0 + \beta_1 |X - Y| + \epsilon \label{eq:absdiffscore} \\
 Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 \end{align}\\
 
-The problem is there are many methodological issues with difference scores. Dr. Edwards describes many of these issues in his paper \emph{Problems with the Use of Profile Similarity Indices in the Study of Congruence in Organizational Research} (1993) \cite{Edwards_Prob_Diff_Scores_93}. The first reason may be the most important in terms of the reason why statisticians model data; difference scores make it difficult to identify the underlying mechanism. This happens because in using difference scores, two distinct measures are turned into one entity so it becomes difficult to tease out the individual effects. These individual effects are what we interested in. Difference scores fail to tell the researcher which variables contribute the most to the response. We also lose information when using difference scores. There are assumptions used with difference scores namely, that the difference between two entities to the outcome symmetric and that the outcome is constant at all points where the two entities are equal, but to verify the assumptions we need to look at the absolute level of both measures and the direction. \\
+There are many methodological issues associated with difference scores. Dr. Edwards describes many of these issues in his paper \emph{Problems with the Use of Profile Similarity Indices in the Study of Congruence in Organizational Research} (Edwards 1993) \cite{Edwards_Prob_Diff_Scores_93}. Perhaps the most important reason why statisticians avoid using difference scores is that it makes it difficult to identify the underlying mechanism. This happens because in using difference scores, two distinct measures are turned into one entity so it becomes difficult to tease out the effect of one variable relative to another. These individual effects are what we interested in. Difference scores fail to tell the researcher which variables contribute the most to the response. We also lose information when using difference scores. There are assumptions used with difference scores namely, that the difference between two entities to the outcome variable are ssumed to be symmetric and that the outcome is constant at all points where the two entities are equal. These are assumptions that we need to look at by examing the absolute level of both measures and its direction. \\
 
-Dr. Edwards also addressed these issues in his paper, \emph{On the Use of Polynomial Regression Equations as an Alternative to Difference Scores in Organizational Research},  and suggested using "polynomial regression equations containing the...[two variables]...composing the difference and higher-order terms."\cite{Edwards_PRAlt_93} as an alternative to difference scores. An example would be to take the two predictor variables $(X,Y)$, their squares $(X^2,Y^2)$, and their products $(XY,X^2Y,XY^2)$. A successful application of such methodology (i.e. polynomial regression) is presented by Phillips, Diefenbach, Kronish, Negron, and Horowitz (2014) in their paper titled \textit{The Necessity-Concerns Framework: a Multidimensional Theory Benefits from Multidimensional Analysis}\cite{Phillips2014}. They use polynomial regression to assess stroke survivors' concerns about medication and their necessity beliefs effect on their adherence to medication whose goal is stroke prevention. Before looking at the polynomial model Edwards proposed, we will look at some componants which are not common to normal linear regression: the model form, stationarity points, the principal axis, and the predictive surface (which we will look through 3D graphs). Polynomial regression equations avoid many of the issues with difference scores, but they do have their own set of problems. Mainly these problems have to do with interpreting the estimates of the model and interpreting the principal axis. \\
+In his paper, \emph{On the Use of Polynomial Regression Equations as an Alternative to Difference Scores in Organizational Research}, Dr. Edwards suggested using "polynomial regression equations containing the...[two variables]...composing the difference and higher-order terms."(Edwards 1993)\cite{Edwards_PRAlt_93} as an alternative to difference scores. An example would be to take the two predictor variables $(X,Y)$, their squares $(X^2,Y^2)$, and their products $(XY,X^2Y,XY^2)$. A successful application of polynomial regression is presented by Phillips, Diefenbach, Kronish, Negron, and Horowitz (2014) in their paper titled \textit{The Necessity-Concerns Framework: a Multidimensional Theory Benefits from Multidimensional Analysis}\cite{Phillips2014}. They use polynomial regression to assess stroke survivors' concerns about medication and their necessity beliefs effect on their adherence to medication whose goal is stroke prevention. Before looking at the polynomial model Edwards proposed, we will look at some componants which are not common to normal linear regression: the model form, stationarity points, the principal axis, and the predictive surface (which we will look through 3D graphs). Polynomial regression equations avoid many of the issues with difference scores, but they do have their own set of problems. Mainly these problems have to do with interpreting the estimates of the model and interpreting two components we have yet to define: stationarity and principal axis. \\
 
 
 
@@ -81,16 +81,16 @@ Dr. Edwards also addressed these issues in his paper, \emph{On the Use of Polyno
 %          Second Section            %
 %------------------------------------%
 \section{The Model}
-The linear regression model (eq \ref{eq:linreg}) is a topic familiar to most researchers; often used in research, it is very popular due in part to the ease and familiarity of the interpretations of the parameters and the ease of computation.
+The linear regression model (Eq \ref{eq:linreg}) is familiar to most researchers; it is often used in research due in part to the ease and familiarity of the interpretations of the parameters and the ease of computation. A slight tweak to simple linear models is to include two explanatory variables as in Eq \label{eq:linreg2}. Often these models also include their interactions e.g $z = a + bx + cy + dxy$. We call Eq \label{eq:linreg2} the linear difference model; this particular model does not contain an interaction.
 
 \begin{align}
 Z &= \beta_0 + \beta_1 X + \epsilon \label{eq:linreg} \\
 Z &= \beta_0 + \beta_1 (X - Y) + \epsilon \label{eq:linreg2} \\
-Z &= \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY \epsilon \label{eq:quadreg}
+Z &= \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon \label{eq:quadreg}
 \end{align}\\
 
 
-An extension of the linear regression model is the quadratic regression model. It's form is similar to the form of a linear regression model with the addition of a quadratic term of the explanatory variable. It is very similar to the linear model in terms of computation and ease of interpret-ability. A slight tweak to simple linear models is to include two explanatory variables e.g. Eq \label{eq:linreg2}. Often these models also include their interactions e.g $z = a + bx + cy + dxy$. In this project, we consider a composition of these two ideas; a polynomial(quadratic) regression using two predictors and the interaction (Eq \ref{eq:quadreg}). We will be using the basic framework of response methodology to look at stationary points and principal axes. Using the response surface methodology will allow us to take advantage of some key properties developed by that field. So looking how to develop the stationary points and principal axes will be key because they will be very useful in making inference on the predicted surface. We are going to demonstrate how this framework has been used in a few papers and then we will apply these methods our own data.
+An extension of the linear regression model is the quadratic regression model (Eq \label{eq:quadreg}). It's form is similar to the form of a linear regression model with the addition of a quadratic term of the explanatory variable. It is very similar to the linear model in terms of computation and ease of interpret-ability. In this project, we consider a composition of these two ideas; a polynomial(quadratic) regression using two predictors and the interaction (Eq \ref{eq:quadreg}). We will be using the basic framework of response methodology to look two important concepts at stationary points and principal axes. Using the response surface methodology will allow us to take advantage of some key properties developed by that field. So looking how to develop the stationary points and principal axes will be key because they will be very useful in making inference on the predicted surface. In the pages that follow, we demonstrate how this framework has been used and then apply these methods our own data.
 
 
 %---------- Model Form --------------%
@@ -103,7 +103,7 @@ And the fitted model:
 \begin{align}
 \hat{z} &= b_{0} + b_{1}x + b_{2}y + b_3 x^2 + b_4 xy + b_5 y^2 \label{fittedmod}
 \end{align}
-then the fitted model in matrix notation:
+The fitted model in matrix notation is:
 \begin{align}
 \hat{z} &= b_0 + {\bf d}^{'} {\bf b} + {\bf d}^{'} {\bf B}{\bf d}
 \end{align}
@@ -126,12 +126,9 @@ b_4 /2 & b_5
 
 For furthur derivations, we will use matrix notation since it condenses the algebra. \\
 
-We can fit a model like this in $\verb|R|$ using the $\verb|lm()|$ function:
+We can fit a model like this in $\verb|R|$ using the $\verb|lm()|$ function. This setup corresponds to Eq \cite{eq:quadfit} where $\verb|Z|$ is the response variable, and $\verb|X|$ and $\verb|Y|$ are the explanatory variables.
 <<lm_ex, echo=TRUE, eval=FALSE>>=
-# Z - the response variable
-# X - the first explanatory variable
-# Y - the second explanatory variable
-QuadFit <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2), data=d)
+QuadFit <- lm(Z ~ X + Y + I(X^2) + I(X*Y) + I(Y^2), data=d)
 @
 
 
@@ -140,7 +137,7 @@ QuadFit <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2), data=d)
 \subsection{Analyze/Properties}
 
 \subsubsection{Stationary Points: How and Why?}
-One of the features of the response surface we are interested in are the stationary points.  The stationary points are the points where the slope is zero no matter which direction you take the derivative. Recall the finding the minimum and maximum of a function from calculus; it is a similar concept except now we have a three dimensional surface rather than just a two-dimensional surface. We are interested in the stationarity points because they allow us to see which values of our explanatory variables provide the ``best'' fit for the response (``best'' meaning minimum or maximum). Using our intuition from our calculus course, we are going to take the derivatives of Equation \ref{fittedmod} with respect to $x$ and $y$, set the derivatives equal to zero, and solve for $x$ and $y$ in terms of {\bf b} and {\bf B} to find the stationarity points (we'll refer to these points as $x_0$ and $y_0$). \\
+One of the features of our model (Eq \ref{eq:quadreg}) we are interested in are the stationary points.  The stationary points are the points where the slope of the response is zero no matter which direction you take the derivative. Recall how to find the minimum and maximum of a function from calculus; it is a similar concept except now we have a three dimensional surface rather than just a two-dimensional surface. We are interested in the stationarity points because they allow us to see which values of our explanatory variables provide the ``best'' fit for the response (``best'' meaning minimum or maximum). The benefit of knowing the stationary points is it gives us a goal to reach or not reach depending on the situation.  We will see examples of the usefulness of stationary points later.  Using our intuition from calculus, we take the derivatives of Equation \ref{fittedmod} with respect to $x$ and $y$, set the derivatives equal to zero, and solve for $x$ and $y$ in terms of {\bf b} and {\bf B} to find the stationarity points (we'll refer to these points as $x_0$ and $y_0$). \\
 
 To find the stationarity points, let's begin with taking the partial derivatives with respect to $x$ and $y$
 \begin{align*}
@@ -150,7 +147,7 @@ To find the stationarity points, let's begin with taking the partial derivatives
 \end{array} \right]
 & = {\bf b} + 2 {\bf B d} \\
 \end{align*}
-Next, we set the derivatives to zero and solve for ${\bf d_0}$
+Next, we set the derivatives to zero and solve for ${\bf d_0}$, where ${\bf d_0}$ is:
 \begin{align*}
 {\bf d_0} = \left[ \begin{array}{cc}
 x_0  \\
@@ -179,13 +176,19 @@ b_5 b_1 - b_2 b_4 /2 \\
 \end{array} \right] \\
 \end{align*}
 
-So our stationary points are $x_0 = \frac{b_2 b_4 - 2 b_5 b_1}{4 b_5 b_3 - b_4^2}$ and $y_0 = \frac{b_1 b_4 + 2 b_2 b_3}{4 b_5 b_3 - b_4^2}$. These points represent the values in our predictors that will optimize our response. Optimizing the response either means a minimum or maximum depending on the surface shape.\\
+So our stationary points are 
+\begin{align}
+x_0 &= \frac{b_2 b_4 - 2 b_5 b_1}{4 b_5 b_3 - b_4^2} \label{eq:xstatpt} \\
+y_0 &= \frac{b_1 b_4 + 2 b_2 b_3}{4 b_5 b_3 - b_4^2} \label{eq:ystatpt}
+\end{align}
+These points represent the values in our predictors that will optimize our response. Optimizing the response either means a minimum or maximum depending on the surface shape.\\
 
-Using our output from the $\verb|lm|$ function noted earlier in $\verb|R|$, we can get the stationary points. Note we can use other cumputing programs as well as $\verb|R|$ (e.g. $\verb|SAS|$, $\verb|MPlus|$, etc.) using the formulas.
+Using our output from the $\verb|lm|$ function noted earlier in $\verb|R|$, we can get the stationary points. Note we can use other cumputing programs as well as $\verb|R|$ (e.g. $\verb|SAS|$, $\verb|MPlus|$, etc.) The $\verb|R|$ code is as follows:
 <<stat_pts_function, echo=TRUE, eval=TRUE>>=
 statpts <- function(lm){
   # Takes a quadratic lm function
-  # Grabs Coef
+  # coef(lm) gives a vector of all the parameter estimates in the linear model
+  # So here we are grabbing the individual parameter estimates from that vector
   b0 <- as.numeric(coef(lm)[1])
   b1 <- as.numeric(coef(lm)[2])
   b2 <- as.numeric(coef(lm)[3])
@@ -193,7 +196,7 @@ statpts <- function(lm){
   b4 <- as.numeric(coef(lm)[5])
   b5 <- as.numeric(coef(lm)[6])
   
-  # Stationary Pts.
+  # Stationary Pts. using the formulas in Eq 10 & 11
   x0  <- (b2*b4 - 2*b1*b5)/(4*b3*b5 - b4^2)
   y0  <- (b1*b4 - 2*b2*b3)/(4*b3*b5 - b4^2)
   
@@ -207,7 +210,7 @@ statpts <- function(lm){
 
 %---Pred Response @ Stationary Pts---%
 \subsubsection{Predicted Response at Stationary Points}
-We can then get the predicted responses at the stationary points by simply plugging in the stationary points into Equation \ref{fittedmod}. The predicted response at the stationary points give us the optimized value for the response variable i.e. where the response surface gets achieves its maximum or minimum. In matrix notation, the predicted response is given as:
+Once we have the stationary points, we can get the predicted responses at the stationary points by simply plugging in the stationary points into Equation \ref{fittedmod}. The predicted response at the stationary points give us the optimized value for the response variable i.e. where the response surface reaches its maximum or minimum. In matrix notation, the predicted response is given as:
 
 \begin{align*}
 \hat{z}_0 &= b_0 + {\bf d_0' b} + {\bf d_0' B d_0} \\
@@ -227,7 +230,7 @@ predstatpts
 
 %-------Principal Axes--------%
 \subsubsection{Principal Axes}
-The purpose of principal axes is to rotate the axes so that we can remove all the cross-product forms which will make interpretations of the model easier. Khuri and Cornell (1996), {\it Response Surfaces: Designs and Analyses} \cite{khuri1996response}, lays out the process of deriving the canonical equations. The canonical equations come from transforming the response system to its canonical form; this process occurs because they it better represents the response around the stationarity points. These canonical equations are then used in finding the principal axes. We will focus on the process of transforming these canonical equations back to functions of the original variables i.e. transform our principal axes back to the original variables.\\
+The purpose of principal axes is to make interpretations of the model easier by rotating the axes so that we can remove all the cross-product terms. Khuri and Cornell (1996), {\it Response Surfaces: Designs and Analyses} \cite{khuri1996response}, lays out the process of deriving the canonical equations. The canonical equations come from transforming the response system to its canonical form (this is the name of the form where the surface lives with its cross-product terms are removed); this process occurs because it represents the response centered around the stationarity points. These canonical equations are then used in finding the principal axes. In order to complete this process, new axes are created which the surface will be on. This maybe useful in some applications, but the problem is it becomes difficult to relate the response to our original variables. Essentially it becomes difficult to interpret how our original variables are affecting the response. So we focus on the process of transforming these canonical equations back to functions of the original variables i.e. transform our principal axes back to the original variables. By doing this we get the benefits of the principal axes related to our original variables.\\
 
 
 To solve for principal axes, we need to first solve for eigenvalues. The equations for solving for the eigenvalues comes from Khuri and Cornell (1996) and is as follows:
@@ -261,15 +264,15 @@ b_4 /2 & b_5 - \lambda
 \end{align*}
 Now let $\lambda_1$ be the first eigenvalue:
 \begin{align*}
- \lambda_1 &= \frac{b_3 + b_5 + \sqrt{\Bigl(b_3 + b_5\Bigr)^2 - 4\Bigl(b_3 b_5 - \frac{b_4^2}{4}\Bigr)}}{2} \\
- \quad &= \frac{b_3 + b_5 + \sqrt{\bigl(b_3 + b_5\bigr)^2 - 4 b_3 b_5 + b_4^2}}{2} \\
- \quad &= \frac{b_3 + b_5 + \sqrt{\bigl(b_3 - b_5\bigr)^2 + b_4^2}}{2} 
+ \lambda_1 &= \frac{(b_3+b_5) + \sqrt{\Bigl(b_3 + b_5\Bigr)^2 - 4\Bigl(b_3 b_5 - \frac{b_4^2}{4}\Bigr)}}{2} \\
+ \quad &= \frac{(b_3+b_5) + \sqrt{\bigl(b_3 + b_5\bigr)^2 - 4 b_3 b_5 + b_4^2}}{2} \\
+ \quad &= \frac{(b_3+b_5) + \sqrt{\bigl(b_3 - b_5\bigr)^2 + b_4^2}}{2} 
 \end{align*}
 and $\lambda_2$ be the first eigen value:
 \begin{align*}
- \lambda_2 &= \frac{b_3 + b_5 - \sqrt{\Bigl(b_3 + b_5\Bigr)^2 - 4\Bigl(b_3 b_5 - \frac{b_4^2}{4}\Bigr)}}{2} \\
- \quad &= \frac{b_3 + b_5 - \sqrt{\bigl(b_3 + b_5\bigr)^2 - 4 b_3 b_5 + b_4^2}}{2} \\
- \quad &= \frac{b_3 + b_5 - \sqrt{\bigl(b_3 - b_5\bigr)^2 + b_4^2}}{2} 
+ \lambda_2 &= \frac{(b_3+b_5) - \sqrt{\Bigl(b_3 + b_5\Bigr)^2 - 4\Bigl(b_3 b_5 - \frac{b_4^2}{4}\Bigr)}}{2} \\
+ \quad &= \frac{(b_3+b_5) - \sqrt{\bigl(b_3 + b_5\bigr)^2 - 4 b_3 b_5 + b_4^2}}{2} \\
+ \quad &= \frac{(b_3+b_5) - \sqrt{\bigl(b_3 - b_5\bigr)^2 + b_4^2}}{2} 
 \end{align*}
 
 We will define a matrix {\bf M} whose columns are the egienvectors associated with $\lambda_1$ and $\lambda_2$:
@@ -313,7 +316,7 @@ Next, we need to normalize it i.e. $m_{11}^2 + m_{21}^2 = 1$. A simple way of do
 \begin{align*}
 m_{21} &= \frac{b_4}{2} \div (b_5 - \lambda_1) \\
 \quad &= \frac{b_4}{2(b_5 - \lambda_1)} \\
-\quad &= b_4 \div 2b_5 - b_3 - b_5 - \sqrt{(b_5 - b_3)^2 + b_4^2} \\
+\quad &= \frac{b_4}{2b_5 - b_3 - b_5 - \sqrt{(b_5 - b_3)^2 + b_4^2}} \text{ plug in } \lambda_1  \\
 \quad &= \frac{b_4}{b_5 - b_3 - \sqrt{(b_5 - b_3)^2 + b_4^2}}
 \end{align*}
 
@@ -350,18 +353,21 @@ m_{11}x &- m_{11}x_0 + m_{21}y - m_{21}y_0 = 0 \\
 \rightarrow m_{21}y &= -x+x_0 + m_{21}y_0 \\
 \rightarrow  y &= -\frac{x}{m_{21}}+\frac{x_0}{m_{21}} + y_0 \\
 \rightarrow  y &= -P_{21}x + P_{21}x_0 + y_0 \\
-\rightarrow  y &= -P_{21}x + P_{20}
 \end{align*}
+\begin{align}
+\quad        y &= -P_{21}x + P_{20} \label{eq:principalaxes}
+\end{align}
 
 where $P_{20} = y_0 + P_{21} x_0$ and $P_{21} = \frac{b_5 - b_3 - \sqrt{(b_5 - b_3)^2 + b_4^2}}{b_4}$. \\
 
-Now we have transformed our principal axes back to functions of our original variables. This will make them easier to plot and interpret. In a concave surface, the first principal axis tells us where the surface has the lowest downward curvature. This is basically where the two explanatory variables create a maximized surface that doesn't decrease that much as we move along the line. The second principal axis is the opposite of the first principal axis. The second principal axis is the line in the surface where the outcomes decreases the most. It is the line in the surface where we the two explanotry variables create the quickest decrease in the response. Ideally, the first principal axis is parallel to the line in the surface where $X=Y$ and the second principal axis is parallel to the line in the surface where $X=-Y$. Generally, we would expect when the variables agree ($X=Y$) that the response would be good, and when they do not agree, we would expect the reponse to behave poorly. If these axes are parallel to these lines, then our intuition about our explanatory variables and their congruence, or lack of, would be correct. \\
+Now we have transformed our principal axes back to functions of our original variables. This will make them easier to plot and interpret. In a concave surface, the first principal axis (Eq \ref{eq:principalaxes}) tells us where the surface has the lowest downward curvature. This is where the two explanatory variables create a maximized surface that decreases the least as we move along the line. The second principal axis is the opposite of the first principal axis. The second principal axis is the line in the surface where the outcomes decreases the most. It is the line in the surface where we the two explanotry variables create the greatest decrease in the response. The simplest case would be when the first principal axis is parallel to the line in the surface where $X=Y$ and the second principal axis is parallel to the line in the surface where $X=-Y$. In this case, when the variables agree ($X=Y$) the response would be good, and when they do not agree, we would expect the reponse to behave poorly. If these axes are parallel to these lines, then our intuition about our explanatory variables and their congruence, or lack of, would be correct. \\
 
-We can easily create a function in $\verb|R|$ to take the $\verb|lm|$ output to get the principal axis:
+We can easily create a function in $\verb|R|$ to take the $\verb|lm|$ output to get the principal axis (Eq \ref{eq:principalaxes}):
 <<principal_function, echo=TRUE, eval=TRUE>>=
 paxis <- function(lm){
-  # Takes a quadratic lm function
-  # Grabs Coef
+  # Takes a quadratic lm function just as the function before and just as before
+  # coef(lm) gives a vector of all the parameter estimates in the linear model
+  # So here we are grabbing the individual parameter estimates from that vector
   b0 <- as.numeric(coef(lm)[1])
   b1 <- as.numeric(coef(lm)[2])
   b2 <- as.numeric(coef(lm)[3])
@@ -387,7 +393,7 @@ paxis <- function(lm){
 }
 @
 
-
+Now that we have devloped some intuition about the model, we will look at some examples of their usage. First, we will recreate an example of the model being used in a paper then we will apply this methodology to our own data.
 
 
 %------------------------------------%
@@ -395,7 +401,7 @@ paxis <- function(lm){
 %------------------------------------%
 
 \section{Recreation of Previous Results}
-To check our understanding of how to run the model and make sure that our results are consistent with previous works, we reproduced the results in Phillips et al. (2012), {\it Congruence research in behavioral medicine: methodological review and demonstration of alternative methodology} \cite{Phillips2012}, where they looked at patient-reported adherence a month after the Dr. visit and its correspondence to the physician's rating of patient's health and the physician's estimate of how the patient would rate of patient's own health. We'll begin by first outlining the variables used here:
+To check our understanding of how to run the model and make sure that our results are consistent with previous works, we reproduced the results in Phillips et al. (2012), {\it Congruence research in behavioral medicine: methodological review and demonstration of alternative methodology} \cite{Phillips2012}. In this paper, they were interested in seeing what created good situations in which patients followed through with their doctors orders. To study this they looked at patient-reported adherence a month after the doctor visit and its correspondence to the physician's rating of patient's health and the physician's estimate of how the patient would rate of patient's own health. We'll begin by first outlining the variables used here:
 
 \begin{align*}
 Z_{1,i} &- \text{patient-reported adherence a month after the dr. visit for patient } i  \\
@@ -404,7 +410,9 @@ X_{i}   &- \text{physician's rating of patient } i\text{'s health} \\
 Y_{i}   &- \text{physician's estimate of how patient } i \text{ would rate of their own health} \\
 \end{align*}
 
-Presented in the paper are two different demonstrations using polynomial regression: Confirmatory and Exploratory. First discussed is the use of polynomial regression in a confirmatory approach. The assumptions of normality were checked for all the models namely looking for points with high leverage and potential influential points. No points showed any major signs of concern although there was one point which consistently had a higher leverage and Cook's D value compared to the rest of the points in the data set. This is not a major issue, but rather something we need to keep in the back of our mind and be aware of while the analysis is continued. Table \ref{tab:PhillipsTabReplication} replicates Table 2 found in Phillips et al. (2012). The idea behind the confirmatory approach is to assess the four criterion required to support a difference score or the absolute value difference score. The four criterion are:
+Presented in the paper are two different components of using polynomial regression: Confirmatory and Exploratory. The first component (confirmatory) checks whether or not it is appropriate to use polynomial regression, and the second component (exploratory) is in the name. Essentially exploratory analysis is where you would check hypothesis you have in mind, or just explore the model to see what you can learn. \\
+
+First discussed is the use of polynomial regression in a confirmatory approach. We are looking to see whether or not we are supposed to use polynomial regression. First, we will check the assumptions of normality for all the models namely looking for points with high leverage and potential influential points. No points showed any major signs of concern although there was one point which consistently had a higher leverage and Cook's D value compared to the rest of the points in the data set. This is not a major issue, but rather something we need to keep in the back of our mind and be aware of while the analysis is continued. Next, in the paper, four criterion are presented which help decide whether using a polynomial surface is appropriate. The four criterion are:
 
 \begin{enumerate}
 \item{Check whether the unconstrained model explained a significant amount of the variance in the data.}
@@ -413,12 +421,14 @@ Presented in the paper are two different demonstrations using polynomial regress
 \item{Check whether if a higher order model i.e. polynomial regression is significantly better than the constrained model.}
 \end{enumerate}
 
-We can see from Table \ref{tab:PhillipsTabReplication} when we compare to the algebraic difference score that under the unconstrained model both outcomes explained a significant amount of variation in the data; so criterion 1 was satisfied for both outcomes. However, criterion 2 was only satisfied for the outcome dealing with patient adherence as the regression coefficients for physician perceptions were not going in opposite directions and were not both significant. Criterion 3 and 4 were only met for the second outcome i.e. the physician perceptions. So by these criterions, we may consider using polynomial regression for the outcome dealing with physician perceptions while it looks as if the model using patient adherence as its outcome will be sufficiently explained using an algebraic difference score model. \\
+The first criterion checks the basic linear model assumption which is whether the model is better then a basic mean(intercept) only model. The second criterion checks whether the coefficients are lined up in the way we expect them too and whether they add anything to the model. The fourth criterion is a intertwined with the second in that they check whether a simple model or polynomial model should be used. It can very well happen that maybe the variable are significant but none of the higher order terms are in which case the response surface would be a plane. The thrid criterion checks to see if there is benefit in moving from the simpler difference models to more complex polynomial models. \\
+
+We have replicated Table 2 found in Phillips et al. (2012) in Table \ref{tab:PhillipsTabReplication} to help with checking these assumptions. We can see from Table \ref{tab:PhillipsTabReplication} when we compare to the algebraic difference score that under the unconstrained model both outcomes explained a significant amount of variation in the data; so criterion 1 was satisfied for both outcomes. However, criterion 2 was only satisfied for the outcome dealing with patient adherence as the regression coefficients for physician perceptions were not going in opposite directions and were not both significant. Criterion 3 and 4 were only met for the second outcome i.e. the physician perceptions. So by these criterions, we may consider using polynomial regression for the outcome dealing with physician perceptions while it looks as if the model using patient adherence as its outcome will be sufficiently explained using an algebraic difference score model. \\
 
 We also checked the criterion using the absolute-value difference score model. Again we can refer to Table \ref{tab:PhillipsTabReplication} when checking the criterion. Like with the difference score model, the unconstrained model explained a significant amount of the variation for both outcomes. Criterion 2 was satisfied for both outcomes. The unconstrained model using the outcome regarding physician perception was the only unconstrained model that explained the variation in the data better then the absolute-value difference score model, but it reversed for the test to see if a higher-order polynomial model(in this case a qudratic model) to explain the variation in the data better. We can conclude that the absolute-value difference score model was not an adequate fit for either of the outcome variables, the difference score is an adequate model for the outcome concerning patient adherence, and that the polynomial regression would be the best model for the data using the physician perception outcome.
 
 <<Phillips_Data_Setup, echo=FALSE, warning=FALSE, message=FALSE>>=
-d <- read.spss("~/Dropbox/Grad Stat Classes/CC Research/CurrentData/Phillips_Data/Congruence PRIM.sav", to.data.frame=TRUE)
+d <- read.spss("../Phillips_Data/Congruence PRIM.sav", to.data.frame=TRUE)
 
 ###### Data Setup ######
 d$pre_curr_health <- as.numeric(d$pre_curr_health)
@@ -586,7 +596,7 @@ The surface slice plots in of both principal axes in Figure \ref{fig:Phillips_Pr
 % Fig1
 \begin{figure}[!htb]
 \begin{center}
-  \includegraphics[width=.5\linewidth]{PhillipsSurfacePics/centerplot.png}
+  \includegraphics[width=.5\linewidth]{../PhillipsSurfacePics/centerplot.png}
   \caption{A screenshot of the predicted surface plot from the center perspective.}\label{fig:phillipscentersurface}
 \end{center}
 \end{figure}
@@ -594,7 +604,7 @@ The surface slice plots in of both principal axes in Figure \ref{fig:Phillips_Pr
 % Fig2
 \begin{figure}[!htb]
 \begin{center}
-  \includegraphics[width=.5\linewidth]{PhillipsSurfacePics/yaxisplot.png}
+  \includegraphics[width=.5\linewidth]{../PhillipsSurfacePics/yaxisplot.png}
   \caption{A screenshot of the predicted surface plot from the y axis perspective i.e. eliminating the x axis.}\label{fig:phillipsysurface}
 \end{center}
 \end{figure}
@@ -602,7 +612,7 @@ The surface slice plots in of both principal axes in Figure \ref{fig:Phillips_Pr
 % Fig3
 \begin{figure}[!htb]
 \begin{center}
-  \includegraphics[width=.5\linewidth]{PhillipsSurfacePics/xaxisplot.png}
+  \includegraphics[width=.5\linewidth]{../PhillipsSurfacePics/xaxisplot.png}
   \caption{A screenshot of the predicted surface plot from the x axis perspective i.e. eliminating the y axis.}\label{fig:phillipsxsurface}
 \end{center}
 \end{figure}
@@ -691,7 +701,7 @@ As we can see in the figures above, the first principal axes is the axis that ma
 %------------------------------------%
 
 \section{Our Example}
-For our example, we were interested in understanding the congruence between survey reports and observer reports. Our data comes from the Iowa Midlife Transitions Project (MTP); this longitudinal study was preformed from $1991$ through $2001$ on families from eight counties in rural Iowa. The counties were chosen to be representative of the rural Midwest. The study was designed to look at the effects of the 1960's farm crisis on rural Midwestern families. Families in MTP either participated in the Iowa Youth and Families Project (IFYP) or the Iowa Single Parent Project (ISPP). The IFYP started in 1989 to follow families with at least 2 children and married parents; one of the requirements was the one of the children be in seventh grade in '89 while the other sibling was in a four year range in age of the child. The ISPP started in '91. It focused on recently divorced mothers with a minimum of two children, one of which was a ninth grader in the starting year and the other child was in a 4 year age range of the other child just like before. They had a $78\%$ participation rate of all possible participants in the IFYP; similarly the ISSP had a $99\%$ participation rate. While there were a myriad of economic variablesavailable, we focused on family dynamic variables. Specifically we focused on the husband and wife relationship variables. Our variables of interest are divided into two sets. \\
+For our example, we were interested in understanding the congruence between survey reports and observer reports. Our data comes from the Iowa Midlife Transitions Project (MTP); this longitudinal study conducted between $1991$ and $2001$ on families from eight counties in rural Iowa. The study was designed to look at the effects of the 1960's farm crisis on rural Midwestern families. Families in MTP either participated in the Iowa Youth and Families Project (IFYP) or the Iowa Single Parent Project (ISPP). The IFYP started in 1989 to follow families with at least 2 children and married parents; one of the requirements was the one of the children be in seventh grade in '89 while the other sibling was in a four year range in age of the child. The ISPP started in '91. It focused on recently divorced mothers with a minimum of two children, one of which was a ninth grader in the starting year and the other child was in a 4 year age range of the other child just like before. They had a $78\%$ participation rate of all possible participants in the IFYP; similarly the ISSP had a $99\%$ participation rate. While there were a myriad of economic variables available, we focused on family dynamic variables. Specifically we focused on the husband and wife relationship variables. Our variables of interest are divided into two sets. \\
 
 Set 1:
 \begin{align*}
@@ -709,7 +719,7 @@ X &: \text{Husband's Report of Relationship Instability of couple } i \text{ at 
 \end{align*}
 
 
-Just like in Dr. Phillips' analysis, we also centered our variables to ease in interpretation and analysis. We will also check to see if the use of polynomial regression is justified in our case. To do this, we will check the same criterion as we did earlier, namely:
+Just like in Phillips et al. (2012), we also centered our variables to ease in interpretation and analysis. We will also check to see if the use of polynomial regression is justified in our case. To do this, we will check the same criterion as we did earlier, namely:
 \begin{enumerate}
 \item{Whether the unconstrained model explained a significant amount of the variance in the data.}
 \item{Whether the regression coefficients for the unconstrained model are in expected directions and whether they are significant to the model.}
@@ -724,7 +734,7 @@ We created a table similar to Table \ref{tab:PhillipsTabReplication} in Table \r
 Looking at criterion 1, algebraic difference score compared to the unconstrained model, we confirmed that in both outcomes, the unconstrained model explained a significant amount of variation in the data (pval of $\Sexpr{anova(lmDiff, lm)$Pr[2]}$ and $\Sexpr{anova(lm2Diff, lm2)$Pr[2]}$, respectively). For criterion 2, the regression coefficients for both models were consistent with each other which is what we would expect. The difference in direction between the two models has to deal with the fact that one would be minimizing and the other is maximizing. Additionally, for both of the unconstrained algebraic models, the regression coefficients are significant. However, the regression coefficients for the unconstrained absolute difference models were not all significant leading us to believe that it would not be agood fit for the data. Criterion 3 and 4 were both met by both examples/models. They both suggest using something grater than a simple difference model although that should not be an unconstrained absolute difference model.
 
 <<Our_Data_ex, echo=FALSE, message=FALSE>>=
-d <- read.csv("~/Dropbox/Grad Stat Classes/CC Research/CurrentData/ModData_6_9.csv", header=TRUE)
+d <- read.csv("../CurrentData/ModData_6_9.csv", header=TRUE)
 
 ###### Start Analysis ######
 # Using Hostility as a predictor.
@@ -847,7 +857,7 @@ After checking our criterion, we find that it is appropriate to use more than di
 
 Recall the fitted quadratic polynomial for our example using precieved relationship instabililty as a predictor for relationship quality is:
 \begin{align}
-\hat{z} &= \Sexpr{round(coef(lm2Square)[1], 2)} + \Sexpr{round(coef(lm2Square)[2], 2)}x + \Sexpr{round(coef(lm2Square)[3], 2)}y \Sexpr{round(coef(lm2Square)[4], 2)} x^2 + \Sexpr{round(coef(lm2Square)[5], 2)} xy \Sexpr{round(coef(lm2Square)[6], 2)} y^2 
+\hat{z} &= \Sexpr{round(coef(lm2Square)[1], 2)} + \Sexpr{round(coef(lm2Square)[2], 2)}x + \Sexpr{round(coef(lm2Square)[3], 2)}y + \Sexpr{round(coef(lm2Square)[4], 2)} x^2 + \Sexpr{round(coef(lm2Square)[5], 2)} xy + \Sexpr{round(coef(lm2Square)[6], 2)} y^2 
 \end{align} \\
 
 Using $\verb|Plotly|$, we can look at and manipulate the predicted surface by following this link \href{https://plot.ly/~nulloa1/147/}{link}. I have included some screenshots here so you can get a feel for the convexity of the surface which will help in the interpretations of the key components in the surface. 
@@ -876,17 +886,17 @@ plotly_POST(p, filename="OurExPlot")
 @
 
 \begin{figure}[!htb]
-  \includegraphics[width=\linewidth]{OurExSurfacePics/CenterPlot.png}
+  \includegraphics[width=\linewidth]{../OurExSurfacePics/CenterPlot.png}
   \caption{A screenshot of the predicted surface plot from the center perspective.}\label{fig:ourcentersurface}
 \end{figure}
 
 \begin{figure}[!htb]
-  \includegraphics[width=\linewidth]{OurExSurfacePics/YPlot.png}
+  \includegraphics[width=\linewidth]{../OurExSurfacePics/YPlot.png}
   \caption{A screenshot of the predicted surface plot from the y axis perspective i.e. eliminating the x axis.}\label{fig:ourysurface}
 \end{figure}
 
 \begin{figure}[!htb]
-  \includegraphics[width=.9\linewidth]{OurExSurfacePics/XPlot.png}
+  \includegraphics[width=.9\linewidth]{../OurExSurfacePics/XPlot.png}
   \caption{A screenshot of the predicted surface plot from the x axis perspective i.e. eliminating the y axis.}\label{fig:ourxsurface}
 \end{figure}
 
