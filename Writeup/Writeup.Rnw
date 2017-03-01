@@ -412,22 +412,9 @@ X_{i}   &- \text{physician's rating of patient } i\text{'s health} \\
 Y_{i}   &- \text{physician's estimate of how patient } i \text{ would rate of their own health} \\
 \end{align*}
 
-Presented in the paper are two different components of using polynomial regression: Confirmatory and Exploratory. The first component (confirmatory) checks whether or not it is appropriate to use polynomial regression, and the second component (exploratory) is in the name. Essentially exploratory analysis is where you would check hypothesis you have in mind, or just explore the model to see what you can learn. \\
+There are two parts to applying polynomial regression. First they check whether or not it is appropriate to use polynomial regression, and the second, if appropriate, they would check any hypothesis they had. In this paper, they had no preformed hypothesis so they explored the surface to see what they could learn. \\
 
-First discussed is the use of polynomial regression in a confirmatory approach. We are looking to see whether or not we are supposed to use polynomial regression. First, we will check the assumptions of normality for all the models namely looking for points with high leverage and potential influential points. No points showed any major signs of concern although there was one point which consistently had a higher leverage and Cook's D value compared to the rest of the points in the data set. This is not a major issue, but rather something we need to keep in the back of our mind and be aware of while the analysis is continued. Next, in the paper, four criterion are presented which help decide whether using a polynomial surface is appropriate. The four criterion are:
-
-\begin{enumerate}
-\item{Check whether the unconstrained model explained a significant amount of the variance in the data.}
-\item{Check whether the regression coefficients for the unconstrained model are in expected directions and whether they are significant to the model.}
-\item{Check whether if the unconstrained model is significantly better than the constrained model.}
-\item{Check whether if a higher order model i.e. polynomial regression is significantly better than the constrained model.}
-\end{enumerate}
-
-The first criterion checks the basic linear model assumption which is whether the model is better then a basic mean(intercept) only model. The second criterion checks whether the coefficients are lined up in the way we expect them too and whether they add anything to the model. The fourth criterion is a intertwined with the second in that they check whether a simple model or polynomial model should be used. It can very well happen that maybe the variable are significant but none of the higher order terms are in which case the response surface would be a plane. The thrid criterion checks to see if there is benefit in moving from the simpler difference models to more complex polynomial models. \\
-
-We have replicated Table 2 found in Phillips et al. (2012) in Table \ref{tab:PhillipsTabReplication} to help with checking these assumptions. We can see from Table \ref{tab:PhillipsTabReplication} when we compare to the algebraic difference score that under the unconstrained model both outcomes explained a significant amount of variation in the data; so criterion 1 was satisfied for both outcomes. However, criterion 2 was only satisfied for the outcome dealing with patient adherence as the regression coefficients for physician perceptions were not going in opposite directions and were not both significant. Criterion 3 and 4 were only met for the second outcome i.e. the physician perceptions. So by these criterions, we may consider using polynomial regression for the outcome dealing with physician perceptions while it looks as if the model using patient adherence as its outcome will be sufficiently explained using an algebraic difference score model. \\
-
-We also checked the criterion using the absolute-value difference score model. Again we can refer to Table \ref{tab:PhillipsTabReplication} when checking the criterion. Like with the difference score model, the unconstrained model explained a significant amount of the variation for both outcomes. Criterion 2 was satisfied for both outcomes. The unconstrained model using the outcome regarding physician perception was the only unconstrained model that explained the variation in the data better then the absolute-value difference score model, but it reversed for the test to see if a higher-order polynomial model(in this case a qudratic model) to explain the variation in the data better. We can conclude that the absolute-value difference score model was not an adequate fit for either of the outcome variables, the difference score is an adequate model for the outcome concerning patient adherence, and that the polynomial regression would be the best model for the data using the physician perception outcome.
+They start by determining whether or not they are supposed to use polynomial regression. Before we go through their process of appropriateness, we looked at their data which we show in Table \ref{tab:Phillipsdf}. As we can see for patient-reported adherence a month after the dr. visit for patient $i$, most of the data is greater than 0. Most of the datafor the second response variable, physician's percieved agreement with patient $i$ on the illness treatment, lies between $3$ and $5$. It is surprising that a large part of the data lives in a small range.
 
 <<Phillips_Data_Setup, echo=FALSE, warning=FALSE, message=FALSE>>=
 d <- read.spss("../Phillips_Data/Congruence PRIM.sav", to.data.frame=TRUE)
@@ -467,6 +454,32 @@ d$w2[which(!is.na(d$w2) & d$x2 > d$y2)] <- 0
 d$w2[which(!is.na(d$w2) & d$x2 == d$y2)] <- sample(c(0,1),length(d$w[which(!is.na(d$w2) & d$x2 == d$y2)]), replace=TRUE)
 
 @
+
+
+<<Phillips_data_table_exploration, echo=FALSE, results='asis'>>=
+Phillipsdf <- data.frame(Z1=c(summary(d$z)),
+                         Z2=c(summary(d$z2)),
+                         X=c(summary(d$x)),
+                         Y=c(summary(d$y))
+)
+print(xtable(t(Phillipsdf),caption = c("Five number summary of response variables($Z_1$ and $Z_2$) and explanotry variable $X$ and $Y$."), label = "tab:Phillipsdf"))
+@
+
+
+Now, we will check the assumptions of normality for all the models namely looking for points with high leverage and potential influential points. No points showed any major signs of concern although there was one point which consistently had a higher leverage and Cook's D value compared to the rest of the points in the data set. This is not a major issue, but rather something we need to keep in the back of our mind and be aware of while the analysis is continued. Next, in the paper, four criterion are presented which help decide whether using a polynomial surface is appropriate. The four criterion are:
+
+\begin{enumerate}
+\item{Check whether the unconstrained model explained a significant amount of the variance in the data.}
+\item{Check whether the regression coefficients for the unconstrained model are in expected directions and whether they are significant to the model.}
+\item{Check whether if the unconstrained model is significantly better than the constrained model.}
+\item{Check whether if a higher order model i.e. polynomial regression is significantly better than the constrained model.}
+\end{enumerate}
+
+The first criterion checks the basic linear model assumption which is whether the model is better then a basic mean(intercept) only model. The second criterion checks whether the coefficients are lined up in the way we expect them too and whether they add anything to the model. The fourth criterion is a intertwined with the second in that they check whether a simple model or polynomial model should be used. It can very well happen that maybe the variable are significant but none of the higher order terms are in which case the response surface would be a plane. The thrid criterion checks to see if there is benefit in moving from the simpler difference models to more complex polynomial models. \\
+
+We have replicated Table 2 found in Phillips et al. (2012) in Table \ref{tab:PhillipsTabReplication} to help with checking these assumptions. We can see from Table \ref{tab:PhillipsTabReplication} when we compare to the algebraic difference score that under the unconstrained model both outcomes explained a significant amount of variation in the data; so criterion 1 was satisfied for both outcomes. However, criterion 2 was only satisfied for the outcome dealing with patient adherence as the regression coefficients for physician perceptions were not going in opposite directions and were not both significant. Criterion 3 and 4 were only met for the second outcome i.e. the physician perceptions. So by these criterions, we may consider using polynomial regression for the outcome dealing with physician perceptions while it looks as if the model using patient adherence as its outcome will be sufficiently explained using an algebraic difference score model. \\
+
+We also checked the criterion using the absolute-value difference score model. Again we can refer to Table \ref{tab:PhillipsTabReplication} when checking the criterion. Like with the difference score model, the unconstrained model explained a significant amount of the variation for both outcomes. Criterion 2 was satisfied for both outcomes. The unconstrained model using the outcome regarding physician perception was the only unconstrained model that explained the variation in the data better then the absolute-value difference score model, but it reversed for the test to see if a higher-order polynomial model(in this case a qudratic model) to explain the variation in the data better. We can conclude that the absolute-value difference score model was not an adequate fit for either of the outcome variables, the difference score is an adequate model for the outcome concerning patient adherence, and that the polynomial regression would be the best model for the data using the physician perception outcome.
 
 <<Phillips__Model, echo=FALSE, warning=FALSE, message=FALSE>>=
 # Z: patient-reported adherence a month after the dr. visit 
