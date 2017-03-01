@@ -52,9 +52,9 @@ library(gridExtra)
 library(xtable)
 set.seed(808)
 #library(plotly)
-Sys.setenv("plotly_username" = "nulloa1")
-Sys.setenv("plotly_api_key" = "xfcqdg418r")
-p <- plotly(username="nulloa1", key="xfcqdg418r")
+#Sys.setenv("plotly_username" = "nulloa1")
+#Sys.setenv("plotly_api_key" = "xfcqdg418r")
+#p <- plotly(username="nulloa1", key="xfcqdg418r")
 @
 
 %------------------------------------%
@@ -466,21 +466,6 @@ print(xtable(t(Phillipsdf),caption = c("Five number summary of response variable
 @
 
 
-Now, we will check the assumptions of normality for all the models namely looking for points with high leverage and potential influential points. No points showed any major signs of concern although there was one point which consistently had a higher leverage and Cook's D value compared to the rest of the points in the data set. This is not a major issue, but rather something we need to keep in the back of our mind and be aware of while the analysis is continued. Next, in the paper, four criterion are presented which help decide whether using a polynomial surface is appropriate. The four criterion are:
-
-\begin{enumerate}
-\item{Check whether the unconstrained model explained a significant amount of the variance in the data.}
-\item{Check whether the regression coefficients for the unconstrained model are in expected directions and whether they are significant to the model.}
-\item{Check whether if the unconstrained model is significantly better than the constrained model.}
-\item{Check whether if a higher order model i.e. polynomial regression is significantly better than the constrained model.}
-\end{enumerate}
-
-The first criterion checks the basic linear model assumption which is whether the model is better then a basic mean(intercept) only model. The second criterion checks whether the coefficients are lined up in the way we expect them too and whether they add anything to the model. The fourth criterion is a intertwined with the second in that they check whether a simple model or polynomial model should be used. It can very well happen that the variables are significant but none of the higher order terms are in which case the response surface would be a plane. The thrid criterion checks to see if there is benefit in moving from the simpler difference models to more complex polynomial models. \\
-
-We have replicated Table 2 found in Phillips et al. (2012) in Table \ref{tab:PhillipsTabReplication} to help with checking these assumptions. We can see from Table \ref{tab:PhillipsTabReplication} under the unconstrained model both outcomes explained a significant amount of variation in the data; so criterion 1 was satisfied for both outcomes ($\Sexpr{round(lmR2,2)}$,$\Sexpr{round(lm2R2,2)}$ for responses $Z_1$ and $Z_2$ respectively). However, criterion 2 was only satisfied for the outcome dealing with patient adherence as the regression coefficients for physician perceptions were not going in opposite directions and were not both significant. In Table \ref{tab:PhillipsTabReplication}, $F_c$ is the F-ratio that tests the accuracy of the constraints imposed by the particular difference score model with degrees of freedom equal to $(1, N - 3)$ for the algebraic difference score model and $(4, N - 6)$ for the absolute value difference score model. This F-test is used in checking Criterion 3. The third Criterion was only met for the second outcome i.e. the physician perceptions ($F(1,245) = \Sexpr{round(anova(lm2, lm2Diff)$F[2],2)}$) and not for patient adherence ($F(1,245) = \Sexpr{round(anova(lm, lmDiff)$F[2],2)}$). Whereas $F_h$ is the F-ratio that tests the difference in variance explained in the outcome by the unconstrained model and the higher-order terms for that model, with degrees of freedom equal to $(3, N-6)$ for the algebraic difference score model (for which the higher order terms are $X^2$, $XY$, and $Y^2$) and $(6, N-12)$ for the absolute value difference score model (for which the higher order terms are $X^2$, $XY$, $Y^2$, $WX^2$, $WXY$, $WY^2$). This F-ratio will help us in checking the fourth Criterion. Again we see that the fourth criterion is only statisfied for the outcome conerning physician perceptions of patient-agreement ($F(3,242) = \Sexpr{round(anova(lm2Square, lm2Diff)$F[2],2)$) and not for patient adherence ($F(3,242) = \Sexpr{round(anova(lmSquare, lmDiff)$F[2],2)}$). So by these criteria, we may consider using polynomial regression for the outcome dealing with physician perceptions while it looks as if the model using patient adherence as its outcome will be sufficiently explained using an algebraic difference score model. \\
-
-Similarly, we also checked the criterion using the absolute-value difference score model. Again we can refer to Table \ref{tab:PhillipsTabReplication} when checking the criterion. Like with the difference score model, the unconstrained model explained a significant amount of the variation for both outcomes ($\Sexpr{round(lmWR2,2)}$,$\Sexpr{round(lm2WR2,2)}$). Again criterion 2 was only satisfied for the outcome dealing with patient adherence as the regression coefficients for physician perceptions were not going in opposite directions and were not both significant. For criterion 3, the unconstrained model regarding physician perception was the only unconstrained model that explained the variation in the data better then the absolute-value difference score model($F(4,242) = 1.75$ vs. $F(4,242) = 13.14$), but it reversed for the test to see if a higher-order polynomial model(in this case a qudratic model) to explain the variation in the data better($F(6,236) = 2.43$ for patient adherence but not for physician perceptions of patient-agreement $F(6,236) = 1.39$). We can conclude that the absolute-value difference score model was not an adequate fit for either of the outcome variables, the difference score is an adequate model for the outcome concerning patient adherence, and that the polynomial regression would be the best model for the data using the physician perception outcome.
-
 <<Phillips__Model, echo=FALSE, warning=FALSE, message=FALSE>>=
 # Z: patient-reported adherence a month after the dr. visit 
 # X: physician's rating of patient's health
@@ -561,8 +546,25 @@ plot(cook,ylab="Cooks distances")
 
 
 
+
+Now, we will check the assumptions of normality for all the models namely looking for points with high leverage and potential influential points. No points showed any major signs of concern although there was one point which consistently had a higher leverage and Cook's D value compared to the rest of the points in the data set. This is not a major issue, but rather something we need to keep in the back of our mind and be aware of while the analysis is continued. Next, in the paper, four criterion are presented which help decide whether using a polynomial surface is appropriate. The four criterion are:
+
+\begin{enumerate}
+\item{Check whether the unconstrained model explained a significant amount of the variance in the data.}
+\item{Check whether the regression coefficients for the unconstrained model are in expected directions and whether they are significant to the model.}
+\item{Check whether if the unconstrained model is significantly better than the constrained model.}
+\item{Check whether if a higher order model i.e. polynomial regression is significantly better than the constrained model.}
+\end{enumerate}
+
+The first criterion checks the basic linear model assumption which is whether the model is better then a basic mean(intercept) only model. The second criterion checks whether the coefficients are lined up in the way we expect them too and whether they add anything to the model. The fourth criterion is a intertwined with the second in that they check whether a simple model or polynomial model should be used. It can very well happen that the variables are significant but none of the higher order terms are in which case the response surface would be a plane. The thrid criterion checks to see if there is benefit in moving from the simpler difference models to more complex polynomial models. \\
+
+We have replicated Table 2 found in Phillips et al. (2012) in Table \ref{tab:PhillipsTabReplication} to help with checking these assumptions. We can see from Table \ref{tab:PhillipsTabReplication} under the unconstrained model both outcomes explained a significant amount of variation in the data; so criterion 1 was satisfied for both outcomes ($\Sexpr{round(lmR2,2)}$,$\Sexpr{round(lm2R2,2)}$ for responses $Z_1$ and $Z_2$ respectively). However, criterion 2 was only satisfied for the outcome dealing with patient adherence as the regression coefficients for physician perceptions were not going in opposite directions and were not both significant. In Table \ref{tab:PhillipsTabReplication}, $F_c$ is the F-ratio that tests the accuracy of the constraints imposed by the particular difference score model. This F-test is used in checking Criterion 3. The third Criterion was only met for the second outcome i.e. the physician perceptions ($\Sexpr{round(anova(lm2, lm2Diff)$F[2],2)}$) and not for patient adherence ($\Sexpr{round(anova(lm, lmDiff)$F[2],2)}$). Whereas $F_h$ is the F-ratio that tests the difference in variance explained in the outcome by the unconstrained model and the higher-order terms for that model where the algebraic difference score model has higher order terms: $X^2$, $XY$, and $Y^2$, and the absolute value difference score model has higher order terms: $X^2$, $XY$, $Y^2$, $WX^2$, $WXY$, $WY^2$). This F-ratio will help us in checking the fourth Criterion. Again we see that the fourth criterion is only statisfied for the outcome conerning physician perceptions of patient-agreement ($\Sexpr{round(anova(lm2Square, lm2Diff)$F[2],2)}$) and not for patient adherence ($\Sexpr{round(anova(lmSquare, lmDiff)$F[2],2)}$). So by these criteria, we may consider using polynomial regression for the outcome dealing with physician perceptions while it looks as if the model using patient adherence as its outcome will be sufficiently explained using an algebraic difference score model. \\
+
+Similarly, we also checked the criterion using the absolute-value difference score model. Again we can refer to Table \ref{tab:PhillipsTabReplication} when checking the criterion. Like with the difference score model, the unconstrained model explained a significant amount of the variation for both outcomes ($\Sexpr{round(lmWR2,2)}$,$\Sexpr{round(lm2WR2,2)}$). Again criterion 2 was only satisfied for the outcome dealing with patient adherence as the regression coefficients for physician perceptions were not going in opposite directions and were not both significant. For criterion 3, the unconstrained model regarding physician perception was the only unconstrained model that explained the variation in the data better then the absolute-value difference score model($2.19$ vs. $13.22$), but it reversed for the test to see if a higher-order polynomial model(in this case a qudratic model) to explain the variation in the data better($2.18$ for patient adherence but not for physician perceptions of patient-agreement $7.45$). We can conclude that the absolute-value difference score model was not an adequate fit for either of the outcome variables, the difference score is an adequate model for the outcome concerning patient adherence, and that the polynomial regression would be the best model for the data using the physician perception outcome.
+
+
 \begin{table}[htp]
-\caption{This table is a replication of the Table 2 in Phillips et al. (2012) with the exception that we are only looking at the outcome regarding patient adherence where $* p <0.05$; $** p <0.01$; $*** p <.001$}
+\caption{This table is a replication of the Table 2 in Phillips et al. (2012) where $* p <0.05$; $** p <0.01$; $*** p <.001$}
 \begin{center}
 \label{tab:PhillipsTabReplication}
 \smallskip\noindent
@@ -573,7 +575,7 @@ Outcome                                   & \multicolumn{2}{l}{Constrained Model
                                           & $(X-Y)$                    & $R^2$               &  & $X$                     & $Y$                     &                       &                       &                       & $R^2$            &  &                                          &                                                \\
 \hline
 Patient Adherence                         & $\Sexpr{round(lmDiffcoef[2], 2)}^{***}$  & $\Sexpr{round(lmDiffR2,2)}^{***}$  &  & $\Sexpr{round(lmcoef[2],2)}^{**}$   & $\Sexpr{round(lmcoef[3],2)}^{***}$   &                       &                       &                       & $\Sexpr{round(lmR2,2)}^{**}$   &  & $\Sexpr{round(anova(lm, lmDiff)$F[2],2)}$   & $\Sexpr{round(anova(lmSquare, lmDiff)$F[2],2)}$   \\
-Physician perception of patient agreement & $\Sexpr{round(lm2Diffcoef[2],2)}$ & $\Sexpr{round(lm2DiffR2,3)}$ &  & $\Sexpr{round(lm2coef[2],2)}$  & $\Sexpr{round(lm2coef[2],2)}^{**}$  &                       &                       &                       & $\Sexpr{round(lm2R2,2)}^{***}$  &  & $\Sexpr{round(anova(lm2, lm2Diff)$F[2],2)}^{***}$ & $\Sexpr{round(anova(lm2Square, lm2Diff)$F[2],2)}^{**}$ \\
+Physician perception of patient agreement & $\Sexpr{round(lm2Diffcoef[2],2)}$ & $\Sexpr{round(lm2DiffR2,3)}$ &  & $\Sexpr{round(lm2coef[2],2)}$  & $\Sexpr{round(lm2coef[3],2)}^{**}$  &                       &                       &                       & $\Sexpr{round(lm2R2,2)}^{***}$  &  & $\Sexpr{round(anova(lm2, lm2Diff)$F[2],2)}^{***}$ & $\Sexpr{round(anova(lm2Square, lm2Diff)$F[2],2)}^{**}$ \\
 \hline
                                           & $|X-Y|$                    & $R^2$               &  & $X$                     & $Y$                     & $W$                     & $WX$                    & $WY$                    & $R^2$            &  &                                          &                                                \\
 \hline
@@ -697,7 +699,7 @@ plotly_POST(p, filename="PhillipsExSurface")
 # https://plot.ly/~nulloa1/145/
 @
 
-As we can see in the figures above, the first principal axes is the axis that makes the most sense. The support of the function lies where we have data. As we can imagine, as the two predictor variables increase, the response increases as well. This is examplified in Figure \ref{fig:phillipscentersurface}. The response variable(Z) is highest when the explanatory variables($X$ and $Y$) are highest as well. This makes sense because when the physician's rating of patient's health and the physician's estimate of how patient would rate their own health agree i.e. the patient and physician are in agreement about the situation, then the patient is more likely to follow the doctor's orders in the month following the visit. We can also see this in the surface plot. Notice that the lowest points in the surface are when the physician rating and the physician's perception of the patient's own rating are at odds with each other (points (-2,3,-3) or (-2,-3,3) in Figure \ref{fig:phillipscentersurface}). This also makes sense; if the doctor and patient don't agree with what is happening to the patient, then the patient is much less likely to follow through the doctors orders. The surface allows us to see how the two predictor variables intereact and affect the response.
+As we can see in the figures above, the first principal axes is the axis that makes the most sense. The support of the function lies where we have data. This line represnts the path in which the values of patients’ preferences for shared decision-making and the values of patients’ experiences of shared decision-making along their entire scales that optimize patient satisfaction. As we can imagine, as the two predictor variables increase, the response increases as well. This is examplified in Figure \ref{fig:phillipscentersurface}. The response variable(Z) is highest when the explanatory variables($X$ and $Y$) are highest as well. This makes sense because when the physician's rating of patient's health and the physician's estimate of how patient would rate their own health agree i.e. the patient and physician are in agreement about the situation, then the patient is more likely to follow the doctor's orders in the month following the visit. We can also see this in the surface plot. Notice that the lowest points in the surface are when the physician rating and the physician's perception of the patient's own rating are at odds with each other (points (-2,3,-3) or (-2,-3,3) in Figure \ref{fig:phillipscentersurface}). This also makes sense; if the doctor and patient don't agree with what is happening to the patient, then the patient is much less likely to follow through the doctors orders. The surface allows us to see how the two predictor variables intereact and affect the response.
 
 
   
@@ -743,10 +745,6 @@ Just like in Phillips et al. (2012), we also centered our variables to ease in i
 \end{enumerate}
 
 We also checked that our assumptions of normality and constant variance were not violated using the same methods that Dr. Phillips used: high leverage and influential points via Cook's D. We do not find any obvious violations in assumptions for either of the two examples. 
-
-We created a table similar to Table \ref{tab:PhillipsTabReplication} in Table \ref{tab:OurModelComparison} to help us collect our information about the confirmatory process which will in turn help us examine the criterion. 
-
-Looking at criterion 1, algebraic difference score compared to the unconstrained model, we confirmed that in both outcomes, the unconstrained model explained a significant amount of variation in the data (pval of $\Sexpr{anova(lmDiff, lm)$Pr[2]}$ and $\Sexpr{anova(lm2Diff, lm2)$Pr[2]}$, respectively). For criterion 2, the regression coefficients for both models were consistent with each other which is what we would expect. The difference in direction between the two models has to deal with the fact that one would be minimizing and the other is maximizing. Additionally, for both of the unconstrained algebraic models, the regression coefficients are significant. However, the regression coefficients for the unconstrained absolute difference models were not all significant leading us to believe that it would not be agood fit for the data. Criterion 3 and 4 were both met by both examples/models. They both suggest using something grater than a simple difference model although that should not be an unconstrained absolute difference model.
 
 <<Our_Data_ex, echo=FALSE, message=FALSE>>=
 d <- read.csv("../CurrentData/ModData_6_9.csv", header=TRUE)
@@ -844,6 +842,25 @@ plot(cook,ylab="Cooks distances")
 @
 
 
+<<our_data_table_exploration, echo=FALSE, results='asis', eval=FALSE>>=
+ourdf <- data.frame(Z=c(summary(d$OHrqW0 - 5)),
+                    X1=c(summary(d$HHhostW0 - 4)),
+                    Y1=c(summary(d$WHhostW0 - 4)),
+                    X2=c(summary(d$WWinstH0 - 2.5)),
+                    Y2=c(summary(d$HHinstW0 - 2.5))
+)
+colnames(ourdf) <- c("$Z$","$X_1$","$Y_1$","$X_2$","$Y_2$")
+print(xtable(t(ourdf),caption = c("Five number summary of response variable ($Z$) and explanotry variables ($X_1$,$Y_1$ and $X_2$,$Y_2$."), label = "tab:Ourdf"),, sanitize.rownames.function = function(x) {x})
+@
+
+
+
+
+We created a table similar to Table \ref{tab:PhillipsTabReplication} in Table \ref{tab:OurModelComparison} to help us collect our information about the confirmatory process which will in turn help us examine the criterion. 
+
+Looking at criterion 1, the unconstrained model, in both outcomes, explained a significant amount of variation in the data ($R^2 = .22$, pval of $\Sexpr{anova(lmDiff, lm)$Pr[2]}$ and $R^2 = .11$, pval of $\Sexpr{anova(lm2Diff, lm2)$Pr[2]}$, respectively). For criterion 2, the regression coefficients for both models were consistent with each other which is what we would expect. The difference in direction between the two models has to deal with the fact that one would be minimizing and the other is maximizing. Additionally, for both of the unconstrained algebraic models, the regression coefficients are significant. However, the regression coefficients for the unconstrained absolute difference models were not all significant leading us to believe that it would not be agood fit for the data. Criterion 3 and 4 were both met by both examples/models. All the F-ratios in Table \ref{tab:OurModelComparison} are significant (Criterion 3: $\Sexpr{round(anova(lm, lmDiff)$F[2],2)}^{***}$, $\Sexpr{round(anova(lm2, lm2Diff)$F[2],2)}^{***}$, and Criterion 4: $\Sexpr{round(anova(lmSquare, lmDiff)$F[2],2)}^{***}$, $\Sexpr{round(anova(lm2Square, lm2Diff)$F[2],2)}^{***}$). They both suggest using something grater than a simple difference model although that should not be an unconstrained absolute difference model.
+
+
 \begin{table}[htp]
 \caption{This table follows the same format as Table \ref{tab:PhillipsTabReplication}, in that it summarizes the confimatory approach to polynomial regression. Here we see that the   where $* p <0.05$; $** p <0.01$; $*** p <.001$}
 \begin{center}
@@ -855,13 +872,13 @@ plot(cook,ylab="Cooks distances")
 Outcome                                   & \multicolumn{2}{l}{Constrained Model}          &  & \multicolumn{6}{l}{Unconstrained Model}                                                                                                  &  & $F_c$                                    & $F_h$                                          \\ \cline{2-3} \cline{5-10}
                                           & $(X-Y)$                    & $R^2$               &  & $X$                     & $Y$                     &                       &                       &                       & $R^2$            &  &                                          &                                                \\
 \hline
-Relationship Quality w/ Hostility                        & $\Sexpr{lmDiffcoef[2]}$  & $\Sexpr{lmDiffR2}$  &  & $\Sexpr{lmcoef[2]}$   & $\Sexpr{lmcoef[3]}$   &                       &                       &                       & $\Sexpr{lmR2}$   &  & $\Sexpr{anova(lm, lmDiff)$F[2]}$   & $\Sexpr{anova(lmSquare, lmDiff)$F[2]}$   \\
-Relationship Quality w/ Instability & $\Sexpr{lm2Diffcoef[2]}$ & $\Sexpr{lm2DiffR2}$ &  & $\Sexpr{lm2coef[2]}$  & $\Sexpr{lm2coef[2]}$  &                       &                       &                       & $\Sexpr{lm2R2}$  &  & $\Sexpr{anova(lm2, lm2Diff)$F[2]}$ & $\Sexpr{anova(lm2Square, lm2Diff)$F[2]}$ \\
+Relationship Quality w/ Hostility                        & $\Sexpr{round(lmDiffcoef[2],2)}$  & $\Sexpr{round(lmDiffR2,2)}$  &  & $\Sexpr{round(lmcoef[2],2)}^{***}$   & $\Sexpr{round(lmcoef[3],2)}^{***}$   &                       &                       &                       & $\Sexpr{round(lmR2,2)}^{***}$   &  & $\Sexpr{round(anova(lm, lmDiff)$F[2],2)}^{***}$   & $\Sexpr{round(anova(lmSquare, lmDiff)$F[2],2)}^{***}$   \\
+Relationship Quality w/ Instability & $\Sexpr{round(lm2Diffcoef[2],2)}$ & $\Sexpr{round(lm2DiffR2,2)}$ &  & $\Sexpr{round(lm2coef[2],2)}^{*}$  & $\Sexpr{round(lm2coef[2],2)}^{***}$  &                       &                       &                       & $\Sexpr{round(lm2R2,2)}^{***}$  &  & $\Sexpr{round(anova(lm2, lm2Diff)$F[2],2)}^{***}$ & $\Sexpr{round(anova(lm2Square, lm2Diff)$F[2],2)}^{***}$ \\
 \hline
                                           & $|X-Y|$                    & $R^2$               &  & $X$                     & $Y$                     & $W$                     & $WX$                    & $WY$                    & $R^2$            &  &                                          &                                                \\
 \hline
-Patient Adherence                         & $\Sexpr{lmAbscoef[2]}$   & $\Sexpr{lmAbsR2}$   &  & $\Sexpr{lmWcoef[2]}$  & $\Sexpr{lmWcoef[3]}$  & $\Sexpr{lmWcoef[4]}$  & $\Sexpr{lmWcoef[5]}$  & $\Sexpr{lmWcoef[6]}$  & $\Sexpr{lmWR2}$  &  & $\Sexpr{anova(lmAbs, lmW)$F[2]}$   & $\Sexpr{anova(lmAbs, lmWSquare)$F[2]}$   \\
-Physician perception of patient agreement & $\Sexpr{lm2Abscoef[2]}$  & $\Sexpr{lm2AbsR2}$  &  & $\Sexpr{lm2Wcoef[2]}$ & $\Sexpr{lm2Wcoef[3]}$ & $\Sexpr{lm2Wcoef[4]}$ & $\Sexpr{lm2Wcoef[5]}$ & $\Sexpr{lm2Wcoef[6]}$ & $\Sexpr{lm2WR2}$ &  & $\Sexpr{anova(lm2Abs, lm2W)$F[2]}$ & $\Sexpr{anova(lm2Abs, lm2WSquare)$F[2]}$ \\
+Relationship Quality w/ Hostility                      & $\Sexpr{round(lmAbscoef[2],2)}^{**}$   & $\Sexpr{round(lmAbsR2,2)}^{**}$   &  & $\Sexpr{round(lmWcoef[2],2)}^{*}$  & $\Sexpr{round(lmWcoef[3],2)}^{**}$  & $\Sexpr{round(lmWcoef[4],2)}$  & $\Sexpr{round(lmWcoef[5],2)}$  & $\Sexpr{round(lmWcoef[6],2)}$  & $\Sexpr{round(lmWR2,2)}^{***}$  &  & $\Sexpr{round(anova(lmAbs, lmW)$F[2],2)}^{***}$   & $\Sexpr{round(anova(lmAbs, lmWSquare)$F[2],2)}^{***}$   \\
+Relationship Quality w/ Instability & $\Sexpr{round(lm2Abscoef[2],2)}^{***}$  & $\Sexpr{round(lm2AbsR2,2)}^{***}$  &  & $\Sexpr{round(lm2Wcoef[2],2)}$ & $\Sexpr{round(lm2Wcoef[3],2)}^{***}$ & $\Sexpr{round(lm2Wcoef[4],2)}$ & $\Sexpr{round(lm2Wcoef[5],2)}$ & $\Sexpr{round(lm2Wcoef[6],2)}$ & $\Sexpr{round(lm2WR2,2)}^{***}$ &  & $\Sexpr{round(anova(lm2Abs, lm2W)$F[2],2)}^{***}$ & $\Sexpr{round(anova(lm2Abs, lm2WSquare)$F[2],2)}^{***}$ \\
 \hline
 \end{tabular}}
 \end{center}
@@ -875,7 +892,14 @@ Recall the fitted quadratic polynomial for our example using precieved relations
 \hat{z} &= \Sexpr{round(coef(lm2Square)[1], 2)} + \Sexpr{round(coef(lm2Square)[2], 2)}x + \Sexpr{round(coef(lm2Square)[3], 2)}y + \Sexpr{round(coef(lm2Square)[4], 2)} x^2 + \Sexpr{round(coef(lm2Square)[5], 2)} xy + \Sexpr{round(coef(lm2Square)[6], 2)} y^2 
 \end{align} \\
 
-Using $\verb|Plotly|$, we can look at and manipulate the predicted surface by following this link \href{https://plot.ly/~nulloa1/147/}{link}. I have included some screenshots here so you can get a feel for the convexity of the surface which will help in the interpretations of the key components in the surface. 
+We can see the estimates of the model and thier standard errors in Table \ref{tab:Ourdf}. As we can see only two of the variables are found to be significant. While this is not ideal, for the sake of this example we will continue on.
+<<model_est, echo=FALSE, results='asis'>>=
+MEdf <- summary(lm2Square)$coefficients[,c(1,2,4)]
+rownames(MEdf) <- c("$b_0$","$b_1$","$b_2$","$b_3$","$b_4$","$b_5$")
+print(xtable(t(MEdf),caption = c("Model estimates and SE for polynomial regression model using relationship instability ratings as a explanatory variables."), label = "tab:Ourdf"),, sanitize.rownames.function = function(x) {x})
+@
+
+Using $\verb|Plotly|$, we can look at and manipulate the predicted surface by following this \href{https://plot.ly/~nulloa1/147/}{link}. I have included some screenshots here so you can get a feel for the convexity of the surface which will help in the interpretations of the key components in the surface. 
 <<Our_Predictions, echo=FALSE, message=FALSE, warning=FALSE>>=
 # Make Predictions
 n     <- 100
@@ -962,7 +986,7 @@ grid.arrange(a, b)
 
 @
 
-Because we have a convex surface, our interpetations of the principal axis are flipped; the first principal axis, Equation \ref{eq:Our_pa1}, represents the line in the surface where the outcomes decreases the most and the second principal axis, Equaion \ref{eq:Our_pa2}, is where the surface has the lowest downward curvature. So the first principal axis shows us where relationship qualtiy can go downhil rather fast. It shows high level of percieved relationship instability by the wife. And likewise, the second princpal axis shows that relationship quality does not decrease that much when the wife's percieved relationship instability hangs around 0 (in the middle of the observed range). There is an issue with the first principal axis, namely that the ranges we would have to make inferences on our out of the bounds of the data. This is an issue because it basically predicting way outside of the scope of our data, so we can't really trust any inference made on the first principal axis similar to how the second principal axis in Phillips(2012) study was out of the bounds of the data. From our surface, we can gather most integral to relationship quality is the wife's perception of instability. When the wife's rating of the relationship instability is held constant and one move along the husband's rating of relationship instability the observed relationship quality does no change too much. If the opposite is considered i.e. hold husband's rating of relationship instability the observed relationship quality and move along the wife's rating of relationship instability the observed relationship quality there is a great change in predicted observed relationship quality.
+Because we have a convex surface, our interpetations of the principal axis are flipped; the first principal axis, Equation \ref{eq:Our_pa1}, represents the line in the surface where the outcomes decreases the most and the second principal axis, Equaion \ref{eq:Our_pa2}, is where the surface has the lowest downward curvature. So the first principal axis shows us where relationship qualtiy can go downhil rather fast. It shows high level of percieved relationship instability by the wife. And likewise, the second princpal axis shows that relationship quality does not decrease that much when the wife's percieved relationship instability hangs around 0 (in the middle of the observed range). There is an issue with the first principal axis, namely that the ranges we would have to make inferences on our out of the bounds of data. This is an issue because it basically predicts way outside of the scope of our data, so we can't really trust any inference made on the first principal axis similar to how the second principal axis in Phillips(2012) study was out of the bounds of the data. From our surface, we can gather most integral to relationship quality is the wife's perception of instability. When the wife's rating of the relationship instability is held constant and one move along the husband's rating of relationship instability the observed relationship quality does no change too much. If the opposite is considered i.e. hold husband's rating of relationship instability the observed relationship quality and move along the wife's rating of relationship instability the observed relationship quality there is a great change in predicted observed relationship quality.
 
 There are some issues with our data that affect inferences. As we can see from Figure \ref{fig:data_skew_plot}, our predictor variables are very left skewed. The inferences we can make when the relationship has a high percieved instability are fairly well rounded, but we are lacking data in the low percieved relationship instability realm as see in  Figure \ref{fig:data_dist_plot}. The method does seem to be allow us to easily visualize the realm of possible combinations of the predictor variables and their effect on the predicted response. Ultimately, I feel that the predictor variables need to be fairly well distributed in order to make proper inferences.
 
