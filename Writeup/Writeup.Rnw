@@ -12,7 +12,7 @@
 
 \lhead{Nehemias Ulloa}
 \chead{CC}
-\rhead{v8}
+\rhead{v9}
 \lfoot{}
 \cfoot{\thepage}
 \rfoot{}
@@ -61,9 +61,9 @@ set.seed(808)
 %           First Section            %
 %------------------------------------%
 \section{Introduction}
-Dyadic data are often used by family researchers who are interested in comparing the attitudes, behaviors, and opinions of husbands and wives, parents and children, and romantic partners towards each other. The dyadic structure can come from inter-individual reporting (e.g. comparison of husband's report of his support toward his wife to the wife's report of her support towards the husband), or it can come from intra-individual reporting (e.g. comparison of an observer's report of husband's hostility to an observer's report of the wife's hostility). \\
+Dyadic data are often used by family researchers who are interested in comparing the attitudes, behaviors, and opinions of husbands and wives, parents and children, and romantic partners towards each other. The dyadic structure can come from inter-individual reporting (e.g. comparison of husband's report of his support toward his wife to the wife's report of husband's support), or it can come from intra-individual reporting (e.g. comparison of an observer's report of husband's hostility to an observer's report of the wife's hostility). \\
 
-One of the most common methods in analyzing dyadic data is difference scores. Difference scores are used to see how well two variables or indices 'fit' together. Some of the most common difference scores use the algebraic, absolute, and squared difference between the two variables as shown by Equations \ref{eq:diffscore}, \ref{eq:absdiffscore}, and \ref{eq:squarediffscore} respectively. These difference scores are often used to predict for an outcome variable labeled $Z$ as shown in the equations below,
+The most common methods in analyzing dyadic data is difference scores. Difference scores are used to see how well two variables or indices 'fit' together. Some of the most common difference scores use the algebraic, absolute, and squared difference between the two variables ($X$ and $Y$) as shown by Equations \ref{eq:diffscore}, \ref{eq:absdiffscore}, and \ref{eq:squarediffscore} respectively. These difference scores are often used to predict for an outcome variable ($Z$) as shown in the equations below,
 
 \begin{align}
 Z &= \beta_0 + \beta_1 (X - Y) + \epsilon \label{eq:diffscore} \\
@@ -71,9 +71,9 @@ Z &= \beta_0 + \beta_1 |X - Y| + \epsilon \label{eq:absdiffscore} \\
 Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 \end{align}\\
 
-There are many methodological issues associated with difference scores. Edwards (1993) describes many of these issues in his paper \emph{Problems with the Use of Profile Similarity Indices in the Study of Congruence in Organizational Research} \cite{Edwards_Prob_Diff_Scores_93}. Perhaps the most important reason why statisticians avoid using difference scores is that it makes it difficult to identify the underlying mechanism. This happens because, in using difference scores, two distinct measures are turned into one entity so it becomes difficult to tease out the effect of one variable relative to another. These individual effects are what we interested in. Difference scores fail to tell the researcher which variables contribute the most to the response. We also lose information when using difference scores. There are assumptions used with difference scores namely, that the difference between two entities to the outcome variable are ssumed to be symmetric and that the outcome is constant at all points where the two entities are equal. These are assumptions that we need to look at by examing the absolute level of both measures and its direction. \\
+There are many methodological issues associated with difference scores. Edwards (1993) describes many of these issues in his paper \emph{Problems with the Use of Profile Similarity Indices in the Study of Congruence in Organizational Research} \cite{Edwards_Prob_Diff_Scores_93}. Perhaps the most important reason why statisticians avoid using difference scores is that it makes it difficult to identify the underlying mechanism. This happens because, in using difference scores, two distinct measures are turned into one entity so it becomes difficult to tease out the effect of one variable relative to another. These individual effects are what we interested in. Difference scores fail to tell the researcher which variables contribute the most to the response. We also lose information when using difference scores. There are assumptions used with difference scores namely, that the difference between two entities to the outcome variable are ssumed to be symmetric and that the outcome is constant at all points where the two entities are equal. These are assumptions that we need to look at by examining the absolute level of both measures and its direction. \\
 
-In his paper, \emph{On the Use of Polynomial Regression Equations as an Alternative to Difference Scores in Organizational Research}, Dr. Edwards suggested using "polynomial regression equations containing the...[two variables]...composing the difference and higher-order terms."(Edwards 1993)\cite{Edwards_PRAlt_93} as an alternative to difference scores. An example would be to take the two predictor variables $(X,Y)$, their squares $(X^2,Y^2)$, and their products $(XY,X^2Y,XY^2)$. A successful application of polynomial regression is presented by Phillips, Diefenbach, Kronish, Negron, and Horowitz (2014) in their paper titled \textit{The Necessity-Concerns Framework: a Multidimensional Theory Benefits from Multidimensional Analysis}\cite{Phillips2014}. They use polynomial regression to assess stroke survivors' concerns about medication and their necessity beliefs effect on their adherence to medication whose goal is stroke prevention. \\
+In his paper, \emph{On the Use of Polynomial Regression Equations as an Alternative to Difference Scores in Organizational Research}, Dr. Edwards suggested using "polynomial regression equations containing the...[two variables]...composing the difference and higher-order terms."(Edwards 1993)\cite{Edwards_PRAlt_93} as an alternative to difference scores. An example would be to take the two predictor variables $(X,Y)$, their squares $(X^2,Y^2)$, and their products $(XY,X^2Y,XY^2)$. A successful application of polynomial regression is presented by Phillips, Diefenbach, Kronish, Negron, and Horowitz (2014) in their paper titled \textit{The Necessity-Concerns Framework: a Multidimensional Theory Benefits from Multidimensional Analysis}\cite{Phillips2014}. They use polynomial regression to assess stroke survivors' concerns about medication and their beliefs effect on their adherence to medication whose goal is stroke prevention. \\
 
 One potential advantage of polynomial regression is that it provides more information about the underlying process affecting the dyadic data. However, the polynomial models are grounded in more complex linear algebra that has not been overtly developed and displayed, and the results from the polynomial model will be more difficult to interpret. In this paper, our goal is to assess the strengths and limitations of polynomial regression. We will do this by first replicating the results of a published paper, and then we will apply the method to a new dyadic data set that compares wives and husbands impressions of each other's behavior. Before we jump into our examples, we develop the algebra of response surface methodology that polynomial regression uses in order to appreciate and understand the complexity. We will examine and interpet the predictive surface using 3D graphs. Response surfaces depend on indentifying principal axes, as we will in a connonical sense, and indentifying principal axes will require us to discuss stationarity points.\\
 
@@ -139,7 +139,7 @@ QuadFit <- lm(Z ~ X + Y + I(X^2) + I(X*Y) + I(Y^2), data=d)
 \subsection{Analyze/Properties}
 
 \subsubsection{Stationary Points: How and Why?}
-One of the features of our model (Eq \ref{eq:quadreg}) we are interested in are the stationary points.  The stationary points are the points where the slope of the response is zero no matter which direction you take the derivative. This corresponds to find the minimum and maximum of a function from calculus; it is a similar concept except now we have a three dimensional surface rather than just a two-dimensional surface. We are interested in the stationarity points because they allow us to see which values of our explanatory variables provide the ``best'' fit for the response (``best'' meaning minimum or maximum). The benefit of knowing the stationary points is it gives us a goal to reach or not reach depending on the situation. (We will see examples of the usefulness of stationary points later.) Using our intuition from calculus, we take the derivatives of Equation \ref{fittedmod} with respect to $x$ and $y$, set the derivatives equal to zero, and solve for $x$ and $y$ in terms of {\bf b} and {\bf B} to find the stationarity points (we'll refer to these points as $x_0$ and $y_0$). \\
+As we hinted to earlier, polynomial regression draws on ideas from response surface methodology, starting with stationarity points. The stationary points are the points on the $X$ and the $Y$ - axes where the slope of the response ($Z$) is zero no matter which direction you take the derivative. This corresponds to find the minimum and maximum of a function from calculus; it is a similar concept except now we have a three dimensional surface rather than just a two-dimensional surface. We are interested in the stationarity points because they allow us to see which values of our explanatory variables provide the ``best'' fit for the response (``best'' meaning minimum or maximum). The benefit of knowing the stationary points is it gives us a goal to reach or not reach depending on the situation. (We will see examples of the usefulness of stationary points later.) Using our intuition from calculus, we take the derivatives of Equation \ref{fittedmod} with respect to $x$ and $y$, set the derivatives equal to zero, and solve for $x$ and $y$ in terms of {\bf b} and {\bf B} to find the stationarity points (we'll refer to these points as $x_0$ and $y_0$). \\
 
 To find the stationarity points, let's begin with taking the partial derivatives with respect to $x$ and $y$
 \begin{align*}
@@ -232,7 +232,9 @@ predstatpts
 
 %-------Principal Axes--------%
 \subsubsection{Principal Axes}
-The purpose of principal axes is to measure the amount of bend in certain direction at a certain point. In response surface methodology, and therefore polynonial regression, we focus on the principal axes in two directions based at the stationary points. Principal axes also help to make interpretations of the model easier by rotating the axes so that we can remove all the cross-product terms and let the surface be defined by the principal axes. Khuri and Cornell (1996), {\it Response Surfaces: Designs and Analyses} \cite{khuri1996response}, lays out the process of deriving what are commonly known as the canonical equations. The canonical equations come from transforming the response system to its canonical form (this is the name of the form where the surface resides with its cross-product terms are removed); this process occurs because it represents the response centered around the stationarity points. These canonical equations are then used in finding the principal axes. In order to complete this process, new axes are created which the surface will be on. This maybe useful in some applications, but the problem is that it becomes difficult to relate the response to our original variables. Essentially it becomes difficult to interpret how our original variables are affecting the response. So we focus on the process of transforming these canonical equations back to functions of the original variables i.e. transform our principal axes back to the original variables. By doing this we get the benefits of the principal axes related to our original variables.\\
+Once stationarity points are established, they can be used to find our second key component, the principal axes of the model. The purpose of principal axes is to measure the amount of ``bend'' in certain direction at a certain point and make interpretations of the model easier by rotating the axes so that we can remove all the cross-product terms. In response surface methodology, and therefore polynonial regression, we focus on the principal axes in two directions based at the stationary points and the predicted reponse at the stationarity points. Khuri and Cornell (1996), {\it Response Surfaces: Designs and Analyses} \cite{khuri1996response}, lays out the process of deriving what are commonly known as the canonical equations. The canonical equations come from transforming the response system to what is called its canonical form (this is the name of the form where the surface resides when its cross-product terms are removed); this process occurs because it represents the response centered around the stationarity points. 
+
+These canonical equations are then used in finding the principal axes. In order to complete this process, new axes (principal axes) are created which the surface will be on. This maybe useful in some applications, but they are often difficult to relate the response surface on the principal axes to our original variables. Essentially it becomes difficult to interpret how our original variables are affecting the response surface on the principal axes. So we focus on the process of transforming these canonical equations back to functions of the original variables i.e. transform our principal axes back to the original variables. By doing this, we get the benefits of the principal axes and the ease of interpretation using the original variables.\\
 
 
 To solve for principal axes, we need to first solve for eigenvalues. These eigenvalues have meaning in the canonical setting(when the surface is algined on the principal axes) but for our purposes, we will not focus on those interpretations. The equations for solving for the eigenvalues comes from Khuri and Cornell (1996) and are as follows:
@@ -357,10 +359,17 @@ m_{11}x &- m_{11}x_0 + m_{21}y - m_{21}y_0 = 0 \\
 \rightarrow  y &= -P_{21}x + P_{21}x_0 + y_0 \\
 \end{align*}
 \begin{align}
-\quad        y &= -P_{21}x + P_{20} \label{eq:principalaxes}
+\quad        y &= -P_{21}x + P_{20} \label{eq:principalaxes1}
 \end{align}
 
 where $P_{20} = y_0 + P_{21} x_0$ and $P_{21} = \frac{b_5 - b_3 - \sqrt{(b_5 - b_3)^2 + b_4^2}}{b_4}$. \\
+
+
+Using similar algebra we can find the second principal axes:
+\begin{align}
+\quad        y &= -P_{11}x + P_{10} \label{eq:principalaxes2}
+\end{align}
+where $P_{10} = y_0 + P_{11} x_0$ and $P_{11} = \frac{b_5 - b_3 + \sqrt{(b_5 - b_3)^2 + b_4^2}}{b_4}$.
 
 Now we have transformed our principal axes back to functions of our original variables. This will make them easier to plot and interpret. In a concave surface, the first principal axis (Eq \ref{eq:principalaxes}) tells us where the surface has the lowest downward curvature. This is where the two explanatory variables create a maximized surface that decreases the least as we move along the line. The second principal axis is the opposite of the first principal axis. The second principal axis is the line in the surface where the outcomes decreases the most. It is the line in the surface where we the two explanotry variables create the greatest decrease in the response. The simplest case would be when the first principal axis is parallel to the line in the surface where $X=Y$ and the second principal axis is parallel to the line in the surface where $X=-Y$. If these axes are parallel to these lines, then our intuition about our explanatory variables and their congruence, or lack of, would be correct. \\
 
@@ -412,9 +421,18 @@ X_{i}   &- \text{physician's rating of patient } i\text{'s health} \\
 Y_{i}   &- \text{physician's estimate of how patient } i \text{ would rate of their own health} \\
 \end{align*}
 
-There are two parts to applying polynomial regression. First they check whether or not it is appropriate to use polynomial regression, and the second, if appropriate, they would check any hypothesis they had. In this paper, they had no preformed hypothesis so they explored the surface to see what they could learn. \\
+<<Phillips_data_table_exploration, echo=FALSE, results='asis'>>=
+Phillipsdf <- data.frame(Z1=c(summary(d$z)),
+                         Z2=c(summary(d$z2)),
+                         X=c(summary(d$x)),
+                         Y=c(summary(d$y))
+)
+print(xtable(t(Phillipsdf),caption = c("Five number summary of response variables($Z_1$ and $Z_2$) and explanotry variable $X$ and $Y$."), label = "tab:Phillipsdf"))
+@
 
-They start by determining whether or not they are supposed to use polynomial regression. Before we go through their process of appropriateness, we looked at their data which we show in Table \ref{tab:Phillipsdf}. As we can see for patient-reported adherence a month after the dr. visit for patient $i$, most of the data is greater than 0. Most of the datafor the second response variable, physician's percieved agreement with patient $i$ on the illness treatment, lies between $3$ and $5$. It is surprising that a large part of the data lives in a small range.
+There are two parts to applying polynomial regression. First they check whether or not it is appropriate to use polynomial regression, and the second, if appropriate, they would check any hypothesis they had. In this paper, they had no pre-formed hypothesis so they explored the surface to see what they could learn. \\
+
+They start by determining whether or not they should use polynomial regression. Before we go through their process of appropriateness, we looked at their data which we show in Table \ref{tab:Phillipsdf}. As we can see for patient-reported adherence a month after the dr. visit for patient $i$, most of the data is greater than 0. Most of the datafor the second response variable, physician's percieved agreement with patient $i$ on the illness treatment, lies between $3$ and $5$. It is surprising that a large part of the data lives in a small range.
 
 <<Phillips_Data_Setup, echo=FALSE, warning=FALSE, message=FALSE>>=
 d <- read.spss("../Phillips_Data/Congruence PRIM.sav", to.data.frame=TRUE)
@@ -454,17 +472,6 @@ d$w2[which(!is.na(d$w2) & d$x2 > d$y2)] <- 0
 d$w2[which(!is.na(d$w2) & d$x2 == d$y2)] <- sample(c(0,1),length(d$w[which(!is.na(d$w2) & d$x2 == d$y2)]), replace=TRUE)
 
 @
-
-
-<<Phillips_data_table_exploration, echo=FALSE, results='asis'>>=
-Phillipsdf <- data.frame(Z1=c(summary(d$z)),
-                         Z2=c(summary(d$z2)),
-                         X=c(summary(d$x)),
-                         Y=c(summary(d$y))
-)
-print(xtable(t(Phillipsdf),caption = c("Five number summary of response variables($Z_1$ and $Z_2$) and explanotry variable $X$ and $Y$."), label = "tab:Phillipsdf"))
-@
-
 
 <<Phillips__Model, echo=FALSE, warning=FALSE, message=FALSE>>=
 # Z: patient-reported adherence a month after the dr. visit 
@@ -1016,6 +1023,23 @@ ggplot(skewcomb, aes(x=Instability, y=ObservedRQ, color=Reporter)) + geom_point(
 \bibliographystyle{siam}
 
 \bibliography{writeup_references}
+
+
+
+
+
+%------------------------------------%
+%             Appendix               %
+%------------------------------------%
+
+
+
+\appendix
+\section{Source code}
+Presented here is all the R code used in the Creative Component:
+
+<<some-code, ref.label=all_labels()[-1], echo=TRUE, eval=FALSE>>=
+@
 
 
 
