@@ -12,7 +12,7 @@
 
 \lhead{Nehemias Ulloa}
 \chead{CC}
-\rhead{v9}
+\rhead{v10}
 \lfoot{}
 \cfoot{\thepage}
 \rfoot{}
@@ -71,7 +71,7 @@ Z &= \beta_0 + \beta_1 |X - Y| + \epsilon \label{eq:absdiffscore} \\
 Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 \end{align}\\
 
-There are many methodological issues associated with difference scores. Edwards (1993) describes many of these issues in his paper \emph{Problems with the Use of Profile Similarity Indices in the Study of Congruence in Organizational Research} \cite{Edwards_Prob_Diff_Scores_93}. Perhaps the most important reason why statisticians avoid using difference scores is that it makes it difficult to identify the underlying mechanism. This happens because, in using difference scores, two distinct measures are turned into one entity so it becomes difficult to tease out the effect of one variable relative to another. These individual effects are what we interested in. Difference scores fail to tell the researcher which variables contribute the most to the response. We also lose information when using difference scores. There are assumptions used with difference scores namely, that the difference between two entities to the outcome variable are ssumed to be symmetric and that the outcome is constant at all points where the two entities are equal. These are assumptions that we need to look at by examining the absolute level of both measures and its direction. \\
+There are many methodological issues associated with difference scores. Edwards (1993) describes many of these issues in his paper \emph{Problems with the Use of Profile Similarity Indices in the Study of Congruence in Organizational Research} \cite{Edwards_Prob_Diff_Scores_93}. Perhaps the most important reason why statisticians avoid using difference scores is that it makes it difficult to identify the underlying mechanism. This happens because, in using difference scores, two distinct measures are turned into one entity so it becomes difficult to tease out the effect of one variable relative to another. These individual effects are what we interested in. Difference scores fail to tell the researcher which variables contribute the most to the response. We also lose information when using difference scores. There are assumptions used with difference scores namely, that the difference between two entities to the outcome variable are ssumed to be symmetric and that the outcome is constant at all points where the two entities are equal. For instance, consider the line $y=x$, the assumptions with difference scores would assume that as you move accross the line the response remains constant. It is very difficult assumption to hold true as we will see in our example. These are assumptions that we need to look at by examining the absolute level of both measures and its direction. \\
 
 In his paper, \emph{On the Use of Polynomial Regression Equations as an Alternative to Difference Scores in Organizational Research}, Dr. Edwards suggested using "polynomial regression equations containing the...[two variables]...composing the difference and higher-order terms."(Edwards 1993)\cite{Edwards_PRAlt_93} as an alternative to difference scores. An example would be to take the two predictor variables $(X,Y)$, their squares $(X^2,Y^2)$, and their products $(XY,X^2Y,XY^2)$. A successful application of polynomial regression is presented by Phillips, Diefenbach, Kronish, Negron, and Horowitz (2014) in their paper titled \textit{The Necessity-Concerns Framework: a Multidimensional Theory Benefits from Multidimensional Analysis}\cite{Phillips2014}. They use polynomial regression to assess stroke survivors' concerns about medication and their beliefs effect on their adherence to medication whose goal is stroke prevention. \\
 
@@ -83,7 +83,7 @@ One potential advantage of polynomial regression is that it provides more inform
 %          Second Section            %
 %------------------------------------%
 \section{The Model}
-The linear regression model (Eq \ref{eq:linreg}) is familiar to most researchers; it is often used in research due in part to the ease and familiarity of the interpretations of the parameters and the ease of computation. A slight tweak to simple linear models is to include two explanatory variables as in Eq \ref{eq:linreg2}. Often these models also include their interactions e.g $z = a + bx + cy + dxy$. We call Eq \ref{eq:linreg2} the linear difference model; this particular model does not contain an interaction nor a seperate parameter for each varaible. The lack of parameters is what leads to issues regarding interpretability of the difference.
+The linear regression model (Eq \ref{eq:linreg}) is familiar to most researchers; it is often used in research due in part to the ease and familiarity of the interpretations of the parameters and the ease of computation. A slight tweak to simple linear models is to include two explanatory variables as in Eq \ref{eq:linreg2}. We call Eq \ref{eq:linreg2} the linear difference model; this particular model does not contain an interaction nor a seperate parameter for each varaible. The lack of parameters is what leads to issues regarding interpretability of the difference. It is difficult to tease out which explanatory variable is causing more change to the response when you are only considering the difference of the two variables.
 
 \begin{align}
 Z &= \beta_0 + \beta_1 X + \epsilon \label{eq:linreg} \\
@@ -183,7 +183,7 @@ So our stationary points are
 x_0 &= \frac{b_2 b_4 - 2 b_5 b_1}{4 b_5 b_3 - b_4^2} \label{eq:xstatpt} \\
 y_0 &= \frac{b_1 b_4 + 2 b_2 b_3}{4 b_5 b_3 - b_4^2} \label{eq:ystatpt}
 \end{align}
-These points represent the values in our predictors that will optimize our response. Optimizing the response either means a minimum or maximum depending on the surface shape.\\
+These points represent the values in our predictors that will optimize our response. Optimizing the response means either a minimum or maximum depending on the surface shape.\\
 
 Using our output from the $\verb|lm|$ function noted earlier in $\verb|R|$, we can get the stationary points. Note we can use other cumputing programs as well as $\verb|R|$ (e.g. $\verb|SAS|$, $\verb|MPlus|$, etc.) The $\verb|R|$ code is as follows:
 <<stat_pts_function, echo=TRUE, eval=TRUE>>=
@@ -232,9 +232,9 @@ predstatpts
 
 %-------Principal Axes--------%
 \subsubsection{Principal Axes}
-Once stationarity points are established, they can be used to find our second key component, the principal axes of the model. The purpose of principal axes is to measure the amount of ``bend'' in certain direction at a certain point and make interpretations of the model easier by rotating the axes so that we can remove all the cross-product terms. In response surface methodology, and therefore polynonial regression, we focus on the principal axes in two directions based at the stationary points and the predicted reponse at the stationarity points. Khuri and Cornell (1996), {\it Response Surfaces: Designs and Analyses} \cite{khuri1996response}, lays out the process of deriving what are commonly known as the canonical equations. The canonical equations come from transforming the response system to what is called its canonical form (this is the name of the form where the surface resides when its cross-product terms are removed); this process occurs because it represents the response centered around the stationarity points. 
+Once stationarity points are established, they can be used to find our second key component, the principal axes of the model. The purpose of principal axes is to measure the amount of ``bend'' in certain direction at a certain point and make interpretations of the model easier by rotating the axes so that we can remove all the cross-product terms. In response surface methodology, and therefore polynonial regression, we focus on the principal axes in two directions based at the stationary points and the predicted reponse at the stationarity points. Khuri and Cornell (1996), {\it Response Surfaces: Designs and Analyses} \cite{khuri1996response}, lays out the process of deriving what are commonly known as the canonical equations. The canonical equations come from transforming the response system to what is called its canonical form (this is the name of the form where the surface resides when its cross-product terms are removed); this process occurs because it represents the response centered around the stationarity points.\\
 
-These canonical equations are then used in finding the principal axes. In order to complete this process, new axes (principal axes) are created which the surface will be on. This maybe useful in some applications, but they are often difficult to relate the response surface on the principal axes to our original variables. Essentially it becomes difficult to interpret how our original variables are affecting the response surface on the principal axes. So we focus on the process of transforming these canonical equations back to functions of the original variables i.e. transform our principal axes back to the original variables. By doing this, we get the benefits of the principal axes and the ease of interpretation using the original variables.\\
+These canonical equations are then used in finding the principal axes. In order to complete this process, new axes (principal axes) are created which the surface will be on. This maybe useful in some applications, but it is often difficult to relate the response surface on the principal axes to our original variables. Essentially it becomes difficult to interpret how our original variables are affecting the response surface on the principal axes. So we focus on the process of transforming these canonical equations back to functions of the original variables i.e. transform our principal axes back to the original variables. By doing this, we get the benefits of the principal axes and the ease of interpretation using the original variables.\\
 
 
 To solve for principal axes, we need to first solve for eigenvalues. These eigenvalues have meaning in the canonical setting(when the surface is algined on the principal axes) but for our purposes, we will not focus on those interpretations. The equations for solving for the eigenvalues comes from Khuri and Cornell (1996) and are as follows:
@@ -369,11 +369,11 @@ Using similar algebra we can find the second principal axes:
 \begin{align}
 \quad        y &= -P_{11}x + P_{10} \label{eq:principalaxes2}
 \end{align}
-where $P_{10} = y_0 + P_{11} x_0$ and $P_{11} = \frac{b_5 - b_3 + \sqrt{(b_5 - b_3)^2 + b_4^2}}{b_4}$.
+where $P_{10} = y_0 + P_{11} x_0$ and $P_{11} = \frac{b_5 - b_3 + \sqrt{(b_5 - b_3)^2 + b_4^2}}{b_4}$.\\
 
-Now we have transformed our principal axes back to functions of our original variables. This will make them easier to plot and interpret. In a concave surface, the first principal axis (Eq \ref{eq:principalaxes}) tells us where the surface has the lowest downward curvature. This is where the two explanatory variables create a maximized surface that decreases the least as we move along the line. The second principal axis is the opposite of the first principal axis. The second principal axis is the line in the surface where the outcomes decreases the most. It is the line in the surface where we the two explanotry variables create the greatest decrease in the response. The simplest case would be when the first principal axis is parallel to the line in the surface where $X=Y$ and the second principal axis is parallel to the line in the surface where $X=-Y$. If these axes are parallel to these lines, then our intuition about our explanatory variables and their congruence, or lack of, would be correct. \\
+Now we have transformed our principal axes back to functions of our original variables. This will make them easier to plot and interpret. In a concave surface, the first principal axis (Eq \ref{eq:principalaxes1}) tells us where the surface has the lowest downward curvature. This is where the two explanatory variables create a maximized surface that decreases the least as we move along the line. The second principal axis is the opposite of the first principal axis. The second principal axis is the line in the surface where the outcomes decreases the most. It is the line in the surface where we the two explanotry variables create the greatest decrease in the response. The simplest case would be when the first principal axis is parallel to the line in the surface where $X=Y$ and the second principal axis is parallel to the line in the surface where $X=-Y$. If these axes are parallel to these lines, then our intuition about our explanatory variables and their congruence, or lack of, would be correct. \\
 
-We can easily create a function in $\verb|R|$ to take the $\verb|lm|$ output to get the principal axis (Eq \ref{eq:principalaxes}):
+We can easily create a function in $\verb|R|$ to take the $\verb|lm|$ output to get the principal axis (Eq \ref{eq:principalaxes1} and \ref{eq:principalaxes2}):
 <<principal_function, echo=TRUE, eval=TRUE>>=
 paxis <- function(lm){
   # Takes a quadratic lm function just as the function before and just as before
@@ -412,7 +412,7 @@ Now that we have devloped some intuition about the model, we will look at some e
 %------------------------------------%
 
 \section{Re-creation of Previous Results}
-To check our understanding of how to run the model and make sure that our results are consistent with previous works, we reproduced the results in Phillips et al. (2012), {\it Congruence research in behavioral medicine: methodological review and demonstration of alternative methodology} \cite{Phillips2012}. In their paper, they were interested in seeing what created good situations in which patients followed through with their doctors orders. To study this they looked at patient-reported adherence a month after the doctor visit and its correspondence to the physician's rating of patient's health and the physician's estimate of how the patient would rate of patient's own health. We'll begin by first outlining the variables used here:
+To check our understanding of how to run the model and make sure that our results are consistent with previous works, we reproduced the results in Phillips et al. (2012), {\it Congruence research in behavioral medicine: methodological review and demonstration of alternative methodology} \cite{Phillips2012}. In their paper, they were interested in seeing what created good situations in which patients followed through with their doctors orders. To study this they looked at patient-reported adherence a month after the doctor visit($Z_1$) and its correspondence to the physician's rating of patient's health and the physician's estimate of how the patient would rate of patient's own health. We'll begin by first outlining the variables used here:
 
 \begin{align*}
 Z_{1,i} &- \text{patient-reported adherence a month after the dr. visit for patient } i  \\
@@ -421,13 +421,15 @@ X_{i}   &- \text{physician's rating of patient } i\text{'s health} \\
 Y_{i}   &- \text{physician's estimate of how patient } i \text{ would rate of their own health} \\
 \end{align*}
 
+
+Here in Table \ref{tab:Phillipsdf}, some summary statistics are presented of the response and explanatory variables used.
 <<Phillips_data_table_exploration, echo=FALSE, results='asis'>>=
 Phillipsdf <- data.frame(Z1=c(summary(d$z)),
                          Z2=c(summary(d$z2)),
                          X=c(summary(d$x)),
                          Y=c(summary(d$y))
 )
-print(xtable(t(Phillipsdf),caption = c("Five number summary of response variables($Z_1$ and $Z_2$) and explanotry variable $X$ and $Y$."), label = "tab:Phillipsdf"))
+print(xtable(t(Phillipsdf),caption = c("Summary statistics of response variables($Z_1$ and $Z_2$) and explanatry variable $X$ and $Y$."), label = "tab:Phillipsdf"))
 @
 
 There are two parts to applying polynomial regression. First they check whether or not it is appropriate to use polynomial regression, and the second, if appropriate, they would check any hypothesis they had. In this paper, they had no pre-formed hypothesis so they explored the surface to see what they could learn. \\
