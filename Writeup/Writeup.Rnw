@@ -10,9 +10,9 @@
 \usepackage{setspace,caption}
 \usepackage[letterpaper,bindingoffset=0.2in,left=1in,right=1in,top=.8in,bottom=.8in,footskip=.25in]{geometry}
 
-\lhead{Nehemias Ulloa}
-\chead{CC}
-\rhead{V10}
+\lhead{}
+\chead{Applying Polynomial Regression to Dyadic Data}
+\rhead{}
 \lfoot{}
 \cfoot{\thepage}
 \rfoot{}
@@ -41,6 +41,59 @@
 
 
 \begin{document}
+
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Iowa State University}\\[1.5cm] % Name of your university/college
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Applying Polynomial Regression to Dyadic Data}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Nehemias \textsc{Ulloa} % Your name
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Advisor:} \\
+Dr. Frederick O. \textsc{Lorenz} % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[4cm]
+
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+
 
 <<libraries, echo=FALSE, message=FALSE, warning=FALSE>>=
 library(foreign)
