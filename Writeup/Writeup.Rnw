@@ -617,7 +617,7 @@ The models being used in the criteria are listed below (note that these may have
 \text{Difference Model: } &Z = \beta_0 + \beta_1 (X-Y) + \epsilon \label{eq:diffmod} \\
 \text{Unconstrained Difference Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \epsilon \label{eq:uncondiff} \\
 \text{Abs Difference Model: } &Z = \beta_0 + \beta_1 |X-Y| + \epsilon \label{eq:absdiffmod} \\
-\text{Unconstrained Abs Difference Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 W + \beta_4 WX + \beta_5 WY + \epsilon \label{unconabs}
+\text{Unconstrained Abs Difference Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 W + \beta_4 WX + \beta_5 WY + \epsilon \label{eq:unconabs} \\
 \text{Abs Difference Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon \label{eq:polyregmod}
 \end{align}
 where $W$ is a dummy variable equal to 0 when $X > Y$, 1 when $X < Y$, and randomly assigned 1 or 0 when $X = Y$.
