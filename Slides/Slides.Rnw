@@ -192,47 +192,7 @@ QuadFit <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2), data=d)
 
 
 \begin{frame}
-\frametitle{Stationarity Points: How?}
-\begin{itemize}
-\item Take the partial derivatives with respect to $x$ and $y$
-\begin{align*}
-\left[ \begin{array}{cc}
-\frac{dz}{dx} = b_1 + 2b_{3}x + b_{4}y \\
-\frac{dz}{dy} = b_2 + b_{4}x + 2b_{5}y
-\end{array} \right]
-& = {\bf b} + 2 {\bf B d} \\
-\end{align*}
 
-\item Set the derivatives to zero and solve for ${\bf d_0}$
-\begin{align*}
-{\bf d_0} = \left[ \begin{array}{cc}
-x_0  \\
-y_0 
-\end{array} \right]
-%
-& = -\frac{{\bf B}^{-1} {\bf b}}{2} \\
-& = -\frac{1}{2} \frac{1}{b_5 b_3 - \frac{b_4^2}{2}}
-\left[ \begin{array}{cc}
-b_5 & -b_4 /2 \\
--b_4 /2 & b_3
-\end{array} \right] 
-\left[ \begin{array}{cc}
-b_1  \\
-b_2 
-\end{array} \right] \\
-& = -\frac{2}{4 b_5 b_3 - b_4^2}
-\left[ \begin{array}{cc}
-b_5 b_1 - b_2 b_4 /2 \\
--b_1 b_4 /2 + b_2 b_3
-\end{array} \right] \\
-& = 
-\left[ \begin{array}{cc}
-\frac{b_2 b_4 - 2 b_5 b_1}{4 b_5 b_3 - b_4^2} \\
-\frac{b_1 b_4 + 2 b_2 b_3}{4 b_5 b_3 - b_4^2}
-\end{array} \right] \\
-\end{align*}
-
-\end{itemize}
 \end{frame}
 
 
