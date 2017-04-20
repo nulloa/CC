@@ -191,7 +191,121 @@ QuadFit <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2), data=d)
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}[fragile]
+\frametitle{Stationarity Points}
+\begin{align}
+x_0 &= \frac{b_2 b_4 - 2 b_5 b_1}{4 b_5 b_3 - b_4^2} \label{eq:xstatpt} \\
+y_0 &= \frac{b_1 b_4 + 2 b_2 b_3}{4 b_5 b_3 - b_4^2} \label{eq:ystatpt}
+\end{align}
+
+These points represent the values in our predictors that will optimize our response (minimum or maximum depending on the surface shape).
+
+<<stat_pts_function, echo=FALSE, eval=TRUE>>=
+statpts <- function(lm){
+  b0 <- as.numeric(coef(lm)[1])
+  b1 <- as.numeric(coef(lm)[2])
+  b2 <- as.numeric(coef(lm)[3])
+  b3 <- as.numeric(coef(lm)[4])
+  b4 <- as.numeric(coef(lm)[5])
+  b5 <- as.numeric(coef(lm)[6])
+  
+  # Stationary Pts. using the formulas in Eq 10 & 11
+  x0  <- (b2*b4 - 2*b1*b5)/(4*b3*b5 - b4^2)
+  y0  <- (b1*b4 - 2*b2*b3)/(4*b3*b5 - b4^2)
+  
+  # Output
+  out <- matrix(c(x0, y0), ncol=2)
+  colnames(out) <- c("x0","y0")
+  out <- data.frame(x0=x0, y0=y0)
+  return(out)
+}
+@
+
+<<stat_pts_function1, echo=TRUE, eval=FALSE>>=
+statpts <- function(lm){
+  # Stationary Pts.
+  x0  <- (b2*b4 - 2*b1*b5)/(4*b3*b5 - b4^2)
+  y0  <- (b1*b4 - 2*b2*b3)/(4*b3*b5 - b4^2)
+  # Output
+  out <- matrix(c(x0, y0), ncol=2)
+  colnames(out) <- c("x0","y0")
+  out <- data.frame(x0=x0, y0=y0)
+  return(out)
+}
+@
+
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Pred Response @ Stationary Pts %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+\frametitle{Predicted Response at Stationarity Points}
+We then get the maximum (or minimum) predicted reponse ($\hat{z}_0$) by plugging in the Stationary Points to Eq \ref{fittedmod}:
+\begin{align}
+\hat{z}_0 &= b_{0} + b_{1}x_0 + b_{2}y_0 + b_3 x_0^2 + b_4 x_0 y_0 + b_5 y_0^2
+\end{align}
+
+<<pred_stat_pts, echo=TRUE, eval=FALSE>>=
+x0 <- statpts(lm)$x0
+y0 <- statpts(lm)$y0
+predstatpts <- coef(lm)[1] + coef(lm)[2]*x0 + coef(lm)[3]*y0 + coef(lm)[4]*x0^2 + coef(lm)[5]*x0*y0 + coef(lm)[6]*y0^2
+@
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% Principal Axes %%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+\frametitle{Principal Axes}
+\begin{itemize}
+  \item Measure the amount of ``bend'' in two directions at the stationary points
+  \item Make interpretations of the model easier by rotating the axes by removing all the cross-product terms (Ex: PCA)
+\end{itemize}
+
+
+In the Creative Componant, 
+\begin{itemize}
+  \item Brought together a complete picture of how to derive the Principal Axes. 
+  \begin{itemize}
+    \item Khuri and Cornell (1996) in {\it Response Surfaces: Designs and Analyses} lay out some pieces of how derive them but never completely laid out the complete process
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Principal Axes}
+
+Basic idea in their derivation:
+\begin{itemize}
+  \item Derive canonical equations to get surface in what is known as canonical form
+  \item Transform canonical equations back onto original variables
+  \item These are the Principal Axes
+\end{itemize}
+
+\begin{align}
+\quad        y &= -P_{21}x + P_{20} \label{eq:principalaxes1}
+\end{align}
+
+where $P_{20} = y_0 + P_{21} x_0$ and $P_{21} = \frac{b_5 - b_3 - \sqrt{(b_5 - b_3)^2 + b_4^2}}{b_4}$. \\
+
+
+Using similar algebra we can find the second principal axes:
+\begin{align}
+\quad        y &= -P_{11}x + P_{10} \label{eq:principalaxes2}
+\end{align}
+where $P_{10} = y_0 + P_{11} x_0$ and $P_{11} = \frac{b_5 - b_3 + \sqrt{(b_5 - b_3)^2 + b_4^2}}{b_4}$.\\
+
 
 \end{frame}
 
