@@ -337,6 +337,19 @@ Interpretations:
 \begin{frame}[fragile]
 \frametitle{Re-creation}
 
+An example of this methodology being applied is found in Phillips et al. (2012), {\it Congruence research in behavioral medicine: methodological review and demonstration of alternative methodology}.\\
+
+Interested in seeing what created good situations in which patients followed through with their doctors orders
+
+The variables of interest in this example are:
+\begin{align*}
+Z_{1,i} &- \text{patient-reported adherence a month after the dr. visit for patient } i  \\
+Z_{2,i} &- \text{physician's percieved agreement with patient } i  \text{ on the illness treatment} \\
+X_{i}   &- \text{physician's rating of patient } i\text{'s health} \\
+Y_{i}   &- \text{physician's estimate of how patient } i \text{ would rate of their own health} \\
+\end{align*}
+
+
 \end{frame}
 
 
