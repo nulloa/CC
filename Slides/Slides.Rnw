@@ -37,8 +37,23 @@
 %%%%%%%%%%%%%%%%%%%%%%
 %%%%% Title Page %%%%%
 %%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
+\begin{frame}[fragile]
 \titlepage
+<<libraries, echo=FALSE, message=FALSE, warning=FALSE>>=
+library(foreign)
+library(scatterplot3d)
+library(car)
+library(ggplot2)
+library(reshape2)
+library(gridExtra)
+library(xtable)
+set.seed(808)
+#library(plotly)
+#Sys.setenv("plotly_username" = "nulloa1")
+#Sys.setenv("plotly_api_key" = "xfcqdg418r")
+#p <- plotly(username="nulloa1", key="xfcqdg418r")
+@
+
 \end{frame}
 
 
@@ -330,6 +345,93 @@ Interpretations:
 \end{frame}
 
 
+
+\begin{frame}[fragile]
+<<principal_functionS, echo=TRUE, eval=TRUE>>=
+paxis <- function(lm){
+...
+  # Stationary Pts.
+  x0  <- (b2*b4 - 2*b1*b5)/(4*b3*b5 - b4^2)
+  y0  <- (b1*b4 - 2*b2*b3)/(4*b3*b5 - b4^2)
+  # First Principal axis
+  p11 <- (b5 - b3 + sqrt((b3 - b5)^2 + b4^2))/b4 #slope
+  p10 <- y0 - p11*x0 #intercept
+  # Second Principal axis
+  p21 <- (b5 - b3 - sqrt((b3 - b5)^2 + b4^2))/b4
+  p20 <- y0 - p21*x0
+  # Output
+  out <- data.frame(p10=p10, p11=p11, p20=p20, p21=p21)
+  return(out)
+}
+@
+
+<<principal_function, echo=FALSE, eval=TRUE>>=
+paxis <- function(lm){
+  # Takes a quadratic lm function just as the function before and just as before
+  # coef(lm) gives a vector of all the parameter estimates in the linear model
+  # So here we are grabbing the individual parameter estimates from that vector
+  b0 <- as.numeric(coef(lm)[1])
+  b1 <- as.numeric(coef(lm)[2])
+  b2 <- as.numeric(coef(lm)[3])
+  b3 <- as.numeric(coef(lm)[4])
+  b4 <- as.numeric(coef(lm)[5])
+  b5 <- as.numeric(coef(lm)[6])
+  
+  # Stationary Pts.
+  x0  <- (b2*b4 - 2*b1*b5)/(4*b3*b5 - b4^2)
+  y0  <- (b1*b4 - 2*b2*b3)/(4*b3*b5 - b4^2)
+  
+  # First Principal axis
+  p11 <- (b5 - b3 + sqrt((b3 - b5)^2 + b4^2))/b4 #slope
+  p10 <- y0 - p11*x0 #intercept
+  
+  # Second Principal axis
+  p21 <- (b5 - b3 - sqrt((b3 - b5)^2 + b4^2))/b4
+  p20 <- y0 - p21*x0
+  
+  # Output
+  out <- data.frame(p10=p10, p11=p11, p20=p20, p21=p21)
+  return(out)
+}
+@
+
+
+<<principal_axes, echo=FALSE, message=FALSE>>=
+principal_plot <- function(x){
+  require(ggplot2)
+  require(reshape2)
+  x_temp <- seq(-3,3,length.out= 1000)
+  y_p1 <- x$p10 + x$p11*x_temp
+  y_p2 <- x$p20 + x$p21*x_temp
+  y <- melt(data.frame(y_p1, y_p2))
+  temp <- cbind(x = rep(x_temp,2), y)
+  ggplot(data=temp, aes(x=x, y=value)) + geom_line() + facet_grid(variable~., scales = "free_y")
+}
+
+principal_plot_surface <- function(x, lm){
+  require(ggplot2)
+  require(reshape2)
+  require(gridExtra)
+  x_temp <- seq(-3,3,length.out= 1000)
+  y_p1 <- x$p10 + x$p11*x_temp
+  y_p2 <- x$p20 + x$p21*x_temp
+  
+  x2 <- x_temp
+  y2 <- y_p1
+  pred1 <- predict(lm, data.frame(x2,y2,x2^2,x2*y2,y2^2))
+
+  x2 <- x_temp
+  y2 <- y_p2
+  pred2 <- predict(lm, data.frame(x2,y2,x2^2,x2*y2,y2^2))
+
+  a <- ggplot() + geom_line(aes(x=y_p1, y=pred1)) + labs(x=paste("y = ", round(x$p10,2), " + ", round(x$p11,2), "x"), y="z", title="p1")
+  b <- ggplot() + geom_line(aes(x=y_p2, y=pred2)) + labs(x=paste("y = ", round(x$p20,2), " + ", round(x$p21,2), "x"), y="z", title="p2")
+  grid.arrange(a, b)
+}
+@
+
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Re-creation of Previous Results %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -341,7 +443,7 @@ An example of this methodology being applied is found in Phillips et al. (2012),
 
 Interested in seeing what created good situations in which patients followed through with their doctors orders
 
-The variables of interest in this example are:
+The variables used in this example are:
 \begin{align*}
 Z_{1,i} &- \text{patient-reported adherence a month after the dr. visit for patient } i  \\
 Z_{2,i} &- \text{physician's percieved agreement with patient } i  \text{ on the illness treatment} \\
@@ -349,19 +451,297 @@ X_{i}   &- \text{physician's rating of patient } i\text{'s health} \\
 Y_{i}   &- \text{physician's estimate of how patient } i \text{ would rate of their own health} \\
 \end{align*}
 
-
 \end{frame}
 
 
 
 
+\begin{frame}[fragile]
+\frametitle{Re-creation}
+
+Here in Table \ref{tab:Phillipsdf}, some summary statistics are presented of the response and explanatory variables used.
+
+<<Phillips_Data_Setup, echo=FALSE, warning=FALSE, message=FALSE, eval=TRUE>>=
+d <- read.spss("../Phillips_Data/Congruence PRIM.sav", to.data.frame=TRUE)
+
+###### Data Setup ######
+d$pre_curr_health <- as.numeric(d$pre_curr_health)
+d$Quant_MD_rate_health <- as.numeric(d$Quant_MD_rate_health)
+d$Quant_MD_rate_own <- as.numeric(d$Quant_MD_rate_own)
+d$MiddleCentered_precurrhealth <- d$pre_curr_health - 3
+d$MiddleCentered_MDratehealth  <- d$Quant_MD_rate_health - 3
+d$MiddleCentered_MDrateown     <- d$Quant_MD_rate_own - 3
+
+
+# Z: patient-reported adherence a month after the dr. visit 
+# X: physician's rating of patient's health
+# Y: physician's est of how the patient would rate of patient's own health
+d$z  <- d$PatientAdh_Avg
+d$x <- d$MiddleCentered_MDratehealth
+d$y <- d$MiddleCentered_MDrateown
+
+
+d$w <- d$x
+d$w[which(!is.na(d$w))] <- 1 # These are all the points where X < Y 
+d$w[which(!is.na(d$w) & d$x > d$y)] <- 0
+d$w[which(!is.na(d$w) & d$x == d$y)] <- sample(c(0,1),length(d$w[which(!is.na(d$w) & d$x == d$y)]), replace=TRUE)
+
+
+# Z: physician perceptions of patient-agreement 
+# X: 
+# Y: 
+d$z2 <- d$PhysicianSharedModels
+d$x2 <- d$MiddleCentered_MDratehealth 
+d$y2 <- d$MiddleCentered_MDrateown
+d$w2 <- d$x2
+d$w2[which(!is.na(d$w2))] <- 1 # These are all the points where X < Y 
+d$w2[which(!is.na(d$w2) & d$x2 > d$y2)] <- 0
+d$w2[which(!is.na(d$w2) & d$x2 == d$y2)] <- sample(c(0,1),length(d$w[which(!is.na(d$w2) & d$x2 == d$y2)]), replace=TRUE)
+
+@
+
+<<Phillips__Model, echo=FALSE, warning=FALSE, message=FALSE>>=
+# Z: patient-reported adherence a month after the dr. visit 
+# X: physician's rating of patient's health
+# Y: physician's est of how the patient would rate of patient's own health
+
+# z = x+y
+lm <- lm(z~x+y, data=d)
+lmR2 <- summary(lm)$r.squared
+lmcoef <- coef(lm)
+
+# z = x-y
+lmDiff <- lm(z~I(x-y), data=d)
+lmDiffR2 <- summary(lmDiff)$r.squared
+lmDiffcoef <- coef(lmDiff)
+
+# z = |x-y|
+lmAbs <- lm(z~I(abs(x-y)), data=d)
+lmAbsR2 <- summary(lmAbs)$r.squared
+lmAbscoef <- coef(lmAbs)
+
+# z = x+y+x^2+xy+y^2
+lmSquare <- lm(z~x+y+I(x^2)+I(x*y)+I(y^2), data=d)
+
+# z = x+y+w+wx+wy
+lmW <- lm(z~x+y+w+I(w*x)+I(w*y), data=d)
+lmWR2 <- summary(lmW)$r.squared
+lmWcoef <- coef(lmW)
+
+# z = x+y+w+wx+wy
+lmWSquare <- lm(z~x+y+w+I(x^2)+I(x*y)+I(y^2)+I(w*x^2)+I(w*x*y)+I(w*y^2), data=d)
 
 
 
+# Z: patient-reported adherence a month after the dr. visit 
+# X: 
+# Y: 
+
+# z = x+y
+lm2 <- lm(z2~x2+y2, data=d)
+lm2R2 <- summary(lm2)$r.squared
+lm2coef <- coef(lm2)
+
+# z2 = x2-y2
+lm2Diff <- lm(z2~I(x2-y2), data=d)
+lm2DiffR2 <- summary(lm2Diff)$r.squared
+lm2Diffcoef <- coef(lm2Diff)
+
+# z2 = |x2-y2|
+lm2Abs <- lm(z2~I(abs(x2-y2)), data=d)
+lm2AbsR2 <- summary(lm2Abs)$r.squared
+lm2Abscoef <- coef(lm2Abs)
+
+# z2 = x2+y2+x2^2+x2y2+y2^2
+lm2Square <- lm(z2~x2+y2+I(x2^2)+I(x2*y2)+I(y2^2), data=d)
+
+# z2 = x2+y2+x2^2+x2y2+y2^2
+lm2Cube <- lm(z2~x2+y2+I(x2^3)+I(y2^3)+I(x2^2*y2)+I(x2*y2^2)+I(x2*y2)+I(x2^2)+I(y2^2), data=d)
+
+# z2 = x2+y2+w+wx2+wy2
+lm2W <- lm(z2~x2+y2+w+I(w*x2)+I(w*y2), data=d)
+lm2WR2 <- summary(lm2W)$r.squared
+lm2Wcoef <- coef(lm2W)
+
+# z2 = x2+y2+w+wx2+wy2
+lm2WSquare <- lm(z2~x2+y2+w+I(x2^2)+I(x2*y2)+I(y2^2)+I(w*x2^2)+I(w*x2*y2)+I(w*y2^2), data=d)
+@
+
+<<Phillips_data_table_exploration, echo=FALSE, results='asis'>>=
+Phillipsdf <- data.frame(Z1=c(summary(d$z),n=sum(!is.na(d$z))),
+                         Z2=c(summary(d$z2),n=sum(!is.na(d$z2))),
+                         X=c(summary(d$x),n=sum(!is.na(d$x))),
+                         Y=c(summary(d$y),n=sum(!is.na(d$y)))
+)
+colnames(Phillipsdf) <- c("$Z_1$","$Z_2$","$X$","$Y$")
+print(xtable(t(Phillipsdf),caption = c("Summary statistics of response variables($Z_1$ and $Z_2$) and explanatry variable $X$ and $Y$."), label = "tab:Phillipsdf"), sanitize.rownames.function = function(x) {x})
+@
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Re-creation}
+Before we get into whether or not we should use polynomial regression, they first check some stastics for obvious non-normailty:
+\begin{enumerate}
+  \item High Leverage
+  \item Influential Points\\
+\end{enumerate}
+
+No points were of major concern but one point consistently had a higher leverage and Cook's D value.
+
+\end{frame}
 
 
 
+\begin{frame}[fragile]
+\frametitle{Re-creation}
+The models being used in the criteria are listed below (note that these may have been listed previously but are relisted here for ease of reading):
+\begin{align}
+\text{Null Model: } &Z = \beta_0 + \epsilon \label{eq:nullmod} \\
+\text{Diff Model: } &Z = \beta_0 + \beta_1 (X-Y) + \epsilon \label{eq:diffmod} \\
+\text{Uncon Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \epsilon \label{eq:uncondiff} \\
+\text{Abs Diff Model: } &Z = \beta_0 + \beta_1 |X-Y| + \epsilon \label{eq:absdiffmod} \\
+\text{Uncon Abs Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 W + \beta_4 WX + \beta_5 WY + \epsilon \label{eq:unconabs} \\
+\text{Abs Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon \label{eq:polyregmod}
+\end{align}
+where $W$ is a dummy variable equal to 0 when $X > Y$, 1 when $X < Y$, and randomly assigned 1 or 0 when $X = Y$, and $\epsilon \sim N(0,\sigma^2_e)$
+\end{frame}
 
+
+\begin{frame}[fragile]
+\frametitle{Re-creation}
+
+The four criterion are:
+\begin{enumerate}
+\item{Check whether the unconstrained model (Eq \ref{eq:uncondiff} and \ref{eq:unconabs}) explained a significant amount of the variance in the data (compared to Eq \ref{eq:nullmod}).\\
+}
+\item{Check whether the regression coefficients for the unconstrained model are in expected directions and whether they are significant to the model.
+}
+\item{Check whether the unconstrained models (Eq \ref{eq:uncondiff} and \ref{eq:unconabs}) is significantly better than thier constrained models (Eq \ref{eq:diffmod} and \ref{eq:absdiffmod}). \\
+}
+\item{Check whether a higher order model i.e. polynomial regression (Eq \ref{eq:polyregmod}) is significantly better than the constrained model (Eq \ref{eq:diffmod}).
+}
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Re-creation}
+\begin{enumerate}
+ \item First criterion checks the basic linear model assumption i.e. is the model better than a basic mean(intercept) only model (Eq \ref{eq:nullmod})?
+ \item Second criterion checks whether the coefficients are lined up in the way we expect them too and whether they add anything to the model
+  \item Thrid criterion checks if there is benefit to using complex polynomial models compared to simpler difference models
+ \item Fourth criterion checks whether a simple model or polynomial model should be used 
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Re-creation}
+\begin{table}[!htp]
+\caption{This table is a replication of the Table 2 in Phillips et al. (2012) where $* p <0.05$; $** p <0.01$; $*** p <.001$}
+\begin{center}
+\label{tab:PhillipsTabReplication}
+\smallskip\noindent
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcccccccccccc}
+\hline
+Outcome                                   & \multicolumn{2}{l}{Constrained Model}          &  & \multicolumn{6}{l}{Unconstrained Model}                                                                                                  &  & $F_c$                                    & $F_h$                                          \\ \cline{2-3} \cline{5-10}
+                                          & $(X-Y)$                    & $R^2$               &  & $X$                     & $Y$                     &                       &                       &                       & $R^2$            &  &                                          &                                                \\
+\hline
+Patient Adherence                         & $\Sexpr{round(lmDiffcoef[2], 2)}^{***}$  & $\Sexpr{round(lmDiffR2,2)}^{***}$  &  & $\Sexpr{round(lmcoef[2],2)}^{**}$   & $\Sexpr{round(lmcoef[3],2)}^{***}$   &                       &                       &                       & $\Sexpr{round(lmR2,2)}^{**}$   &  & $\Sexpr{round(anova(lm, lmDiff)$F[2],2)}$   & $\Sexpr{round(anova(lmSquare, lmDiff)$F[2],2)}$   \\
+Physician perception of patient agreement & $\Sexpr{round(lm2Diffcoef[2],2)}$ & $\Sexpr{round(lm2DiffR2,3)}$ &  & $\Sexpr{round(lm2coef[2],2)}$  & $\Sexpr{round(lm2coef[3],2)}^{**}$  &                       &                       &                       & $\Sexpr{round(lm2R2,2)}^{***}$  &  & $\Sexpr{round(anova(lm2, lm2Diff)$F[2],2)}^{***}$ & $\Sexpr{round(anova(lm2Square, lm2Diff)$F[2],2)}^{**}$ \\
+\hline
+                                          & $|X-Y|$                    & $R^2$               &  & $X$                     & $Y$                     & $W$                     & $WX$                    & $WY$                    & $R^2$            &  &                                          &                                                \\
+\hline
+Patient Adherence                         & $\Sexpr{round(lmAbscoef[2],2)}^{***}$   & $\Sexpr{round(lmAbsR2,2)}^{***}$   &  & $\Sexpr{round(lmWcoef[2],2)}^{**}$  & $\Sexpr{round(lmWcoef[3],2)}^{**}$  & $\Sexpr{round(lmWcoef[4],2)}$  & $\Sexpr{round(lmWcoef[5],2)}^{*}$  & $\Sexpr{round(lmWcoef[6],2)}$  & $\Sexpr{round(lmWR2,2)}^{**}$  &  & $\Sexpr{round(anova(lmAbs, lmW)$F[2],2)}$   & $\Sexpr{round(anova(lmAbs, lmWSquare)$F[2],2)}^{*}$   \\
+Physician perception of patient agreement & $\Sexpr{round(lm2Abscoef[2],2)}^{**}$  & $\Sexpr{round(lm2AbsR2,2)}^{**}$  &  & $\Sexpr{round(lm2Wcoef[2],2)}$ & $\Sexpr{round(lm2Wcoef[3],2)}^{**}$ & $\Sexpr{round(lm2Wcoef[4],2)}$ & $\Sexpr{round(lm2Wcoef[5],2)}^{**}$ & $\Sexpr{round(lm2Wcoef[6],2)}^{*}$ & $\Sexpr{round(lm2WR2,2)}^{***}$ &  & $\Sexpr{round(anova(lm2Abs, lm2W)$F[2],2)}^{***}$ & $\Sexpr{round(anova(lm2Abs, lm2WSquare)$F[2],2)}$ \\
+\hline
+\end{tabular}}
+\end{center}
+\end{table}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\begin{enumerate}
+  \item Criterion 1: Unconstrained model for both outcomes explained a significant amount of variation in the data ($R^2$ of $\Sexpr{round(lmR2,2)}$,$\Sexpr{round(lm2R2,2)}$ for responses $Z_1$ and $Z_2$ respectively). 
+  \item Criterion 2: Only satisfied for the outcome dealing with patient adherence(coefficients of -.33 and .39) as the regression coefficients for physician perceptions (.1 and .27) were not going in opposite directions and were not both significant 
+  \item Criterion 3: Met for the second outcome i.e. the physician perceptions ($F_c = \Sexpr{round(anova(lm2, lm2Diff)$F[2],2)}$) and not for patient adherence ($F_c = \Sexpr{round(anova(lm, lmDiff)$F[2],2)}$)
+  \item Criterion 4: Satisfied for the outcome conerning physician perceptions of patient-agreement ($F_h = \Sexpr{round(anova(lm2Square, lm2Diff)$F[2],2)}$) and not for patient adherence ($F_h = \Sexpr{round(anova(lmSquare, lmDiff)$F[2],2)}$). 
+\end{enumerate}
+
+Consider using polynomial regression for the outcome dealing with physician perceptions while it looks as if the model using patient adherence as its outcome will be sufficiently explained using an algebraic difference score model.
+\end{frame}
+
+
+\begin{frame}[fragile]
+\begin{itemize}
+  \item Repeat above looking at the absolute difference
+  \item Conclude the absolute-value difference score model was not an adequate fit for either of the outcome variables
+  \item Difference score is an adequate model for the outcome concerning patient adherence 
+  \item Polynomial regression would be the best model for the data using the physician perception outcome\\
+\end{itemize}
+Then they test what kind of polynomial regression:
+\begin{itemize}
+  \item Quadratic model vs linear model with a p-value of $\Sexpr{anova(lm2, lm2Square)$'Pr(>F)'[2]}$: Quadratic model explains the data better 
+  \item Cubic vs quadratic (p-value $\Sexpr{anova(lm2Square, lm2Cube)$'Pr(>F)'[2]}$): Cubic does not explain the data significantly better
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+
+So the fitted model(Eq \ref{eq:polyregmod}) via OLS:
+\begin{align*}
+\hat{z} = \Sexpr{round(coef(lm2Square)[1], 2)} + \Sexpr{round(coef(lm2Square)[2], 2)}x + \Sexpr{round(coef(lm2Square)[3], 2)}y \Sexpr{round(coef(lm2Square)[4], 2)} x^2 + \Sexpr{round(coef(lm2Square)[5], 2)} xy \Sexpr{round(coef(lm2Square)[6], 2)} y^2
+\end{align*}
+
+Stationary points are at $(\Sexpr{round(statpts(lm2Square)$x0,2)}, \Sexpr{round(statpts(lm2Square)$y0,2)})$\\
+
+The first and second principal axis are Equations \ref{PhillipsPrincipalEq1} and \ref{PhillipsPrincipalEq2}, respectively:
+\begin{align}
+y = \Sexpr{round(paxis(lm2Square)$p10,2)} + \Sexpr{round(paxis(lm2Square)$p11,2)} x \label{PhillipsPrincipalEq1} \\
+y = \Sexpr{round(paxis(lm2Square)$p20,2)} \Sexpr{round(paxis(lm2Square)$p21,2)} x \label{PhillipsPrincipalEq2}
+\end{align}
+\end{frame}
+
+
+\begin{frame}[fragile]
+Use our functions to get the stationary points and the principal axes in prev slide
+<<Phillips_Stat_Principal, echo=TRUE>>=
+statpts(lm2Square)
+paxis(lm2Square)
+@
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+The surface slice plots in of both principal axes in Figure \ref{fig:Phillips_Principal_Axes}.
+<<Phillips_Principal_Axes, echo=FALSE,warning=FALSE,fig.cap="This Figure shows slices of the response surface taken at the two principal axes.", fig.height=6, fig.width=11, fig.pos='htp'>>=
+principal_plot_surface(paxis(lm2Square), lm2Square)
+@
+\end{frame}
+
+
+\begin{frame}[fragile]
+To look at the predicted surface plot, we use $\verb|Plotly|$. 
+
+We can follow the \href{https://plot.ly/~nulloa1/145/}{link} to the $\verb|Plotly|$ website and look at and manipulate the predicted surface.
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusions}
+\begin{itemize}
+  \item First principal axes is the axis that makes the most sense: it represnts the path in which the values of patients’ preferences for shared decision-making and the values of patients’ experiences of shared decision-making along their entire scales that optimize patient satisfaction
+  \item This makes sense; when doctor and patient agree with what is going on, the patient is most likely to follow the orders and vice-versa
+  \item Second principal axes doesn't have any real interpretations because it lies outside of the scope of the data i.e. it doesn't lie on our predictive surface
+\end{itemize}
+\end{frame}
 
 
 
