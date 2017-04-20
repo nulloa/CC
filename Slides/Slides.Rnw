@@ -25,7 +25,7 @@
 \makeatletter
 \setbeamertemplate{navigation symbols}{}
 
-\title[CC Title]{CC Title}
+\title[Applying Polynomial Regression to Dyadic Data]{Applying Polynomial Regression to Dyadic Data}
 \author{Nehemias Ulloa}
 \institute{\Large{Department of Statistics\\ Iowa State University}}
 \date{\today}
