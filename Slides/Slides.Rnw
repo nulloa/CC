@@ -2,8 +2,9 @@
 \usepackage{graphicx, epsfig, amsmath, amssymb}
 \usepackage{wrapfig}
 %\usepackage{sidecap}
-%\usetheme{Copenhagen}
-\usetheme{Boadilla}
+\usetheme{AnnArbor}
+\usecolortheme{beaver}
+%\usetheme{Boadilla}
 %\usetheme{Warsaw}
 %\usepackage[table]{xcolor}
 %\definecolor{lightgray}{gray}{0.9}
@@ -25,10 +26,11 @@
 \makeatletter
 \setbeamertemplate{navigation symbols}{}
 
-\title[Applying Polynomial Regression to Dyadic Data]{Applying Polynomial Regression to Dyadic Data}
+\title[CC Defense]{Applying Polynomial Regression to Dyadic Data}
 \author{Nehemias Ulloa}
 \institute{\Large{Department of Statistics\\ Iowa State University}}
 \date{\today}
+
 
 \begin{document}
 
@@ -70,6 +72,7 @@ Hypotheses:
     \end{itemize}
 \end{itemize}
 \end{frame}
+
 
 \begin{frame}
 \frametitle{Motivation}
@@ -306,8 +309,46 @@ Using similar algebra we can find the second principal axes:
 \end{align}
 where $P_{10} = y_0 + P_{11} x_0$ and $P_{11} = \frac{b_5 - b_3 + \sqrt{(b_5 - b_3)^2 + b_4^2}}{b_4}$.\\
 
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Principal Axes}
+
+Interpretations:
+\begin{enumerate}
+  \item In a concave surface:
+  \begin{itemize}
+    \item First principal axis (Eq \ref{eq:principalaxes1}): lowest downward curvature where two explanatory variables create a maximized surface that decreases the least
+    \item Second principal axis (Eq \ref{eq:principalaxes2}): greatest downward curvature where two explanatory variables create the greatest decrease in the response
+  \end{itemize}
+  \item In a convex surface:
+  \begin{itemize}
+    \item Flip the interpretations of the two Principal Axes
+  \end{itemize}
+\end{enumerate}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Re-creation of Previous Results %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+\frametitle{Re-creation}
 
 \end{frame}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
