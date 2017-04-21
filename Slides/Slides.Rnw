@@ -138,8 +138,9 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 %%%%%%%%%% Model %%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Model}
+
 \begin{frame}
-\frametitle{The Model}
 \begin{itemize}
   \item Theoretical model:
     \begin{align}
@@ -174,7 +175,7 @@ b_4 /2 & b_5
 
 
 \begin{frame}[fragile]
-\frametitle{Model}
+
 We can fit a model like this in $\verb|R|$ using the $\verb|lm()|$ function:
 <<lm_ex, echo=TRUE, eval=FALSE>>=
 # Z - the response variable
@@ -190,8 +191,10 @@ QuadFit <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2), data=d)
 %%%%%%%%%% Stationarity Points %%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsection{Stationary Points}
+
 \begin{frame}
-\frametitle{Stationarity Points: How \& Why?}
+\frametitle{Stationarity Points}
 \begin{itemize}
   \item What are they?
   \begin{itemize}
@@ -210,7 +213,8 @@ QuadFit <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2), data=d)
 
 
 \begin{frame}[fragile]
-\frametitle{Stationarity Points}
+The stationary points are:\\
+
 \begin{align}
 x_0 &= \frac{b_2 b_4 - 2 b_5 b_1}{4 b_5 b_3 - b_4^2} \label{eq:xstatpt} \\
 y_0 &= \frac{b_1 b_4 + 2 b_2 b_3}{4 b_5 b_3 - b_4^2} \label{eq:ystatpt}
@@ -261,9 +265,11 @@ statpts <- function(lm){
 %%%% Pred Response @ Stationary Pts %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsection{Predicted Response at Stationarity Points}
+
 \begin{frame}[fragile]
-\frametitle{Predicted Response at Stationarity Points}
-We then get the maximum (or minimum) predicted reponse ($\hat{z}_0$) by plugging in the Stationary Points to Eq \ref{fittedmod}:
+
+We then get the local maximum (or minimum) predicted reponse ($\hat{z}_0$) by plugging in the Stationary Points to Eq \ref{fittedmod}:
 \begin{align}
 \hat{z}_0 &= b_{0} + b_{1}x_0 + b_{2}y_0 + b_3 x_0^2 + b_4 x_0 y_0 + b_5 y_0^2
 \end{align}
@@ -281,6 +287,8 @@ predstatpts <- coef(lm)[1] + coef(lm)[2]*x0 + coef(lm)[3]*y0 + coef(lm)[4]*x0^2 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% Principal Axes %%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Principal Axes}
 
 \begin{frame}[fragile]
 \frametitle{Principal Axes}
@@ -302,9 +310,8 @@ In the Creative Componant,
 
 
 \begin{frame}[fragile]
-\frametitle{Principal Axes}
 
-Basic idea in their derivation:
+Basic idea in the derivation of principal axes:
 \begin{itemize}
   \item Derive canonical equations to get surface in what is known as canonical form
   \item Transform canonical equations back onto original variables
@@ -328,7 +335,6 @@ where $P_{10} = y_0 + P_{11} x_0$ and $P_{11} = \frac{b_5 - b_3 + \sqrt{(b_5 - b
 
 
 \begin{frame}[fragile]
-\frametitle{Principal Axes}
 
 Interpretations:
 \begin{enumerate}
@@ -432,12 +438,22 @@ principal_plot_surface <- function(x, lm){
 
 \end{frame}
 
+
+
+
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Re-creation of Previous Results %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Re-creation of Previous Results}
+
 \begin{frame}[fragile]
-\frametitle{Re-creation}
 
 An example of this methodology being applied is found in Phillips et al. (2012), {\it Congruence research in behavioral medicine: methodological review and demonstration of alternative methodology}.\\
 
@@ -457,7 +473,6 @@ Y_{i}   &- \text{physician's estimate of how patient } i \text{ would rate of th
 
 
 \begin{frame}[fragile]
-\frametitle{Re-creation}
 
 Here in Table \ref{tab:Phillipsdf}, some summary statistics are presented of the response and explanatory variables used.
 
@@ -580,7 +595,7 @@ print(xtable(t(Phillipsdf),caption = c("Summary statistics of response variables
 
 
 \begin{frame}[fragile]
-\frametitle{Re-creation}
+\frametitle{Normality Checks}
 Before we get into whether or not we should use polynomial regression, they first check some stastics for obvious non-normailty:
 \begin{enumerate}
   \item High Leverage
@@ -594,7 +609,7 @@ No points were of major concern but one point consistently had a higher leverage
 
 
 \begin{frame}[fragile]
-\frametitle{Re-creation}
+\frametitle{Criterion Checks}
 The models being used in the criteria are listed below (note that these may have been listed previously but are relisted here for ease of reading):
 \begin{align}
 \text{Null Model: } &Z = \beta_0 + \epsilon \label{eq:nullmod} \\
@@ -609,7 +624,7 @@ where $W$ is a dummy variable equal to 0 when $X > Y$, 1 when $X < Y$, and rando
 
 
 \begin{frame}[fragile]
-\frametitle{Re-creation}
+\frametitle{Criterion Checks}
 
 The four criterion are:
 \begin{enumerate}
@@ -627,7 +642,7 @@ The four criterion are:
 
 
 \begin{frame}[fragile]
-\frametitle{Re-creation}
+\frametitle{Criterion Checks}
 \begin{enumerate}
  \item First criterion checks the basic linear model assumption i.e. is the model better than a basic mean(intercept) only model (Eq \ref{eq:nullmod})?
  \item Second criterion checks whether the coefficients are lined up in the way we expect them too and whether they add anything to the model
@@ -638,7 +653,7 @@ The four criterion are:
 
 
 \begin{frame}[fragile]
-\frametitle{Re-creation}
+
 \begin{table}[!htp]
 \caption{This table is a replication of the Table 2 in Phillips et al. (2012) where $* p <0.05$; $** p <0.01$; $*** p <.001$}
 \begin{center}
@@ -667,6 +682,7 @@ Physician perception of patient agreement & $\Sexpr{round(lm2Abscoef[2],2)}^{**}
 
 
 \begin{frame}[fragile]
+\frametitle{Criterion Checks}
 \begin{enumerate}
   \item Criterion 1: Unconstrained model for both outcomes explained a significant amount of variation in the data ($R^2$ of $\Sexpr{round(lmR2,2)}$,$\Sexpr{round(lm2R2,2)}$ for responses $Z_1$ and $Z_2$ respectively). 
   \item Criterion 2: Only satisfied for the outcome dealing with patient adherence(coefficients of -.33 and .39) as the regression coefficients for physician perceptions (.1 and .27) were not going in opposite directions and were not both significant 
@@ -679,6 +695,7 @@ Consider using polynomial regression for the outcome dealing with physician perc
 
 
 \begin{frame}[fragile]
+\frametitle{Criterion Checks}
 \begin{itemize}
   \item Repeat above looking at the absolute difference
   \item Conclude the absolute-value difference score model was not an adequate fit for either of the outcome variables
@@ -744,6 +761,465 @@ We can follow the \href{https://plot.ly/~nulloa1/145/}{link} to the $\verb|Plotl
 \end{frame}
 
 
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%% Our Example %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Our Example}
+
+\begin{frame}[fragile]
+\frametitle{Our Example}
+Overall goal:
+\begin{itemize}
+  \item Interested in understanding the congruence between survey reports and observer reports\\
+\end{itemize}
+
+Background on data:
+\begin{itemize}
+  \item Interested in understanding the congruence between survey reports and observer reports
+  \item Comes from the Iowa Midlife Transitions Project (MTP); this longitudinal study conducted between $1991$ and $2001$ on families from eight counties in rural Iowa. 
+  \item Study was designed to look at the effects of the 1960's farm crisis on rural Midwestern families
+  \item Families in MTP either participated in the Iowa Youth and Families Project (IFYP) or the Iowa Single Parent Project (ISPP). 
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+IFYP:
+\begin{itemize}
+  \item Started in 1989 to follow families with at least 2 children and married parents; 
+  \item Requirement: one of the children be in seventh grade in '89 while the other sibling was in a four year range in age of the child. 
+  \item $78\%$ participation rate of all possible participants in the IFYP
+\end{itemize}
+  
+ISPP:
+\begin{itemize}
+  \item Started in '91
+  \item Focus on recently divorced mothers with a minimum of two children, one of which was a ninth grader in the starting year and the other child was in a 4 year age range of the other child.
+  \item $99\%$ participation rate.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Data}
+
+Our focus was on the husband and wife relationship variables. Our variables of interest are divided into two sets:\\
+
+
+Set 1:
+\begin{align*}
+Z &: \text{Observed Relationship Quility of couple } i \text{ at Time Wave 0} \\
+Y_1 &: \text{Wife's Report of Husbund's Hostility for couple } i \text{ at Time Wave 0} \\
+X_1 &: \text{Husband's Report of Husbund's Hostility for couple } i \text{ at Time Wave 0} \\
+\end{align*}
+
+Set 2:
+\begin{align*}
+Z &: \text{Observed Relationship Quility of couple } i \text{ at Time Wave 0} \\
+Y_2 &: \text{Wife's Report of Relationship Instability of couple } i \text{ at Time Wave 0} \\
+X_2 &: \text{Husband's Report of Relationship Instability of couple } i \text{ at Time Wave 0} \\
+\end{align*}
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]
+
+Here in Table \ref{tab:Ourdf}, some summary statistics are presented of the response and explanatory variables used.
+
+<<Our_Data_ex, echo=FALSE, message=FALSE>>=
+d <- read.csv("../CurrentData/ModData_6_9.csv", header=TRUE)
+
+###### Start Analysis ######
+# Using Hostility as a predictor.
+
+x <- d$HHhostW0 - 4
+y <- d$WHhostW0 - 4
+z <- d$OHrqW0 - 5
+
+w <- x
+w[which(!is.na(w))] <- 1 # These are all the points where X < Y 
+w[which(!is.na(w) & x > y)] <- 0
+w[which(!is.na(w) & x == y)] <- sample(c(0,1),length(w[which(!is.na(w) & x==y)]), replace=TRUE)
+
+# z = (x-y)
+lmDiff <- lm(z~I(x-y))
+lmDiffR2 <- summary(lmDiff)$r.squared
+lmDiffcoef <- coef(lmDiff)
+
+# z = |x-y|
+lmAbs <- lm(z ~ I(abs(x-y)))
+lmAbsR2 <- summary(lmAbs)$r.squared
+lmAbscoef <- coef(lmAbs)
+
+# z = x+y+w+wx+wy
+lmW <- lm(z~x+y+w+I(w*x)+I(w*y))
+lmWR2 <- summary(lmW)$r.squared
+lmWcoef <- coef(lmW)
+
+# z = x+y+w+wx+wy
+lmWSquare <- lm(z~x+y+w+I(x^2)+I(x*y)+I(y^2)+I(w*x^2)+I(w*x*y)+I(w*y^2))
+
+# z = x+y
+lm <- lm(z~x+y)
+lmR2 <- summary(lm)$r.squared
+lmcoef <- coef(lm)
+
+# z = x+y+x^2+xy+y^2
+lmSquare <- lm(z~x+y+I(x^2)+I(x*y)+I(y^2))
+
+# z = x+y+x^2+xy+y^2+x^3+x^2y+xy^2+y^3
+lmCube <- lm(z~x+y+I(x^2)+I(x*y)+I(y^2)+I(x^3)+I((x^2)*y)+I(x*y^2)+I(y^3))
+
+# Using Instability as a predictor.
+z <- d$OHrqW0 - 5
+x <- d$WWinstH0 - 2.5
+y <- d$HHinstW0 - 2.5
+w <- x
+w[which(!is.na(w))] <- 1 # These are all the points where X < Y 
+w[which(!is.na(w) & x > y)] <- 0
+w[which(!is.na(w) & x == y)] <- sample(c(0,1),length(w[which(!is.na(w) & x==y)]), replace=TRUE)
+
+# z = (x-y)
+lm2Diff <- lm(z ~ I(x-y))
+lm2DiffR2 <- summary(lm2Diff)$r.squared
+lm2Diffcoef <- coef(lm2Diff)
+
+# z = x+y
+lm2 <- lm(z ~ x + y)
+lm2R2 <- summary(lm2)$r.squared
+lm2coef <- coef(lm2)
+
+# z = |x-y|
+lm2Abs <- lm(z ~ I(abs(x-y)))
+lm2AbsR2 <- summary(lm2Abs)$r.squared
+lm2Abscoef <- coef(lm2Abs)
+
+# z = x+y+x^2+xy+y^2
+lm2Square <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2))
+
+# z = x+y+x^2+xy+y^2+x^3+x^2y+xy^2+y^3
+lm2Cube <- lm(z~x+y+I(x^2)+I(x*y)+I(y^2)+I(x^3)+I((x^2)*y)+I(x*y^2)+I(y^3))
+
+# z = x+y+w+wx+wy
+lm2W <- lm(z~x+y+w+I(w*x)+I(w*y))
+lm2WR2 <- summary(lm2W)$r.squared
+lm2Wcoef <- coef(lm2W)
+
+# z = x+y+w+wx+wy
+lm2WSquare <- lm(z~x+y+w+I(x^2)+I(x*y)+I(y^2)+I(w*x^2)+I(w*x*y)+I(w*y^2))
+@
+
+<<Our_Model_Check, echo=FALSE, eval=FALSE>>=
+# Check the leverage (maybe one point of concern)
+lev <- hat(model.matrix(lm1))
+plot(lev)
+
+# Basically see the same
+cook <- cooks.distance(lm1)
+plot(cook,ylab="Cooks distances")
+
+# Nothing of concern. maybe one point.
+@
+
+
+<<our_data_table_exploration,echo=FALSE, results='asis', eval=TRUE>>=
+ourdf <- data.frame(Z=c(summary(d$OHrqW0 - 5),n=sum(!is.na(d$OHrqW0))),
+                    X1=c(summary(d$HHhostW0 - 4),n=sum(!is.na(d$HHhostW0))),
+                    Y1=c(summary(d$WHhostW0 - 4),n=sum(!is.na(d$WHhostW0))),
+                    X2=c(summary(d$WWinstH0 - 2.5),n=sum(!is.na(d$WWinstH0))),
+                    Y2=c(summary(d$HHinstW0 - 2.5),n=sum(!is.na(d$HHinstW0)))
+)
+colnames(ourdf) <- c("$Z$","$X_1$","$Y_1$","$X_2$","$Y_2$")
+print(xtable(t(ourdf),caption = c("Summary statistics of response variable ($Z$) and explanotry variables ($X_1$,$Y_1$ and $X_2$,$Y_2$)."), label = "tab:Ourdf"), sanitize.rownames.function = function(x) {x})
+@
+
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Normality Checks}
+Just like before we checked some stastics for obvious non-normailty:
+\begin{enumerate}
+  \item High Leverage
+  \item Influential Points\\
+\end{enumerate}
+
+No points were of major concern.
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Criterion Checks}
+The models being used in the criteria are listed below (note that these may have been listed previously but are relisted here for ease of reading):
+\begin{align}
+\text{Null Model: } &Z = \beta_0 + \epsilon \label{eq:nullmod} \\
+\text{Diff Model: } &Z = \beta_0 + \beta_1 (X-Y) + \epsilon \label{eq:diffmod} \\
+\text{Uncon Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \epsilon \label{eq:uncondiff} \\
+\text{Abs Diff Model: } &Z = \beta_0 + \beta_1 |X-Y| + \epsilon \label{eq:absdiffmod} \\
+\text{Uncon Abs Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 W + \beta_4 WX + \beta_5 WY + \epsilon \label{eq:unconabs} \\
+\text{Abs Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon \label{eq:polyregmod}
+\end{align}
+where $W$ is a dummy variable equal to 0 when $X > Y$, 1 when $X < Y$, and randomly assigned 1 or 0 when $X = Y$, and $\epsilon \sim N(0,\sigma^2_e)$
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Criterion Checks}
+
+The four criterion are:
+\begin{enumerate}
+\item{Check whether the unconstrained model (Eq \ref{eq:uncondiff} and \ref{eq:unconabs}) explained a significant amount of the variance in the data (compared to Eq \ref{eq:nullmod}).\\
+}
+\item{Check whether the regression coefficients for the unconstrained model are in expected directions and whether they are significant to the model.
+}
+\item{Check whether the unconstrained models (Eq \ref{eq:uncondiff} and \ref{eq:unconabs}) is significantly better than thier constrained models (Eq \ref{eq:diffmod} and \ref{eq:absdiffmod}). \\
+}
+\item{Check whether a higher order model i.e. polynomial regression (Eq \ref{eq:polyregmod}) is significantly better than the constrained model (Eq \ref{eq:diffmod}).
+}
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Criterion Checks}
+\begin{enumerate}
+ \item First criterion checks the basic linear model assumption i.e. is the model better than a basic mean(intercept) only model (Eq \ref{eq:nullmod})?
+ \item Second criterion checks whether the coefficients are lined up in the way we expect them too and whether they add anything to the model
+  \item Thrid criterion checks if there is benefit to using complex polynomial models compared to simpler difference models
+ \item Fourth criterion checks whether a simple model or polynomial model should be used 
+\end{enumerate}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\begin{table}[htp]
+\caption{This table follows the same format as Table \ref{tab:PhillipsTabReplication}. Here we see that the   where $* p <0.05$; $** p <0.01$; $*** p <.001$}
+\begin{center}
+\label{tab:OurModelComparison}
+\smallskip\noindent
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcccccccccccc}
+\hline
+Outcome                                   & \multicolumn{2}{l}{Constrained Model}          &  & \multicolumn{6}{l}{Unconstrained Model}                                                                                                  &  & $F_c$                                    & $F_h$                                          \\ \cline{2-3} \cline{5-10}
+                                          & $(X-Y)$                    & $R^2$               &  & $X$                     & $Y$                     &                       &                       &                       & $R^2$            &  &                                          &                                                \\
+\hline
+Relationship Quality w/ Hostility                        & $\Sexpr{round(lmDiffcoef[2],2)}$  & $\Sexpr{round(lmDiffR2,2)}$  &  & $\Sexpr{round(lmcoef[2],2)}^{***}$   & $\Sexpr{round(lmcoef[3],2)}^{***}$   &                       &                       &                       & $\Sexpr{round(lmR2,2)}^{***}$   &  & $\Sexpr{round(anova(lm, lmDiff)$F[2],2)}^{***}$   & $\Sexpr{round(anova(lmSquare, lmDiff)$F[2],2)}^{***}$   \\
+Relationship Quality w/ Instability & $\Sexpr{round(lm2Diffcoef[2],2)}$ & $\Sexpr{round(lm2DiffR2,2)}$ &  & $\Sexpr{round(lm2coef[2],2)}^{*}$  & $\Sexpr{round(lm2coef[2],2)}^{***}$  &                       &                       &                       & $\Sexpr{round(lm2R2,2)}^{***}$  &  & $\Sexpr{round(anova(lm2, lm2Diff)$F[2],2)}^{***}$ & $\Sexpr{round(anova(lm2Square, lm2Diff)$F[2],2)}^{***}$ \\
+\hline
+                                          & $|X-Y|$                    & $R^2$               &  & $X$                     & $Y$                     & $W$                     & $WX$                    & $WY$                    & $R^2$            &  &                                          &                                                \\
+\hline
+Relationship Quality w/ Hostility                      & $\Sexpr{round(lmAbscoef[2],2)}^{**}$   & $\Sexpr{round(lmAbsR2,2)}^{**}$   &  & $\Sexpr{round(lmWcoef[2],2)}^{*}$  & $\Sexpr{round(lmWcoef[3],2)}^{**}$  & $\Sexpr{round(lmWcoef[4],2)}$  & $\Sexpr{round(lmWcoef[5],2)}$  & $\Sexpr{round(lmWcoef[6],2)}$  & $\Sexpr{round(lmWR2,2)}^{***}$  &  & $\Sexpr{round(anova(lmAbs, lmW)$F[2],2)}^{***}$   & $\Sexpr{round(anova(lmAbs, lmWSquare)$F[2],2)}^{***}$   \\
+Relationship Quality w/ Instability & $\Sexpr{round(lm2Abscoef[2],2)}^{***}$  & $\Sexpr{round(lm2AbsR2,2)}^{***}$  &  & $\Sexpr{round(lm2Wcoef[2],2)}$ & $\Sexpr{round(lm2Wcoef[3],2)}^{***}$ & $\Sexpr{round(lm2Wcoef[4],2)}$ & $\Sexpr{round(lm2Wcoef[5],2)}$ & $\Sexpr{round(lm2Wcoef[6],2)}$ & $\Sexpr{round(lm2WR2,2)}^{***}$ &  & $\Sexpr{round(anova(lm2Abs, lm2W)$F[2],2)}^{***}$ & $\Sexpr{round(anova(lm2Abs, lm2WSquare)$F[2],2)}^{***}$ \\
+\hline
+\end{tabular}}
+\end{center}
+\end{table}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Criterion Checks}
+\begin{enumerate}
+  \item Criterion 1: Unconstrained model explained a significant amount of variation in the data ($R^2 = .22$, pval of $\Sexpr{anova(lmDiff, lm)$Pr[2]}$ and $R^2 = .11$, pval of $\Sexpr{anova(lm2Diff, lm2)$Pr[2]}$, respectively) in both sets
+  \item Criterion 2: Regression coefficients for both models were consistent with each other which is what we would expect. For both of the unconstrained algebraic models, the regression coefficients are significant, but the regression coefficients for the unconstrained absolute difference models were not all significant
+  \item Criterion 3 was both met by both examples/models ($\Sexpr{round(anova(lm, lmDiff)$F[2],2)}^{***}$, $\Sexpr{round(anova(lm2, lm2Diff)$F[2],2)}^{***}$
+  \item Criterion 4: was both met by both examples/models $\Sexpr{round(anova(lmSquare, lmDiff)$F[2],2)}^{***}$, $\Sexpr{round(anova(lm2Square, lm2Diff)$F[2],2)}^{***}$)
+\end{enumerate}
+
+Both models suggest using something greater than a simple difference model although that should not be an unconstrained absolute difference model
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Criterion Checks}
+\begin{itemize}
+  \item Repeat above looking at the absolute difference
+  \item Conclude the absolute-value difference score model was not an adequate fit for either of the outcome variables
+  \item Polynomial regression would be the best model for the data using the physician perception outcome\\
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Criterion Checks}
+What kind of polynomial regression:
+\begin{itemize}
+\item First model: Use a linear model between to the two predictors and the response (p-val $\Sexpr{anova(lm, lmSquare)$Pr[2]}$ i.e. $H0: \beta_3 = \beta_4 = \beta_5 = 0$  in Eq \ref{eq:polyregmod})
+  \item Second model(observed relationship quality of the marriage and the precieved relationship instabililty) has moderate evidence of using a quadratic model for the relationship (p-val $\Sexpr{anova(lm2, lm2Square)$Pr[2]}$ i.e. $H0: \beta_3 = \beta_4 = \beta_5 = 0$  in Eq \ref{eq:polyregmod}) and little to no evidence for using a cubic model on the relationship (p-val $\Sexpr{anova(lm2Cube, lm2Square)$Pr[2]}$)
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+
+The fitted quadratic polynomial using precieved relationship instabililty as a predictor for relationship quality is:
+\begin{align}
+\hat{z} &= \Sexpr{round(coef(lm2Square)[1], 2)} + \Sexpr{round(coef(lm2Square)[2], 2)}x + \Sexpr{round(coef(lm2Square)[3], 2)}y + \Sexpr{round(coef(lm2Square)[4], 2)} x^2 + \Sexpr{round(coef(lm2Square)[5], 2)} xy + \Sexpr{round(coef(lm2Square)[6], 2)} y^2 
+\end{align} \\
+
+The estimates of the model and their standard errors in Table \ref{tab:Ourdf}
+<<model_est, echo=FALSE, results='asis'>>=
+MEdf <- t(summary(lm2Square)$coefficients[,c(1,2,4)])
+colnames(MEdf) <- c("$b_0$","$b_1$","$b_2$","$b_3$","$b_4$","$b_5$")
+print(xtable(MEdf,caption = c("Model estimates and SE for polynomial regression model using relationship instability ratings as a explanatory variables."), label = "tab:Ourdf"), sanitize.text.function = function(x){x})
+@
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+
+Stationary points are at $(\Sexpr{round(statpts(lm2Square)$x0,2)}, \Sexpr{round(statpts(lm2Square)$y0,2)})$\\
+
+Likewise we can look at the principal axes:
+\begin{align}
+y &= \Sexpr{round(paxis(lm2Square)$p10,2)} + \Sexpr{round(paxis(lm2Square)$p11,2)} x \label{eq:Our_pa1}\\
+y &= \Sexpr{round(paxis(lm2Square)$p20,2)} \Sexpr{round(paxis(lm2Square)$p21,2)} x \label{eq:Our_pa2}
+\end{align}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+Use our functions to get the stationary points and the principal axes in prev slide
+<<Our_Stat_Principal, echo=TRUE>>=
+statpts(lm2Square)
+paxis(lm2Square)
+@
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+
+The surface slice plots of both principal axes are in Figure \ref{fig:Our_Principal_Axes}.
+<<Our_Principal_Axes, echo=FALSE,warning=FALSE,fig.cap="This Figure shows slices of the response surface taken at the two principal axes.", fig.height=6, fig.width=11, fig.pos='htp'>>=
+require(ggplot2)
+require(reshape2)
+require(gridExtra)
+x_temp <- seq(-3,3,length.out= 1000)
+y_p1 <- paxis(lm2Square)$p10 + paxis(lm2Square)$p11*x_temp
+y_p2 <- paxis(lm2Square)$p20 + paxis(lm2Square)$p21*x_temp
+
+x <- x_temp
+y <- y_p1
+pred1 <- predict(lm2Square, data.frame(x,y,x^2,x*y,y^2))
+x <- x_temp
+y <- y_p2
+pred2 <- predict(lm2Square, data.frame(x,y,x^2,x*y,y^2))
+
+a <- ggplot() + geom_line(aes(x=y_p1, y=pred1)) + labs(x=paste("y = ", round(paxis(lm2Square)$p10,2), " + ", round(paxis(lm2Square)$p11,2), "x"), y="z", title="p1")
+b <- ggplot() + geom_line(aes(x=y_p2, y=pred2)) + labs(x=paste("y = ", round(paxis(lm2Square)$p20,2), " ", round(paxis(lm2Square)$p21,2), "x"), y="z", title="p2")
+grid.arrange(a, b)
+
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+To look at the predicted surface plot, we use $\verb|Plotly|$. 
+
+We can follow the \href{https://plot.ly/~nulloa1/147/}{link} to the $\verb|Plotly|$ website and look at and manipulate the predicted surface.
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Conclusions}
+\begin{itemize}
+  \item Convex surface so interpetations of the principal axis are flipped; 
+  \begin{itemize}
+    \item First principal axis, Equation \ref{eq:Our_pa1}, represents the line in the surface where relationship quality decreases the most i.e. high level of percieved relationship instability by the wife
+    \item Second principal axis, Equaion \ref{eq:Our_pa2}, is where the surface has the lowest downward curvature in relationship quality i.e. when RQ does not decrease that much when the wife's percieved relationship instability hangs around 0
+  \end{itemize}
+  \item First principal axis lies out of the bounds of data, but the second is good
+  \item Most integral to relationship quality is the wife's perception of instability
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Conclusions}
+
+\begin{itemize}
+  \item Issues with data greatly affect inferences
+  \item Figure \ref{fig:data_skew_plot} and \ref{fig:data_dist_plot} shows the predictor variables are very left skewed
+  \item Easily visualize the realm of possible combinations of the predictor variables and their effect on the predicted response
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Conclusions}
+<<data_skew_plot,message=FALSE, echo=FALSE,warning=FALSE,fig.cap="This Figure shows the histograms of our two predictor variables plotted on top of each other to show skewness.", fig.height=5, fig.width=11, fig.pos='htp'>>=
+skewcomb <- data.frame(d$WWinstH0,d$HHinstW0)
+skewcomb <- data.frame(melt(skewcomb, by="d.OHrqW0"), rep(d$OHrqW0,2))
+levels(skewcomb$variable) <- c("Wife", "Husband")
+names(skewcomb) <- c("Reporter","Instability","ObservedRQ")
+ggplot(skewcomb, aes(x=Instability, fill=Reporter)) + geom_histogram(alpha=0.5, position="identity")
+@
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Conclusions}
+<<data_dist_plot, message=FALSE, echo=FALSE,warning=FALSE,fig.cap="This Figure shows a scatterplot of Instability against Observed Relationship Quality colored by who reported the instability rating.", fig.height=5, fig.width=11, fig.pos='htp'>>=
+ggplot(skewcomb, aes(x=Instability, y=ObservedRQ, color=Reporter)) + geom_point(alpha=0.5) + geom_jitter()
+@
+\end{frame}
+
+
+%------------------------------------%
+%           Bibliography             %
+%------------------------------------%
+
+\section{Referneces}
+\begin{frame}[allowframebreaks]
+\frametitle{References}
+\nocite{*}
+\bibliographystyle{amsalpha}
+\bibliography{writeup_references.bib}
+\end{frame}
+
+
+
+
+
+
+\section{Thank You}
+\begin{frame}
+Thank you to:
+\begin{itemize}
+  \item Dr. Lorenz
+  \item Breanne Ulloa
+  \item Dr. Phillips $\&$ Dr. Koehler
+\end{itemize}
+
+\end{frame}
 
 
 \end{document}
