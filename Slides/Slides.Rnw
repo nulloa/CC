@@ -122,6 +122,7 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
     \begin{itemize}
       \item Difference between two entities to the outcome variable are assumed to be symmetric
       \item Outcome is constant at all points where the two entities are equal e.g. response along $y=x$ would need to be constant
+      \end{itemize}
   \end{enumerate}
 \end{itemize}
 \end{frame}
