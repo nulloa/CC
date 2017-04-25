@@ -65,7 +65,7 @@ set.seed(808)
 \begin{itemize}
 \item Intro and Motivation
 \item Model
-\item Recreate Dr. Phillips' Application
+\item Re-creation of Previous Results
 \item Our Application
 \end{itemize}
 \end{frame}
@@ -77,14 +77,18 @@ set.seed(808)
 
 \begin{frame}
 \frametitle{Introduction}
-Hypotheses:
 \begin{itemize}
   \item Family researchers comparing the attitudes, behaviors, and opinions of pairs
-  \item Collect Dyadic data
+  \item Dyadic data
     \begin{itemize}
-      \item Inter-individual reporting
-      \item Intra-individual reporting
+      \item Inter-individual reporting e.g. comparison of husband's report of his support toward his wife to the wife's report of husband's support
+      \item Intra-individual reporting e.g. comparison of an observer's report of husband's hostility to an observer's report of the wife's hostility
     \end{itemize}
+\end{itemize}
+
+Goal:
+\begin{itemize}
+  \item Compare observed reports of a dyadic structure to self-reported data
 \end{itemize}
 \end{frame}
 
@@ -92,8 +96,8 @@ Hypotheses:
 \begin{frame}
 \frametitle{Motivation}
 \begin{itemize}
-  \item Difference scores used to analyze dyadic data
-  \item Difference scores allow to see how well they ``fit'' together
+  \item Difference scores most common method used to analyze dyadic data
+  \item Difference scores allow researchers to see how well 2 variables ``fit'' together
   \item Common types: algebraic, absolute, and squared difference
 \end{itemize}
 
@@ -108,10 +112,16 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 \begin{frame}
 \frametitle{Motivation}
 \begin{itemize}
-  \item Many methodological issues with Difference Scores
+  \item Some methodological issues with Difference Scores
   \begin{enumerate}
     \item Difficult to identify the underlying mechanism
+    \begin{itemize}
+      \item Two distinct measures are turned into one entity
+    \end{itemize}
     \item Problems with underlying assumptions
+    \begin{itemize}
+      \item Difference between two entities to the outcome variable are assumed to be symmetric
+      \item Outcome is constant at all points where the two entities are equal e.g. response along $y=x$ would need to be constant
   \end{enumerate}
 \end{itemize}
 \end{frame}
@@ -140,7 +150,7 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 
 \section{Model}
 
-\begin{frame}
+\begin{frame}[fragile]
 \begin{itemize}
   \item Theoretical model:
     \begin{align}
@@ -150,31 +160,7 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
     \begin{align}
     \hat{z} &= b_{0} + b_{1}x + b_{2}y + b_3 x^2 + b_4 xy + b_5 y^2 \label{fittedmod} 
     \end{align}
-  \item Fitted model in matrix notation:
-\begin{align}
-\hat{z} &= b_0 + {\bf d}^{'} {\bf b} + {\bf d}^{'} {\bf B}{\bf d}
-\end{align}
-where
-\[ {\bf d} = \left[ \begin{array}{cc}
-x  \\
-y 
-\end{array} \right]  \quad
-%
-{\bf b} = \left[ \begin{array}{cc}
-b_1  \\
-b_2 
-\end{array} \right]  \quad
-%
-{\bf B} = \left[ \begin{array}{cc}
-b_3 & b_4 /2 \\
-b_4 /2 & b_5
-\end{array} \right]
-\]
 \end{itemize}
-\end{frame}
-
-
-\begin{frame}[fragile]
 
 We can fit a model like this in $\verb|R|$ using the $\verb|lm()|$ function:
 <<lm_ex, echo=TRUE, eval=FALSE>>=
@@ -205,7 +191,7 @@ QuadFit <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2), data=d)
   \begin{enumerate}
     \item Take the derivatives of Equation \ref{fittedmod} with respect to $x$ and $y$
     \item Set the derivatives equal to zero
-    \item Solve for $x$ and $y$ in terms of {\bf b} and {\bf B} to find the stationarity points
+    \item Solve for $x$ and $y$ in terms of the coefficients to find the stationarity points
     \item Refer to these points as $x_0$ and $y_0$
   \end{enumerate}
 \end{itemize}
