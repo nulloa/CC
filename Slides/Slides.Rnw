@@ -112,25 +112,6 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 \begin{frame}
 \frametitle{Motivation}
 \begin{itemize}
-  \item Some methodological issues with Difference Scores
-  \begin{enumerate}
-    \item Difficult to identify the underlying mechanism
-    \begin{itemize}
-      \item Two distinct measures are turned into one entity
-    \end{itemize}
-    \item Problems with underlying assumptions
-    \begin{itemize}
-      \item Difference between two entities to the outcome variable are assumed to be symmetric
-      \item Outcome is constant at all points where the two entities are equal e.g. response along $y=x$ would need to be constant
-      \end{itemize}
-  \end{enumerate}
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Motivation}
-\begin{itemize}
   \item Any alternatives?
   \item Polynomial Regression \\ e.g.
   \begin{align}
@@ -185,7 +166,7 @@ QuadFit <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2), data=d)
 \begin{itemize}
   \item What are they?
   \begin{itemize}
-    \item Points where the slope is zero no matter which direction you take the derivative
+    \item Points where the slope is zero no matter which direction you take the derivative - local max/min
   \end{itemize}
   \item Values of our explanatory variables provide the ``best'' fit for the response \\
   \item How do you derive the stationary points?
@@ -230,19 +211,6 @@ statpts <- function(lm){
 }
 @
 
-<<stat_pts_function1, echo=TRUE, eval=FALSE>>=
-statpts <- function(lm){
-  # Stationary Pts.
-  x0  <- (b2*b4 - 2*b1*b5)/(4*b3*b5 - b4^2)
-  y0  <- (b1*b4 - 2*b2*b3)/(4*b3*b5 - b4^2)
-  # Output
-  out <- matrix(c(x0, y0), ncol=2)
-  colnames(out) <- c("x0","y0")
-  out <- data.frame(x0=x0, y0=y0)
-  return(out)
-}
-@
-
 \end{frame}
 
 
@@ -260,12 +228,6 @@ We then get the local maximum (or minimum) predicted reponse ($\hat{z}_0$) by pl
 \begin{align}
 \hat{z}_0 &= b_{0} + b_{1}x_0 + b_{2}y_0 + b_3 x_0^2 + b_4 x_0 y_0 + b_5 y_0^2
 \end{align}
-
-<<pred_stat_pts, echo=TRUE, eval=FALSE>>=
-x0 <- statpts(lm)$x0
-y0 <- statpts(lm)$y0
-predstatpts <- coef(lm)[1] + coef(lm)[2]*x0 + coef(lm)[3]*y0 + coef(lm)[4]*x0^2 + coef(lm)[5]*x0*y0 + coef(lm)[6]*y0^2
-@
 
 \end{frame}
 
@@ -335,28 +297,7 @@ Interpretations:
     \item Flip the interpretations of the two Principal Axes
   \end{itemize}
 \end{enumerate}
-\end{frame}
 
-
-
-\begin{frame}[fragile]
-<<principal_functionS, echo=TRUE, eval=TRUE>>=
-paxis <- function(lm){
-...
-  # Stationary Pts.
-  x0  <- (b2*b4 - 2*b1*b5)/(4*b3*b5 - b4^2)
-  y0  <- (b1*b4 - 2*b2*b3)/(4*b3*b5 - b4^2)
-  # First Principal axis
-  p11 <- (b5 - b3 + sqrt((b3 - b5)^2 + b4^2))/b4 #slope
-  p10 <- y0 - p11*x0 #intercept
-  # Second Principal axis
-  p21 <- (b5 - b3 - sqrt((b3 - b5)^2 + b4^2))/b4
-  p20 <- y0 - p21*x0
-  # Output
-  out <- data.frame(p10=p10, p11=p11, p20=p20, p21=p21)
-  return(out)
-}
-@
 
 <<principal_function, echo=FALSE, eval=TRUE>>=
 paxis <- function(lm){
@@ -448,10 +389,10 @@ Interested in seeing what created good situations in which patients followed thr
 
 The variables used in this example are:
 \begin{align*}
-Z_{1,i} &- \text{patient-reported adherence a month after the dr. visit for patient } i  \\
-Z_{2,i} &- \text{physician's percieved agreement with patient } i  \text{ on the illness treatment} \\
-X_{i}   &- \text{physician's rating of patient } i\text{'s health} \\
-Y_{i}   &- \text{physician's estimate of how patient } i \text{ would rate of their own health} \\
+Z_{1,i} &- \text{patient-reported adherence a month after the dr. visit for patient } i \text{ on a scale from } 0-6 \\
+Z_{2,i} &- \text{physician's percieved agreement with patient } i  \text{ on the illness treatment on a scale from } 0-6 \\
+X_{i}   &- \text{physician's rating of patient } i\text{'s health on a scale from } 1-5 \\
+Y_{i}   &- \text{physician's estimate of how patient } i \text{ would rate of their own health on a scale from } 1-5 \\
 \end{align*}
 
 \end{frame}
@@ -599,12 +540,12 @@ No points were of major concern but one point consistently had a higher leverage
 \frametitle{Criterion Checks}
 The models being used in the criteria are listed below (note that these may have been listed previously but are relisted here for ease of reading):
 \begin{align}
-\text{Null Model: } &Z = \beta_0 + \epsilon \label{eq:nullmod} \\
-\text{Diff Model: } &Z = \beta_0 + \beta_1 (X-Y) + \epsilon \label{eq:diffmod} \\
-\text{Uncon Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \epsilon \label{eq:uncondiff} \\
-\text{Abs Diff Model: } &Z = \beta_0 + \beta_1 |X-Y| + \epsilon \label{eq:absdiffmod} \\
-\text{Uncon Abs Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 W + \beta_4 WX + \beta_5 WY + \epsilon \label{eq:unconabs} \\
-\text{Abs Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon \label{eq:polyregmod}
+\text{Null Model: } &Z = \beta_0 + \epsilon \label{eq:nullmod1} \\
+\text{Diff Model: } &Z = \beta_0 + \beta_1 (X-Y) + \epsilon \label{eq:diffmod1} \\
+\text{Uncon Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \epsilon \label{eq:uncondiff1} \\
+\text{Abs Diff Model: } &Z = \beta_0 + \beta_1 |X-Y| + \epsilon \label{eq:absdiffmod1} \\
+\text{Uncon Abs Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 W + \beta_4 WX + \beta_5 WY + \epsilon \label{eq:unconabs1} \\
+\text{Fitted Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon \label{eq:polyregmod1}
 \end{align}
 where $W$ is a dummy variable equal to 0 when $X > Y$, 1 when $X < Y$, and randomly assigned 1 or 0 when $X = Y$, and $\epsilon \sim N(0,\sigma^2_e)$
 \end{frame}
@@ -615,13 +556,13 @@ where $W$ is a dummy variable equal to 0 when $X > Y$, 1 when $X < Y$, and rando
 
 The four criterion are:
 \begin{enumerate}
-\item{Check whether the unconstrained model (Eq \ref{eq:uncondiff} and \ref{eq:unconabs}) explained a significant amount of the variance in the data (compared to Eq \ref{eq:nullmod}).\\
+\item{Check whether the unconstrained model (Eq \ref{eq:uncondiff1} and \ref{eq:unconabs1}) explained a significant amount of the variance in the data (compared to Eq \ref{eq:nullmod1}).\\
 }
 \item{Check whether the regression coefficients for the unconstrained model are in expected directions and whether they are significant to the model.
 }
-\item{Check whether the unconstrained models (Eq \ref{eq:uncondiff} and \ref{eq:unconabs}) is significantly better than thier constrained models (Eq \ref{eq:diffmod} and \ref{eq:absdiffmod}). \\
+\item{Check whether the unconstrained models (Eq \ref{eq:uncondiff1} and \ref{eq:unconabs1}) is significantly better than thier constrained models (Eq \ref{eq:diffmod1} and \ref{eq:absdiffmod1}). \\
 }
-\item{Check whether a higher order model i.e. polynomial regression (Eq \ref{eq:polyregmod}) is significantly better than the constrained model (Eq \ref{eq:diffmod}).
+\item{Check whether a higher order model i.e. polynomial regression (Eq \ref{eq:polyregmod1}) is significantly better than the constrained model (Eq \ref{eq:diffmod1}).
 }
 \end{enumerate}
 
@@ -631,7 +572,7 @@ The four criterion are:
 \begin{frame}[fragile]
 \frametitle{Criterion Checks}
 \begin{enumerate}
- \item First criterion checks the basic linear model assumption i.e. is the model better than a basic mean(intercept) only model (Eq \ref{eq:nullmod})?
+ \item First criterion checks the basic linear model assumption i.e. is the model better than a basic mean(intercept) only model (Eq \ref{eq:nullmod1})?
  \item Second criterion checks whether the coefficients are lined up in the way we expect them too and whether they add anything to the model
   \item Thrid criterion checks if there is benefit to using complex polynomial models compared to simpler difference models
  \item Fourth criterion checks whether a simple model or polynomial model should be used 
@@ -699,7 +640,7 @@ Then they test what kind of polynomial regression:
 
 \begin{frame}[fragile]
 
-So the fitted model(Eq \ref{eq:polyregmod}) via OLS:
+So the fitted model(Eq \ref{eq:polyregmod1}) via OLS:
 \begin{align*}
 \hat{z} = \Sexpr{round(coef(lm2Square)[1], 2)} + \Sexpr{round(coef(lm2Square)[2], 2)}x + \Sexpr{round(coef(lm2Square)[3], 2)}y \Sexpr{round(coef(lm2Square)[4], 2)} x^2 + \Sexpr{round(coef(lm2Square)[5], 2)} xy \Sexpr{round(coef(lm2Square)[6], 2)} y^2
 \end{align*}
@@ -714,15 +655,6 @@ y = \Sexpr{round(paxis(lm2Square)$p20,2)} \Sexpr{round(paxis(lm2Square)$p21,2)} 
 \end{frame}
 
 
-\begin{frame}[fragile]
-Use our functions to get the stationary points and the principal axes in prev slide
-<<Phillips_Stat_Principal, echo=TRUE>>=
-statpts(lm2Square)
-paxis(lm2Square)
-@
-\end{frame}
-
-
 
 \begin{frame}[fragile]
 The surface slice plots in of both principal axes in Figure \ref{fig:Phillips_Principal_Axes}.
@@ -730,6 +662,7 @@ The surface slice plots in of both principal axes in Figure \ref{fig:Phillips_Pr
 principal_plot_surface(paxis(lm2Square), lm2Square)
 @
 \end{frame}
+
 
 
 \begin{frame}[fragile]
@@ -803,16 +736,16 @@ Our focus was on the husband and wife relationship variables. Our variables of i
 
 Set 1:
 \begin{align*}
-Z &: \text{Observed Relationship Quility of couple } i \text{ at Time Wave 0} \\
-Y_1 &: \text{Wife's Report of Husbund's Hostility for couple } i \text{ at Time Wave 0} \\
-X_1 &: \text{Husband's Report of Husbund's Hostility for couple } i \text{ at Time Wave 0} \\
+Z &: \text{Observed Relationship Quility of couple } i \text{ at Time Wave 0: } 1-9 \\
+Y_1 &: \text{Wife}(i)\text{'s Report of Husbund's Hostility at Time Wave 0: } 1-5 \\
+X_1 &: \text{Husband}(i)\text{'s Report of Husbund's Hostility at Time Wave 0: } 1-5 \\
 \end{align*}
 
 Set 2:
 \begin{align*}
 Z &: \text{Observed Relationship Quility of couple } i \text{ at Time Wave 0} \\
-Y_2 &: \text{Wife's Report of Relationship Instability of couple } i \text{ at Time Wave 0} \\
-X_2 &: \text{Husband's Report of Relationship Instability of couple } i \text{ at Time Wave 0} \\
+Y_2 &: \text{Wife}(i)\text{'s Report of Relationship Instability at Time Wave 0: } 1-4 \\
+X_2 &: \text{Husband}(i)\text{'s Report of Relationship Instability at Time Wave 0: } 1-4 \\
 \end{align*}
 \end{frame}
 
@@ -958,7 +891,7 @@ The models being used in the criteria are listed below (note that these may have
 \text{Uncon Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \epsilon \label{eq:uncondiff} \\
 \text{Abs Diff Model: } &Z = \beta_0 + \beta_1 |X-Y| + \epsilon \label{eq:absdiffmod} \\
 \text{Uncon Abs Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 W + \beta_4 WX + \beta_5 WY + \epsilon \label{eq:unconabs} \\
-\text{Abs Diff Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon \label{eq:polyregmod}
+\text{Fitted Model: } &Z = \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon \label{eq:polyregmod}
 \end{align}
 where $W$ is a dummy variable equal to 0 when $X > Y$, 1 when $X < Y$, and randomly assigned 1 or 0 when $X = Y$, and $\epsilon \sim N(0,\sigma^2_e)$
 \end{frame}
@@ -1088,16 +1021,6 @@ y &= \Sexpr{round(paxis(lm2Square)$p20,2)} \Sexpr{round(paxis(lm2Square)$p21,2)}
 
 
 \begin{frame}[fragile]
-Use our functions to get the stationary points and the principal axes in prev slide
-<<Our_Stat_Principal, echo=TRUE>>=
-statpts(lm2Square)
-paxis(lm2Square)
-@
-\end{frame}
-
-
-
-\begin{frame}[fragile]
 
 The surface slice plots of both principal axes are in Figure \ref{fig:Our_Principal_Axes}.
 <<Our_Principal_Axes, echo=FALSE,warning=FALSE,fig.cap="This Figure shows slices of the response surface taken at the two principal axes.", fig.height=6, fig.width=11, fig.pos='htp'>>=
@@ -1185,7 +1108,7 @@ ggplot(skewcomb, aes(x=Instability, y=ObservedRQ, color=Reporter)) + geom_point(
 %------------------------------------%
 
 \section{Referneces}
-\begin{frame}[allowframebreaks]
+\begin{frame}
 \frametitle{References}
 \nocite{*}
 \bibliographystyle{amsalpha}
