@@ -113,7 +113,7 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 \frametitle{Motivation}
 \begin{itemize}
   \item Any alternatives?
-  \item Polynomial Regression \\ e.g.
+  \item Edwards and Parry suggested Polynomial Regression (Edwards and Parry 1993) \\ e.g.
   \begin{align}
     Z &= \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon
   \end{align}
@@ -1111,21 +1111,6 @@ ggplot(skewcomb, aes(x=Instability, fill=Reporter)) + geom_histogram(alpha=0.5, 
 ggplot(skewcomb, aes(x=Instability, y=ObservedRQ, color=Reporter)) + geom_point(alpha=0.5) + geom_jitter()
 @
 \end{frame}
-
-
-%------------------------------------%
-%           Bibliography             %
-%------------------------------------%
-
-\section{References}
-\begin{frame}
-\frametitle{References}
-\nocite{*}
-\bibliographystyle{amsalpha}
-\bibliography{writeup_references.bib}
-\end{frame}
-
-
 
 
 
