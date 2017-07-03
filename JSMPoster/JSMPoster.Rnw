@@ -63,12 +63,12 @@
 %	TITLE SECTION 
 %----------------------------------------------------------------------------------------
 
-\title{Simple Conference Poster with Dalhousie Colours} % Poster title
+\title{Applying Polynomial Regression to Dyadic Data} % Poster title
 
-\author{Abraham Nunes$^{1,2}$} % Author(s)
+\author{Nehemias Ulloa$^{1}$\\ [0.5ex]
+        Frederick O. Lorenz$^{1}$} % Author(s)
 
-\institute{$^{1}$First Institution Here \\ [0.5ex]
-		   $^{2}$Second Institution Here} % Institution(s)
+\institute{$^{1}$Iowa State University} % Institution(s)
 
 %----------------------------------------------------------------------------------------
 
@@ -309,7 +309,7 @@ Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius 
 
 \nocite{*} % Insert publications even if they are not cited in the poster
 \small{\bibliographystyle{unsrt}
-\bibliography{sample}\vspace{0.75in}}
+\bibliography{writeup_references.bib}\vspace{0.75in}}
 
 \end{block}
 
