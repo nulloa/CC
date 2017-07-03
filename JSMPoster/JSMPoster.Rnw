@@ -65,8 +65,7 @@
 
 \title{Applying Polynomial Regression to Dyadic Data} % Poster title
 
-\author{Nehemias Ulloa$^{1}$\\ [0.5ex]
-        Frederick O. Lorenz$^{1}$} % Author(s)
+\author{Nehemias Ulloa$^{1}$, Frederick O. Lorenz$^{1}$} % Author(s)
 
 \institute{$^{1}$Iowa State University} % Institution(s)
 
@@ -92,18 +91,12 @@
 %	OBJECTIVES
 %----------------------------------------------------------------------------------------
 
-\setbeamercolor{block alerted title}{fg=white,bg=dalgrey} % Change the alert block title colors
+\setbeamercolor{block alerted title}{fg=white,bg=ISUCardinal} % Change the alert block title colors
 \setbeamercolor{block alerted body}{fg=black,bg=white} % Change the alert block body colors
 
 \begin{alertblock}{Objectives}
 
-The overall theme of this poster will be polynomial regression. What I hope you take away from this poster is:
-\begin{itemize}
-\item Difference scores can be a problem
-\item What is polynomial regression?
-\item Recreate past examples
-\item Apply it to our own data
-\begin{itemize}
+The overall theme of this poster will be polynomial regression. The main idea is to explore polynomial regression on a set of dydaic data.
 
 
 \end{alertblock}
@@ -114,7 +107,14 @@ The overall theme of this poster will be polynomial regression. What I hope you 
 
 \begin{block}{Introduction}
 
-Dyadic data are often used by family researchers who are interested in comparing the attitudes, behaviors, and opinions of husbands and wives, parents and children, and romantic partners towards each other. The dyadic structure can come from inter-individual reporting (e.g. comparison of husband's report of their support toward his wife to the wife's report of their support towards the husband), or it can come from intra-individual reporting (e.g. comparison of an observer's report of husband's hostility to an observer's report of the wife's hostility). Difference scores are often used to analyze dyadic data. Unfortunately, there are many methodological issues with difference scores. In this poster, we apply Dr. Edwards' suggestion of using polynomial regression equations. We find that there are many benefits of looking at our data through this appraoch.
+Dyadic data:
+\begin{itemize}
+  \item Used by family researchers who are interested in comparing the attitudes, behaviors, and opinions of pairs
+  \item Inter-individual reporting (e.g. comparison of husband's report of their support toward his wife to the wife's report of their support towards the husband)
+  \item Intra-individual reporting (e.g. comparison of an observer's report of husband's hostility to an observer's report of the wife's hostility)
+\end{itemize}
+
+Difference scores are often used to analyze dyadic data, but we'll present an alternative to this called polynomial regression.
 
 \end{block}
 
@@ -122,21 +122,19 @@ Dyadic data are often used by family researchers who are interested in comparing
 
 \begin{block}{Difference Scores}
 \begin{itemize}
-\item Difference scores are used to see how well two variables or indices 'fit' together. Some of the most common difference scores use the algebraic, absolute, and squared difference between the two variables ($X$ and $Y$) as shown by Equations \ref{eq:diffscore}, \ref{eq:absdiffscore}, and \ref{eq:squarediffscore} respectively. These difference scores are often used to predict for an outcome variable ($Z$) as shown in the equations below,
-\item{
+\item Difference scores are used to see how well two variables or indices 'fit' together. Some examples of difference scores are shown below
 \begin{align}
 Z &= \beta_0 + \beta_1 (X - Y) + \epsilon \label{eq:diffscore} \\
 Z &= \beta_0 + \beta_1 |X - Y| + \epsilon \label{eq:absdiffscore} \\
 Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 \end{align}\\
-}
+
 \item There are some big issues with difference scores:
   \begin{itemize}
     \item The most important reason to avoid using difference scores is that it makes it difficult to identify the underlying mechanism 
     \item Assumptions: the difference between two entities to the outcome variable are assumed to be symmetric and that the outcome is constant at all points where the two entities are equal
   \end{itemize}
 \end{itemize}
-
 
 \end{block}
 
@@ -158,22 +156,23 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 
 \begin{block}{What is polynomial regression?}
 
-The following materials were required to complete the research:
-
+Edwards and Parry suggested Polynomial Regression (Edwards and Parry 1993) as an alternative to difference scores.
 \begin{itemize}
-\item Curabitur pellentesque dignissim
-\item Eu facilisis est tempus quis
-\item Duis porta consequat lorem
-\item Eu facilisis est tempus quis
+  \item Take the Squared Difference and expand it
+    \begin{align}
+    (X-Y)^2 &= X^2 + Y^2 -2XY
+  \end{align}
+  \item This leads to using a quadratic regression model
+  \begin{align}
+    Z &= \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon
+  \end{align}
 \end{itemize}
 
-The materials were prepared according to the steps outlined below:
-
+When looking at the quadratic regression model, we are concerned with three key elements:
 \begin{enumerate}
-\item Curabitur pellentesque dignissim
-\item Eu facilisis est tempus quis
-\item Duis porta consequat lorem
-\item Curabitur pellentesque dignissim
+\item Stationary Point: Points where the slope is zero no matter which direction you take the derivative
+\item Principal Axis: Measure the amount of ``bend'' in two directions at the stationary points
+\item Predicted Surface: a 3D-surface that allows us to view the predicted response
 \end{enumerate}
 
 \end{block}
@@ -188,9 +187,22 @@ The materials were prepared according to the steps outlined below:
 %	METHODS
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Methods}
+\begin{block}{Data}
 
-Lorem ipsum dolor \textbf{sit amet}, consectetur adipiscing elit. Sed laoreet accumsan mattis. Integer sapien tellus, auctor ac blandit eget, sollicitudin vitae lorem. Praesent dictum tempor pulvinar. Suspendisse potenti. Sed tincidunt varius ipsum, et porta nulla suscipit et. Etiam congue bibendum felis, ac dictum augue cursus a. \textbf{Donec} magna eros, iaculis sit amet placerat quis, laoreet id est. In ut orci purus, interdum ornare nibh. Pellentesque pulvinar, nibh ac malesuada accumsan, urna nunc convallis tortor, ac vehicula nulla tellus eget nulla. Nullam lectus tortor, \textit{consequat tempor hendrerit} quis, vestibulum in diam. Maecenas sed diam augue.
+Here is some background on data used in this project:
+\begin{itemize}
+  \item Interested in understanding the congruence between survey reports and observer reports
+  \item Comes from the Iowa Midlife Transitions Project (MTP); this longitudinal study conducted between $1991$ and $2001$ on families from eight counties in rural Iowa
+  \item Study was designed to look at the effects of the 1960's farm crisis on rural Midwestern families
+  \item Families in MTP either participated in the Iowa Youth and Families Project (IFYP) or the Iowa Single Parent Project (ISPP)
+\end{itemize}
+
+These are the variables of interest:
+\begin{align*}
+Z &: \text{Obs RQ of couple } i \text{: } 1-9 \\
+Y_2 &: \text{Wife}(i)\text{'s Report of RI: } 1-4 \\
+X_2 &: \text{Husband}(i)\text{'s Report of RI: } 1-4 \\
+\end{align*}
 
 \end{block}
 
@@ -204,7 +216,7 @@ Lorem ipsum dolor \textbf{sit amet}, consectetur adipiscing elit. Sed laoreet ac
 %	IMPORTANT RESULT
 %----------------------------------------------------------------------------------------
 
-\setbeamercolor{block alerted title}{fg=black,bg=dalgold} % Change the alert block title colors
+\setbeamercolor{block alerted title}{fg=black,bg=red} % Change the alert block title colors
 \setbeamercolor{block alerted body}{fg=black,bg=white} % Change the alert block body colors
 
 \begin{alertblock}{Important Result}
@@ -343,7 +355,7 @@ Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius 
 %	CONTACT INFORMATION
 %----------------------------------------------------------------------------------------
 
-\setbeamercolor{block alerted title}{fg=black,bg=dalblue} % Change the alert block title colors
+\setbeamercolor{block alerted title}{fg=black,bg=red} % Change the alert block title colors
 \setbeamercolor{block alerted body}{fg=black,bg=white} % Change the alert block body colors
 
 \begin{alertblock}{Contact Information}
