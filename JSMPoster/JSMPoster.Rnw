@@ -57,7 +57,7 @@
 
 \usepackage{graphicx}  % Required for including images
 
-\usepackage{booktabs} % Top and bottom rules for tables
+\usepackage{booktabs, url} % Top and bottom rules for tables
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION 
@@ -65,9 +65,9 @@
 
 \title{Applying Polynomial Regression to Dyadic Data} % Poster title
 
-\author{Nehemias Ulloa$^{1}$, Frederick O. Lorenz$^{1}$} % Author(s)
+\author{Nehemias Ulloa, Frederick O. Lorenz} % Author(s)
 
-\institute{$^{1}$Iowa State University} % Institution(s)
+\institute{Iowa State University} % Institution(s)
 
 %----------------------------------------------------------------------------------------
 
@@ -91,12 +91,12 @@
 %	OBJECTIVES
 %----------------------------------------------------------------------------------------
 
-\setbeamercolor{block alerted title}{fg=white,bg=ISUCardinal} % Change the alert block title colors
+\setbeamercolor{block alerted title}{fg=white,bg=ISUGold} % Change the alert block title colors
 \setbeamercolor{block alerted body}{fg=black,bg=white} % Change the alert block body colors
 
 \begin{alertblock}{Objectives}
 
-The overall theme of this poster will be polynomial regression. The main idea is to explore polynomial regression on a set of dydaic data.
+The overall theme of this poster will be polynomial regression. The main idea is to explore polynomial regression on a set of dyadic data.
 
 
 \end{alertblock}
@@ -122,13 +122,13 @@ Difference scores are often used to analyze dyadic data, but we'll present an al
 
 \begin{block}{Difference Scores}
 \begin{itemize}
-\item Difference scores are used to see how well two variables or indices 'fit' together. Some examples of difference scores are shown below
-\begin{align}
-Z &= \beta_0 + \beta_1 (X - Y) + \epsilon \label{eq:diffscore} \\
-Z &= \beta_0 + \beta_1 |X - Y| + \epsilon \label{eq:absdiffscore} \\
-Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
-\end{align}\\
-
+\item Difference scores are used to see how well two variables or indices 'fit' together. Some examples of difference scores are:
+\begin{align*}
+Z &= \beta_0 + \beta_1 (X - Y) + \epsilon \\
+Z &= \beta_0 + \beta_1 |X - Y| + \epsilon \\
+Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon
+\end{align*}\\
+\vspace{10mm}
 \item There are some big issues with difference scores:
   \begin{itemize}
     \item The most important reason to avoid using difference scores is that it makes it difficult to identify the underlying mechanism 
@@ -159,15 +159,15 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon \label{eq:squarediffscore}
 Edwards and Parry suggested Polynomial Regression (Edwards and Parry 1993) as an alternative to difference scores.
 \begin{itemize}
   \item Take the Squared Difference and expand it
-    \begin{align}
+    \begin{align*}
     (X-Y)^2 &= X^2 + Y^2 -2XY
-  \end{align}
+  \end{align*}
   \item This leads to using a quadratic regression model
-  \begin{align}
+  \begin{align*}
     Z &= \beta_0 + \beta_1 X + \beta_2 Y + \beta_3 X^2 + \beta_4 Y^2 + \beta_5 XY + \epsilon
-  \end{align}
+  \end{align*}
 \end{itemize}
-
+\vspace{10mm}
 When looking at the quadratic regression model, we are concerned with three key elements:
 \begin{enumerate}
 \item Stationary Point: Points where the slope is zero no matter which direction you take the derivative
@@ -196,7 +196,7 @@ Here is some background on data used in this project:
   \item Study was designed to look at the effects of the 1960's farm crisis on rural Midwestern families
   \item Families in MTP either participated in the Iowa Youth and Families Project (IFYP) or the Iowa Single Parent Project (ISPP)
 \end{itemize}
-
+\vspace{10mm}
 These are the variables of interest:
 \begin{align*}
 Z &: \text{Obs RQ of couple } i \text{: } 1-9 \\
@@ -215,15 +215,14 @@ X_2 &: \text{Husband}(i)\text{'s Report of RI: } 1-4 \\
 %----------------------------------------------------------------------------------------
 %	IMPORTANT RESULT
 %----------------------------------------------------------------------------------------
-
+\vspace{-10mm}
 \setbeamercolor{block alerted title}{fg=black,bg=red} % Change the alert block title colors
 \setbeamercolor{block alerted body}{fg=black,bg=white} % Change the alert block body colors
 
-\begin{alertblock}{Important Result}
+\begin{block}{Results}
 
-Lorem ipsum dolor \textbf{sit amet}, consectetur adipiscing elit. Sed commodo molestie porta. Sed ultrices scelerisque sapien ac commodo. Donec ut volutpat elit.
 
-\end{alertblock} 
+\end{block} 
 
 %----------------------------------------------------------------------------------------
 
@@ -232,28 +231,226 @@ Lorem ipsum dolor \textbf{sit amet}, consectetur adipiscing elit. Sed commodo mo
 \begin{column}{\onecolwid} % The first column within column 2 (column 2.1)
 
 %----------------------------------------------------------------------------------------
-%	MATHEMATICAL SECTION
+%	Results Col 1
 %----------------------------------------------------------------------------------------
+<<libraries, echo=FALSE, message=FALSE, warning=FALSE>>=
+library(foreign)
+library(ggplot2)
+library(reshape2)
+library(gridExtra)
+library(xtable)
+set.seed(808)
+#library(plotly)
+#Sys.setenv("plotly_username" = "nulloa1")
+#Sys.setenv("plotly_api_key" = "xfcqdg418r")
+#p <- plotly(username="nulloa1", key="xfcqdg418r")
+@
 
-\begin{block}{Mathematical Section}
+<<Our_Data_ex, echo=FALSE, message=FALSE>>=
+d <- read.csv("../CurrentData/ModData_6_9.csv", header=TRUE)
 
-Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin. Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin.
+###### Start Analysis ######
+# Using Hostility as a predictor.
+
+x <- d$HHhostW0 - 4
+y <- d$WHhostW0 - 4
+z <- d$OHrqW0 - 5
+
+w <- x
+w[which(!is.na(w))] <- 1 # These are all the points where X < Y 
+w[which(!is.na(w) & x > y)] <- 0
+w[which(!is.na(w) & x == y)] <- sample(c(0,1),length(w[which(!is.na(w) & x==y)]), replace=TRUE)
+
+# z = (x-y)
+lmDiff <- lm(z~I(x-y))
+lmDiffR2 <- summary(lmDiff)$r.squared
+lmDiffcoef <- coef(lmDiff)
+
+# z = |x-y|
+lmAbs <- lm(z ~ I(abs(x-y)))
+lmAbsR2 <- summary(lmAbs)$r.squared
+lmAbscoef <- coef(lmAbs)
+
+# z = x+y+w+wx+wy
+lmW <- lm(z~x+y+w+I(w*x)+I(w*y))
+lmWR2 <- summary(lmW)$r.squared
+lmWcoef <- coef(lmW)
+
+# z = x+y+w+wx+wy
+lmWSquare <- lm(z~x+y+w+I(x^2)+I(x*y)+I(y^2)+I(w*x^2)+I(w*x*y)+I(w*y^2))
+
+# z = x+y
+lm <- lm(z~x+y)
+lmR2 <- summary(lm)$r.squared
+lmcoef <- coef(lm)
+
+# z = x+y+x^2+xy+y^2
+lmSquare <- lm(z~x+y+I(x^2)+I(x*y)+I(y^2))
+
+# z = x+y+x^2+xy+y^2+x^3+x^2y+xy^2+y^3
+lmCube <- lm(z~x+y+I(x^2)+I(x*y)+I(y^2)+I(x^3)+I((x^2)*y)+I(x*y^2)+I(y^3))
+
+# Using Instability as a predictor.
+z <- d$OHrqW0 - 5
+x <- d$WWinstH0 - 2.5
+y <- d$HHinstW0 - 2.5
+w <- x
+w[which(!is.na(w))] <- 1 # These are all the points where X < Y 
+w[which(!is.na(w) & x > y)] <- 0
+w[which(!is.na(w) & x == y)] <- sample(c(0,1),length(w[which(!is.na(w) & x==y)]), replace=TRUE)
+
+# z = (x-y)
+lm2Diff <- lm(z ~ I(x-y))
+lm2DiffR2 <- summary(lm2Diff)$r.squared
+lm2Diffcoef <- coef(lm2Diff)
+
+# z = x+y
+lm2 <- lm(z ~ x + y)
+lm2R2 <- summary(lm2)$r.squared
+lm2coef <- coef(lm2)
+
+# z = |x-y|
+lm2Abs <- lm(z ~ I(abs(x-y)))
+lm2AbsR2 <- summary(lm2Abs)$r.squared
+lm2Abscoef <- coef(lm2Abs)
+
+# z = x+y+x^2+xy+y^2
+lm2Square <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2))
+
+# z = x+y+x^2+xy+y^2+x^3+x^2y+xy^2+y^3
+lm2Cube <- lm(z~x+y+I(x^2)+I(x*y)+I(y^2)+I(x^3)+I((x^2)*y)+I(x*y^2)+I(y^3))
+
+# z = x+y+w+wx+wy
+lm2W <- lm(z~x+y+w+I(w*x)+I(w*y))
+lm2WR2 <- summary(lm2W)$r.squared
+lm2Wcoef <- coef(lm2W)
+
+# z = x+y+w+wx+wy
+lm2WSquare <- lm(z~x+y+w+I(x^2)+I(x*y)+I(y^2)+I(w*x^2)+I(w*x*y)+I(w*y^2))
+@
+
+<<stat_pts_function, echo=FALSE, eval=TRUE>>=
+statpts <- function(lm){
+  b0 <- as.numeric(coef(lm)[1])
+  b1 <- as.numeric(coef(lm)[2])
+  b2 <- as.numeric(coef(lm)[3])
+  b3 <- as.numeric(coef(lm)[4])
+  b4 <- as.numeric(coef(lm)[5])
+  b5 <- as.numeric(coef(lm)[6])
   
-\begin{equation}
-E = mc^{2}
-\label{eqn:Einstein}
-\end{equation}
+  # Stationary Pts. using the formulas in Eq 10 & 11
+  x0  <- (b2*b4 - 2*b1*b5)/(4*b3*b5 - b4^2)
+  y0  <- (b1*b4 - 2*b2*b3)/(4*b3*b5 - b4^2)
+  
+  # Output
+  out <- matrix(c(x0, y0), ncol=2)
+  colnames(out) <- c("x0","y0")
+  out <- data.frame(x0=x0, y0=y0)
+  return(out)
+}
+@
 
-Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin. Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin.
+<<principal_function, echo=FALSE, eval=TRUE>>=
+paxis <- function(lm){
+  # Takes a quadratic lm function just as the function before and just as before
+  # coef(lm) gives a vector of all the parameter estimates in the linear model
+  # So here we are grabbing the individual parameter estimates from that vector
+  b0 <- as.numeric(coef(lm)[1])
+  b1 <- as.numeric(coef(lm)[2])
+  b2 <- as.numeric(coef(lm)[3])
+  b3 <- as.numeric(coef(lm)[4])
+  b4 <- as.numeric(coef(lm)[5])
+  b5 <- as.numeric(coef(lm)[6])
+  
+  # Stationary Pts.
+  x0  <- (b2*b4 - 2*b1*b5)/(4*b3*b5 - b4^2)
+  y0  <- (b1*b4 - 2*b2*b3)/(4*b3*b5 - b4^2)
+  
+  # First Principal axis
+  p11 <- (b5 - b3 + sqrt((b3 - b5)^2 + b4^2))/b4 #slope
+  p10 <- y0 - p11*x0 #intercept
+  
+  # Second Principal axis
+  p21 <- (b5 - b3 - sqrt((b3 - b5)^2 + b4^2))/b4
+  p20 <- y0 - p21*x0
+  
+  # Output
+  out <- data.frame(p10=p10, p11=p11, p20=p20, p21=p21)
+  return(out)
+}
+@
 
-\begin{equation}
-\cos^3 \theta =\frac{1}{4}\cos\theta+\frac{3}{4}\cos 3\theta
-\label{eq:refname}
-\end{equation}
+<<principal_axes, echo=FALSE, message=FALSE>>=
+principal_plot <- function(x){
+  require(ggplot2)
+  require(reshape2)
+  x_temp <- seq(-3,3,length.out= 1000)
+  y_p1 <- x$p10 + x$p11*x_temp
+  y_p2 <- x$p20 + x$p21*x_temp
+  y <- melt(data.frame(y_p1, y_p2))
+  temp <- cbind(x = rep(x_temp,2), y)
+  ggplot(data=temp, aes(x=x, y=value)) + geom_line() + facet_grid(variable~., scales = "free_y")
+}
 
-Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin. Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin.
+principal_plot_surface <- function(x, lm){
+  require(ggplot2)
+  require(reshape2)
+  require(gridExtra)
+  x_temp <- seq(-3,3,length.out= 1000)
+  y_p1 <- x$p10 + x$p11*x_temp
+  y_p2 <- x$p20 + x$p21*x_temp
+  
+  x2 <- x_temp
+  y2 <- y_p1
+  pred1 <- predict(lm, data.frame(x2,y2,x2^2,x2*y2,y2^2))
 
-\end{block}
+  x2 <- x_temp
+  y2 <- y_p2
+  pred2 <- predict(lm, data.frame(x2,y2,x2^2,x2*y2,y2^2))
+
+  a <- ggplot() + geom_line(aes(x=y_p1, y=pred1)) + labs(x=paste("y = ", round(x$p10,2), " + ", round(x$p11,2), "x"), y="z", title="p1")
+  b <- ggplot() + geom_line(aes(x=y_p2, y=pred2)) + labs(x=paste("y = ", round(x$p20,2), " + ", round(x$p21,2), "x"), y="z", title="p2")
+  grid.arrange(a, b)
+}
+@
+
+\usebeamerfont{block body}
+\vspace{-20mm}
+
+The fitted quadratic polynomial using perceived relationship instability as a predictor for relationship quality is:
+\begin{align*}
+\hat{z} &= \Sexpr{round(coef(lm2Square)[1], 2)} + \Sexpr{round(coef(lm2Square)[2], 2)}x + \Sexpr{round(coef(lm2Square)[3], 2)}y + \Sexpr{round(coef(lm2Square)[4], 2)} x^2 + \Sexpr{round(coef(lm2Square)[5], 2)} xy + \Sexpr{round(coef(lm2Square)[6], 2)} y^2 
+\end{align*}\\
+
+Stationary points are at $(\Sexpr{round(statpts(lm2Square)$x0,2)}, \Sexpr{round(statpts(lm2Square)$y0,2)})$\\
+
+Likewise we can look at the principal axes:
+\begin{align*}
+y &= \Sexpr{round(paxis(lm2Square)$p10,2)} + \Sexpr{round(paxis(lm2Square)$p11,2)} x \\
+y &= \Sexpr{round(paxis(lm2Square)$p20,2)} \Sexpr{round(paxis(lm2Square)$p21,2)} x 
+\end{align*}
+
+<<Our_Principal_Axes, echo=FALSE,warning=FALSE,fig.cap="This Figure shows slices of the response surface taken at the two principal axes.", fig.height=6, fig.width=11, fig.pos='htp'>>=
+require(ggplot2)
+require(reshape2)
+require(gridExtra)
+x_temp <- seq(-3,3,length.out= 1000)
+y_p1 <- paxis(lm2Square)$p10 + paxis(lm2Square)$p11*x_temp
+y_p2 <- paxis(lm2Square)$p20 + paxis(lm2Square)$p21*x_temp
+
+x <- x_temp
+y <- y_p1
+pred1 <- predict(lm2Square, data.frame(x,y,x^2,x*y,y^2))
+x <- x_temp
+y <- y_p2
+pred2 <- predict(lm2Square, data.frame(x,y,x^2,x*y,y^2))
+
+a <- ggplot() + geom_line(aes(x=y_p1, y=pred1)) + labs(x=paste("y = ", round(paxis(lm2Square)$p10,2), " + ", round(paxis(lm2Square)$p11,2), "x"), y="z", title="p1")
+b <- ggplot() + geom_line(aes(x=y_p2, y=pred2)) + labs(x=paste("y = ", round(paxis(lm2Square)$p20,2), " ", round(paxis(lm2Square)$p21,2), "x"), y="z", title="p2")
+grid.arrange(a, b)
+
+@
+
 
 %----------------------------------------------------------------------------------------
 
@@ -262,33 +459,27 @@ Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sol
 \begin{column}{\onecolwid} % The second column within column 2 (column 2.2)
 
 %----------------------------------------------------------------------------------------
-%	RESULTS
+%	RESULTS Col 2
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Results}
-
-\begin{figure}
-\includegraphics[width=0.8\linewidth]{placeholder.jpg}
-\caption{Figure caption}
+\usebeamerfont{block body}
+\vspace{-20mm}
+Here are some screenshots of our predicted surface:
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{../OurExSurfacePics/CenterPlot.png}
+  \caption{Predicted surface plot from the center perspective.}\label{fig:ourcentersurface}
 \end{figure}
 
-Nunc tempus venenatis facilisis. Curabitur suscipit consequat eros non porttitor. Sed a massa dolor, id ornare enim:
+\begin{figure}[!htb]
+ \includegraphics[width=\linewidth]{../OurExSurfacePics/YPlot.png}
+ \caption{Predicted surface plot from the y axis perspective i.e. eliminating the x axis.}\label{fig:ourysurface}
+\end{figure}
+% 
+% \begin{figure}[!htb]
+%   \includegraphics[width=.9\linewidth]{../OurExSurfacePics/XPlot.png}
+%   \caption{A screenshot of the predicted surface plot from the x axis perspective i.e. eliminating the y axis.}\label{fig:ourxsurface}
+% \end{figure}
 
-\begin{table}
-\vspace{2ex}
-\begin{tabular}{l l l}
-\toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
-\bottomrule
-\end{tabular}
-\caption{Table caption}
-\end{table}
-
-\end{block}
 
 %----------------------------------------------------------------------------------------
 
@@ -308,7 +499,17 @@ Treatment 3 & 0.0009271 & 0.296 \\
 
 \begin{block}{Conclusion}
 
-Nunc tempus venenatis facilisis. \textbf{Curabitur suscipit} consequat eros non porttitor. Sed a massa dolor, id ornare enim. Fusce quis massa dictum tortor \textbf{tincidunt mattis}. Donec quam est, lobortis quis pretium at, laoreet scelerisque lacus. Nam quis odio enim, in molestie libero. Vivamus cursus mi at \textit{nulla elementum sollicitudin}.
+Pros:
+\begin{itemize}
+  \item Easily visualize the realm of possible combinations of the predictor variables and their effect on the predicted response
+  \item Helps identify the underlying mechanism by seeing how different predictors affect the surface
+\end{itemize}
+
+Cons:
+\begin{itemize}
+  \item Not super intuitive interpretations of model components
+  \item Issues with data greatly affect inferences e.g. our variables were skewed heavily
+\end{itemize}
 
 \end{block}
 
@@ -316,16 +517,9 @@ Nunc tempus venenatis facilisis. \textbf{Curabitur suscipit} consequat eros non 
 %	ADDITIONAL INFORMATION
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Additional Information}
+%\begin{block}{Additional Information}
 
-Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius dictum. 
-\begin{itemize}
-\item Curabitur pellentesque dignissim
-\item Eu facilisis est tempus quis
-\item Duis porta consequat lorem
-\end{itemize}
-
-\end{block}
+%\end{block}
 
 %----------------------------------------------------------------------------------------
 %	REFERENCES
@@ -343,13 +537,13 @@ Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius 
 %	ACKNOWLEDGEMENTS
 %----------------------------------------------------------------------------------------
 
-\setbeamercolor{block title}{fg=black,bg=white} % Change the block title color
+%\setbeamercolor{block title}{fg=black,bg=white} % Change the block title color
 
-\begin{block}{Acknowledgements}
+%\begin{block}{Acknowledgements}
 
-\small{\rmfamily{I would like to thank Dr. Lorenz for all his guidance throughout this project; my wife, Breanne, for her support; and Dr. Phillips who was willing to answer any questions we had while working on this project.}} \\
+%\small{\rmfamily{I would like to thank Dr. Lorenz for all his guidance throughout this project; my wife, Breanne, for her support; and Dr. Phillips who was willing to answer any questions we had while working on this project.}} \\
 
-\end{block}
+%\end{block}
 
 %----------------------------------------------------------------------------------------
 %	CONTACT INFORMATION
@@ -358,17 +552,17 @@ Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius 
 \setbeamercolor{block alerted title}{fg=black,bg=red} % Change the alert block title colors
 \setbeamercolor{block alerted body}{fg=black,bg=white} % Change the alert block body colors
 
-\begin{alertblock}{Contact Information}
+\begin{block}{Contact Information}
 
 \begin{itemize}
 \item Web: https://nulloa.github.io/
-\item Email: nulloa1@iastate.edu
+\item Full writeup: \url{https://github.com/nulloa/CC}
 \end{itemize}
 
-\end{alertblock}
+\end{block}
 
 \begin{center}
-\includegraphics[width=0.8\linewidth]{isu-color-stacked.jpg}
+\includegraphics[width=0.8\linewidth]{Pics/isu-color-stacked.jpg}
 \end{center}
 %----------------------------------------------------------------------------------------
 
