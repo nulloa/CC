@@ -96,7 +96,7 @@
 
 \begin{alertblock}{Objectives}
 
-The overall theme of this poster will be polynomial regression. The main idea is to explore polynomial regression on a set of dyadic data.
+The purpose of this poster is to explore the application of polynomial regression on a dyadic family dataset.
 
 
 \end{alertblock}
@@ -109,7 +109,7 @@ The overall theme of this poster will be polynomial regression. The main idea is
 
 Dyadic data:
 \begin{itemize}
-  \item Used by family researchers who are interested in comparing the attitudes, behaviors, and opinions of pairs
+  \item Used by family researchers who are interested in comparing the attitudes, behaviors, and opinions of family members, especially husbands and wives.
   \item Inter-individual reporting (e.g. comparison of husband's report of their support toward his wife to the wife's report of their support towards the husband)
   \item Intra-individual reporting (e.g. comparison of an observer's report of husband's hostility to an observer's report of the wife's hostility)
 \end{itemize}
@@ -156,7 +156,7 @@ Z &= \beta_0 + \beta_1 (X - Y)^2 + \epsilon
 
 \begin{block}{What is polynomial regression?}
 
-Edwards and Parry suggested Polynomial Regression (Edwards and Parry 1993) as an alternative to difference scores.
+Polynomial Regression (Edwards and Parry 1993) has been suggested as an alternative to difference scores.
 \begin{itemize}
   \item Take the Squared Difference and expand it
     \begin{align*}
@@ -187,14 +187,13 @@ When looking at the quadratic regression model, we are concerned with three key 
 %	METHODS
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Data}
+\begin{block}{Project Data}
 
 Here is some background on data used in this project:
 \begin{itemize}
-  \item Interested in understanding the congruence between survey reports and observer reports
-  \item Comes from the Iowa Midlife Transitions Project (MTP); this longitudinal study conducted between $1991$ and $2001$ on families from eight counties in rural Iowa
-  \item Study was designed to look at the effects of the 1960's farm crisis on rural Midwestern families
-  \item Families in MTP either participated in the Iowa Youth and Families Project (IFYP) or the Iowa Single Parent Project (ISPP)
+  \item Data: from a multi-informant panel study (the Iowa Midlife Transition Project; 1991 – 2001)
+  \item Concern: How do families cope during times of economic hardship (the ``farm crisis'' of 1984 – 1988)?
+  \item Question: Is there congruence between questionnaire reports and observer ratings of specific behaviors (e.g., hostility; support)?
 \end{itemize}
 \vspace{10mm}
 These are the variables of interest:
