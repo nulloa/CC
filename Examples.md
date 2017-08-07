@@ -174,6 +174,6 @@ p <- with(predictions, plot_ly(z = ~z) %>% add_surface())
 ```
 
 For some reason **plotly** doesn't like to play nice with markdown files but I've included a screenshot of the surface below and you can visit the surface [here](https://plot.ly/~nulloa1/145)
-</center>
-![Surface Plot](https://plot.ly/~nulloa1/145.png)
-</center>
+
+![](https://plot.ly/~nulloa1/145.png)
+
