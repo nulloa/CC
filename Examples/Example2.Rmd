@@ -43,7 +43,7 @@ FYI, the variables are centered in order to make interpretations easier.
 
 Here is where we read in the data
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
-d <- read.csv("../ccData/CurrentData/ModData_6_9.csv", header=TRUE)
+d <- read.csv("../../ccData/CurrentData/ModData_6_9.csv", header=TRUE)
 
 ###### Start Analysis ######
 # Using Hostility as a predictor
@@ -157,7 +157,7 @@ principal_plot_surface(paxis(QF), QF)
 
 
 Lastly, here is the predicted surface plot using **plotly**
-```{r surfaceplot, eval=FASLE}
+```{r surfaceplot}
 n     <- 100
 xp    <- seq(-2.5,2.5,length.out= n)
 y    <- seq(-2.5,2.5,length.out= n)
@@ -171,8 +171,6 @@ for(i in 1:n){
 predictions <- list(x=xp,y=y, z=preds[,-1])
 
 p <- plot_ly(x=xp, y=y, z=preds[,-1]) %>% add_surface()
-plotly_POST(p, filename = "r-docs/midwest-boxplots")
-
 ```
 For some reason **plotly** doesn't like to play nice with markdown files but I've included a screenshot of the surface below and you can visit the surface [here](https://plot.ly/~nulloa1/150/) 
 </center>![](https://plot.ly/~nulloa1/150.png)</center>
