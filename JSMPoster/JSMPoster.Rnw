@@ -246,7 +246,7 @@ set.seed(808)
 @
 
 <<Our_Data_ex, echo=FALSE, message=FALSE>>=
-d <- read.csv("../CurrentData/ModData_6_9.csv", header=TRUE)
+d <- read.csv("../../ccData/CurrentData/ModData_6_9.csv", header=TRUE)
 
 ###### Start Analysis ######
 # Using Hostility as a predictor.
