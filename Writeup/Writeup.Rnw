@@ -476,7 +476,7 @@ Y_{i}   &- \text{physician's estimate of how patient } i \text{ would rate of th
 Here in Table \ref{tab:Phillipsdf}, some summary statistics are presented of the response and explanatory variables used.
 
 <<Phillips_Data_Setup, echo=FALSE, warning=FALSE, message=FALSE>>=
-d <- read.spss("../Phillips_Data/Congruence PRIM.sav", to.data.frame=TRUE)
+d <- read.spss("../../ccData/phillipsData/Congruence PRIM.sav", to.data.frame=TRUE)
 
 ###### Data Setup ######
 d$pre_curr_health <- as.numeric(d$pre_curr_health)
@@ -815,7 +815,7 @@ X_2 &: \text{Husband's Report of Relationship Instability of couple } i \text{ a
 \end{align*}
 
 <<Our_Data_ex, echo=FALSE, message=FALSE>>=
-d <- read.csv("../CurrentData/ModData_6_9.csv", header=TRUE)
+d <- read.csv("../../ccData/CurrentData/ModData_6_9.csv", header=TRUE)
 
 ###### Start Analysis ######
 # Using Hostility as a predictor.
