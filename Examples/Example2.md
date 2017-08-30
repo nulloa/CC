@@ -1,7 +1,7 @@
 A Second Example of Polynomial Regression
 ================
 Nehemias Ulloa
-2017-08-09
+2017-08-30
 
 Introduction
 ------------
