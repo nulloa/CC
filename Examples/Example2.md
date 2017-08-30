@@ -174,6 +174,5 @@ p <- plot_ly(x=xp, y=y, z=preds[,-1]) %>% add_surface()
 ```
 
 For some reason **plotly** doesn't like to play nice with markdown files but I've included a screenshot of the surface below and you can visit the surface [here](https://plot.ly/~nulloa1/150/)
-</center>
+
 ![](https://plot.ly/~nulloa1/150.png)
-</center>
