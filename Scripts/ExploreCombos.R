@@ -79,12 +79,30 @@ principal_plot_surface <- function(pax, lm){
 d <- read.csv("../../ccData/CurrentData/ModData_6_9.csv", header=TRUE)
 
 # Setup Data
-x <- d$HHhostW0 - 3.5
-y <- d$WHhostW0 - 3.5
-z <- d$OHrqW0 - 5
+x <- d$OHhostW2A - 5
+y <- d$OWhostH2A - 5
+z <- d$OHrqW2A - 5
+
+# Plot Histograms
+ggplot() + geom_histogram(aes(x=d$HHhostW0))
+ggplot() + geom_histogram(aes(x=d$WHhostW0))
+ggplot() + geom_histogram(aes(x=d$OHrqW0))
+
+ggplot() + geom_histogram(aes(x=d$OHhostW0))
+ggplot() + geom_histogram(aes(x=d$OWhostH0))
+ggplot() + geom_histogram(aes(x=d$OHrqW0))
+
 
 # Create Quad Reg
-QF <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2), data=d)
+QF <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2))
+LF <- lm(z ~ x + y)
+CF <- lm(z ~ x + y + I(x^2) + I(x*y) + I(y^2) + I(x^3) + I(x^2*y) + I(x*y^2) + I(y^3))
+
+summary(QF)
+anova(LF, QF)
+anova(QF, CF)
+
+plot(predict(QF), residuals(QF))
 
 statpt(QF) # Stationary Pt
 
@@ -99,8 +117,8 @@ principal_plot_surface(paxis(QF), QF) # Principal Axis Plot
 
 # Predictions
 n     <- 100
-xp    <- seq(-2.5,2.5,length.out= n)
-y    <- seq(-2.5,2.5,length.out= n)
+xp    <- seq(-4,4,length.out= n)
+y    <- seq(-4,4,length.out= n)
 preds <- matrix(rep(0, n))
 
 for(i in 1:n){
@@ -111,4 +129,4 @@ for(i in 1:n){
 predictions <- list(x=xp,y=y, z=preds[,-1])
 
 p <- plot_ly(x=xp, y=y, z=preds[,-1]) %>% add_surface() # Plotly plot
-
+p
